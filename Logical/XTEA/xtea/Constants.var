@@ -1,0 +1,13 @@
+VAR CONSTANT
+	xteaKEY_LENGTH : USINT := 16; (*the needed encryption key length used in this implementation of xtea*)
+	xteaOK : DINT := 0; (*successful call*)
+	xteaMODE_DECRYPT_FROM_HEX : USINT := 4; (*data is decrypted, input is "ascii coded hex numbers"*)
+	xteaMODE_DECRYPT : USINT := 3; (*data is decrypted, input is "raw"*)
+	xteaMODE_ENCRYPT_TO_HEX : USINT := 2; (*data is encrypted, output is "ascii coded hex numbers"*)
+	xteaMODE_ENCRYPT : USINT := 1; (*data is encrypted, output is "raw"*)
+	xteaERROR_WRONGKEYSIZE : DINT := -1; (*key size has always to be 16 byte*)
+	xteaERROR_UNKNOWNMODE : DINT := -5; (*the mode is invalid*)
+	xteaERROR_OUTBLOCKTOOSMALL : DINT := -4; (*the output block size is too small to store the output data (mode dependent error - for example, if using _ENCRYPT_TO_HEX, output block has to be at least from double byte size then input block)*)
+	xteaERROR_WRONGINBLOCKSIZE : DINT := -2; (*the size of the input block has to be modulo 8 = 0 (decrypt error)*)
+	xteaERROR_WRONGOUTBLOCKSIZE : DINT := -3; (*the size of the output block has to be modulo 8 = 0 (encrypt error)*)
+END_VAR

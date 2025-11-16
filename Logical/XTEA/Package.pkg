@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="Library" Language="ANSIC" Description="the library containing XTEA block cipher algorithm">xtea</Object>
+    <Object Type="Program" Language="IEC" Description="DEMO CALLS - How to call the XTEA functions">UsageXTea</Object>
+    <Object Type="Program" Language="IEC" Description="NOT NEEDED FOR DEMO - some runtime measurement testing of XTEA performance / needed tim">RTTestXTea</Object>
+  </Objects>
+</Package>

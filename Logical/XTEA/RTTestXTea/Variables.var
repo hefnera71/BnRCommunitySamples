@@ -1,0 +1,15 @@
+VAR
+	state : DINT;
+	AsMemPartCreate_0 : AsMemPartCreate;
+	AsMemPartAlloc_0 : AsMemPartAlloc;
+	pMem : UDINT;
+	AsMemPartDestroy_0 : AsMemPartDestroy;
+	testRuntimeMeasurementStep : USINT;
+	tsStart : DINT;
+	testData : ARRAY[0..1] OF xteaTestData;
+	i : UDINT;
+	bEqual : BOOL;
+	LogStart_0 : LogStart;
+	LogEvent_0 : LogEvent;
+	LogStop_0 : LogStop;
+END_VAR

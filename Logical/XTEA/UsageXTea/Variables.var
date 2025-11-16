@@ -1,0 +1,14 @@
+VAR
+	testStep : USINT;
+	rawIn : ARRAY[0..28] OF USINT;
+	rawOut : ARRAY[0..31] OF USINT;
+	rawOut2 : ARRAY[0..31] OF USINT;
+	rawOut3 : ARRAY[0..31] OF USINT;
+	hexOut : ARRAY[0..63] OF USINT;
+	sInputData : STRING[29];
+	state : DINT;
+	AsMemPartCreate_0 : AsMemPartCreate;
+	AsMemPartAlloc_0 : AsMemPartAlloc;
+	pMem : UDINT;
+	AsMemPartDestroy_0 : AsMemPartDestroy;
+END_VAR

@@ -1,0 +1,13 @@
+VAR
+	testRuntimeMeasurementStep : USINT;
+	tsStart : DINT;
+	testData : shaTestData;
+	i : UDINT;
+	LogStart_0 : LogStart;
+	LogEvent_0 : LogEvent;
+	LogStop_0 : LogStop;
+	sData : STRING[80];
+	sResult : STRING[64];
+	sResultWanted : STRING[64];
+	bResult : BOOL;
+END_VAR

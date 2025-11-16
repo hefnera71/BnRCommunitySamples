@@ -1,0 +1,6 @@
+VAR
+	sTestData : STRING[80];
+	bTest : BOOL;
+	sHash : STRING[64];
+	dResult : DINT;
+END_VAR

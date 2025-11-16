@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="Library" Language="ANSIC" Description="the library contaiining SHA256 hash algorithm">SHA256lib</Object>
+    <Object Type="Program" Language="IEC" Description="DEMO CALL - How to use SHA256lib">UsagSHA256</Object>
+    <Object Type="Program" Language="IEC" Description="NOT NEEDED FOR DEMO - some runtime measurement testing of SHA256 performance / needed tim">RTTestS256</Object>
+  </Objects>
+</Package>
