@@ -1,0 +1,15 @@
+(********************************************************************
+ * COPYRIGHT -- B&R
+ ********************************************************************
+ * Library: SunRiset
+ * File: SunRiset.var
+ * Author: bur
+ * Created: September 07, 2014
+ ********************************************************************
+ * Constants of library SunRiset
+ ********************************************************************)
+VAR CONSTANT
+	astroTYPE_NAUTICAL : USINT := 2;
+	astroTYPE_DIRECT : USINT := 0;
+	astroTYPE_CIVIL : USINT := 1;
+END_VAR

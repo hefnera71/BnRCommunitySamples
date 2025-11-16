@@ -1,0 +1,11 @@
+VAR
+	tResult2 : AstroSunRisetCalcResult_type;
+	tResult : AstroSunRisetCalcResult_type;
+	AstroSunRiset_0 : AstroSunRiset;
+	tDateToCalculate : DTStructure;
+	rLong : REAL;
+	rLat : REAL;
+	bTest1 : BOOL;
+	AstroSunRiset_1 : AstroSunRiset;
+	bTest2 : BOOL;
+END_VAR
