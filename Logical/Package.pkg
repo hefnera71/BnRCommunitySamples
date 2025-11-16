@@ -7,6 +7,6 @@
     <Object Type="Package" Description="Global libraries">Libraries</Object>
     <Object Type="Package">XTEA</Object>
     <Object Type="Package">SHA256</Object>
-    <Object Type="Package">Package</Object>
+    <Object Type="Package">TBSWAstro</Object>
   </Objects>
 </Package>
