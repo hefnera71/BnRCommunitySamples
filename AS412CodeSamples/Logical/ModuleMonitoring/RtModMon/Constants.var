@@ -1,0 +1,10 @@
+VAR CONSTANT
+	rtmodmon_STATUS_RUNNING : UINT := 1; (*FB is running and checking ONE module PER cycle*)
+	rtmodmon_STATUS_STOPPED : UINT := 2; (*FB is diabled*)
+	rtmodmon_STATUS_ERR_MOLIST : UINT := 10; (*Error from internal used function MO_list(), error code see statusInfos1*)
+	rtmodmon_STATUS_ERR_AREVLOGIDENT : UINT := 12; (*Error from internal used function ArEventLogGetIdent(), error code see statusInfos1*)
+	rtmodmon_STATUS_ERR_AREVLOGWRITE : UINT := 13; (*Error from internal function ArEventLogWrite(), error code see statusInfos1*)
+	rtmodmon_STATUS_ERR_MOINFO : UINT := 11; (*Error from internal used function MO_info(), error code see statusInfos1*)
+	rtmodmon_STATUS_ERR_BUFFER_FULL : UINT := 20; (*Error - more modules to monitor than size of monitoring array - increase rtmodmon_MOD_IMAGE_MAXIDX and rebuild!*)
+	rtmodmon_MOD_IMAGE_MAXIDX : UINT := 249; (*SETTING: Maximum number of modules that can be checked*)
+END_VAR

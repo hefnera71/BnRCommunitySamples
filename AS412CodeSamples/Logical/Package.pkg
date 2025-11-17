@@ -10,5 +10,6 @@
     <Object Type="Package" Description="calculation of sunrise / sunset">TBSWAstro</Object>
     <Object Type="Package" Description="Web frontend to ping from plc">WebPing</Object>
     <Object Type="Package" Description="send pushmessages via pushover.net">Pushover</Object>
+    <Object Type="Package">ModuleMonitoring</Object>
   </Objects>
 </Package>

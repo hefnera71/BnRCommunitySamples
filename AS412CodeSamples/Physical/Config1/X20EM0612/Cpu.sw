@@ -18,6 +18,7 @@
     <Task Name="RTTestXTea" Source="XTEA.RTTestXTea.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsagSHA256" Source="SHA256.UsagSHA256.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="RTTestS256" Source="SHA256.RTTestS256.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="UsagModMon" Source="ModuleMonitoring.UsagModMon.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <Binaries>
     <BinaryObject Name="FWRules" Source="" Memory="UserROM" Language="Binary" />
@@ -43,7 +44,6 @@
     <LibraryObject Name="TBSWAstro" Source="TBSWAstro.TBSWAstro.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
     <LibraryObject Name="astime" Source="Libraries.astime.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="AsARCfg" Source="Libraries.AsARCfg.lby" Memory="UserROM" Language="binary" Debugging="true" />
-    <LibraryObject Name="asieccon" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="WebPing" Source="WebPing.WebPing.lby" Memory="UserROM" Language="IEC" Debugging="true" />
     <LibraryObject Name="AsHttp" Source="Libraries.AsHttp.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="AsICMP" Source="Libraries.AsICMP.lby" Memory="UserROM" Language="binary" Debugging="true" />
@@ -55,5 +55,8 @@
     <LibraryObject Name="AsBrWStr" Source="Libraries.AsBrWStr.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="AsTCP" Source="Libraries.AsTCP.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="ArEventLog" Source="Libraries.ArEventLog.lby" Memory="UserROM" Language="binary" Debugging="true" />
+    <LibraryObject Name="sys_lib" Source="Libraries.sys_lib.lby" Memory="UserROM" Language="binary" Debugging="true" />
+    <LibraryObject Name="RtModMon" Source="ModuleMonitoring.RtModMon.lby" Memory="UserROM" Language="IEC" Debugging="true" />
+    <LibraryObject Name="asieccon" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
   </Libraries>
 </SwConfiguration>
