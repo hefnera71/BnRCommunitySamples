@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Library Version="0.00.1" SubType="IEC" xmlns="http://br-automation.co.at/AS/Library">
+  <Files>
+    <File>UserStructs.typ</File>
+    <File>UserConstants.var</File>
+    <File Description="Exported data types">LibInternalStructs.typ</File>
+    <File Description="Exported constants">InternalConstants.var</File>
+    <File Description="Exported functions and function blocks">TBSWPush.fun</File>
+    <File>PushoverSendMessage.st</File>
+  </Files>
+  <Dependencies>
+    <Dependency ObjectName="Operator" Target="SG4" />
+    <Dependency ObjectName="standard" Target="SG4" />
+    <Dependency ObjectName="astime" Target="SG4" />
+    <Dependency ObjectName="AsBrStr" Target="SG4" />
+    <Dependency ObjectName="AsBrWStr" Target="SG4" />
+    <Dependency ObjectName="AsHttp" Target="SG4" FromVersion="4.24.0" />
+    <Dependency ObjectName="AsTCP" Target="SG4" FromVersion="4.24.0" />
+    <Dependency ObjectName="ArEventLog" Target="SG4" FromVersion="4.24.0" />
+  </Dependencies>
+</Library>

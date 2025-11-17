@@ -11,5 +11,13 @@
     <Object Type="Library" Language="binary" Description="The AsIOTime library is used to generate time stamps based on system time of the I/O system.">AsIoTime</Object>
     <Object Type="Library" Language="binary" Description="The AsArProf library is used to operate the AR Profiler from an application.">AsArProf</Object>
     <Object Type="Library" Language="binary" Description="The AsARCfg library supports reading and writing Automation Runtime configurations.">AsARCfg</Object>
+    <Object Type="Library" Language="binary" Description="This library contains FBKs for exchanging and formatting data (message based) via HTTP (TCP).">AsHttp</Object>
+    <Object Type="Library" Language="binary" Description="This library contains FBKs for pinging a station.">AsICMP</Object>
+    <Object Type="Library" Language="binary" Description="These function blocks can be used to resolve both IP addresses and domain names.">AsHost</Object>
+    <Object Type="Library" Language="binary" Description="This library contains FBKs to evaluate statistics and can be used for system generation device statistics.">AsETH</Object>
+    <Object Type="Library" Language="binary" Description="This library contains standard function blocks and functions for IEC 61131-3.">standard</Object>
+    <Object Type="Library" Language="binary" Description="The AsBrWStr library allows 8-bit character strings to be implemented for 16-bit WC (AsBrWStr) strings.">AsBrWStr</Object>
+    <Object Type="Library" Language="binary" Description="This library contains FBKs for exchanging data (data stream) via stream sockets (TCP).">AsTCP</Object>
+    <Object Type="Library" Language="binary" Description="The ArEventLog library can be used to collect additional error information and for further processing.">ArEventLog</Object>
   </Objects>
 </Package>

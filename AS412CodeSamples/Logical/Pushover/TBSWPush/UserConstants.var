@@ -1,0 +1,13 @@
+VAR CONSTANT
+	pushprioEMERGENCY : SINT := 2; (*message priority *)
+	pushprioHIGH : SINT := 1; (*message priority *)
+	pushprioNORMAL : SINT := 0; (*message priority *)
+	pushprioLOW : SINT := -1; (*message priority *)
+	pushprioLOWEST : SINT := -2; (*message priority *)
+	pusherrorAPPKEYEMPTY : UINT := 1; (*needed value in message configuration is not set*)
+	pusherrorUSERKEYEMPTY : UINT := 2; (*needed value in message configuration is not set*)
+	pusherrorEXPMINUTESEMPTY : UINT := 4; (*needed value in message configuration is not set*)
+	pusherrorRETRYMINUTESEMPTY : UINT := 5; (*needed value in message configuration is not set*)
+	pusherrorCONTENTEMPTY : UINT := 3; (*needed value in message configuration is not set*)
+	pusherrorRECVTIMEOUT : UINT := 6; (*timeout while waiting for message server response*)
+END_VAR

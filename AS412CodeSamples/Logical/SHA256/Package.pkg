@@ -5,6 +5,6 @@
     <Object Type="Library" Language="ANSIC" Description="the library contaiining SHA256 hash algorithm">SHA256lib</Object>
     <Object Type="Program" Language="IEC" Description="DEMO CALL - How to use SHA256lib">UsagSHA256</Object>
     <Object Type="Program" Language="IEC" Description="NOT NEEDED FOR DEMO - some runtime measurement testing of SHA256 performance / needed time">RTTestS256</Object>
-    <Object Type="File">Sha256lib en.pdf</Object>
+    <Object Type="File" Description="some more documentation - AI translated">Sha256lib en.pdf</Object>
   </Objects>
 </Package>

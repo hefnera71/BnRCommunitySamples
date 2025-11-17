@@ -5,8 +5,10 @@
     <Object Type="File" Description="Global data types">Global.typ</Object>
     <Object Type="File" Description="Global variables">Global.var</Object>
     <Object Type="Package" Description="Global libraries">Libraries</Object>
-    <Object Type="Package">XTEA</Object>
-    <Object Type="Package">SHA256</Object>
-    <Object Type="Package">TBSWAstro</Object>
+    <Object Type="Package" Description="Block cipher encryption / decryption">XTEA</Object>
+    <Object Type="Package" Description="SHA256 hash algorithm">SHA256</Object>
+    <Object Type="Package" Description="calculation of sunrise / sunset">TBSWAstro</Object>
+    <Object Type="Package" Description="Web frontend to ping from plc">WebPing</Object>
+    <Object Type="Package" Description="send pushmessages via pushover.net">Pushover</Object>
   </Objects>
 </Package>

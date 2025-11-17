@@ -1,0 +1,6 @@
+VAR
+	TON_StartupWait : TON := (0);
+	tPushoverInterface : PushMessageInterface_type := (0);
+	PushMessage : PushoverSendMessage := (0);
+	bSend : BOOL := 0;
+END_VAR

@@ -1,0 +1,2 @@
+For more details, please see the following post in the B&R community:
+https://community.br-automation.com/t/ping-from-a-plc-webservice-frontend/1063
