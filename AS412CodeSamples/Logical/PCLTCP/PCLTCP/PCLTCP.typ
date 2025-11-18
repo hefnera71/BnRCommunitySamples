@@ -30,6 +30,7 @@ TYPE
 		STRUCT_START : UDINT;
 		state : UINT;
 		pNext : UDINT;
+		memPartCreateIdent : UDINT;
 		pStartMem : UDINT;
 		lenMem : UDINT;
 		lenData : UDINT;

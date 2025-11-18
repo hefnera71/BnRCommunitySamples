@@ -6,7 +6,8 @@
     <File Description="Exported constants">PCLTCP.var</File>
     <File Description="Exported functions and function blocks">PCLTCP.fun</File>
     <File Description="Initialize function, ONLY USE IN INIT !!!">PCLTcpInit.st</File>
-    <File>PCLTcpPrint.st</File>
+    <File Description="Send content of virtual page to printers TCP port">PCLTcpPrint.st</File>
+    <File Description="De-Initialize function, ONLY USE IN EXIT !!!">PCLTcpExit.st</File>
     <File>PCLResetMemory.st</File>
     <File>PCLAddChar.st</File>
     <File>PCLAddString.st</File>
@@ -19,4 +20,10 @@
     <File>PCLSetPageMargins.st</File>
     <File>PCLSetFontSize.st</File>
   </Files>
+  <Dependencies>
+    <Dependency ObjectName="AsBrStr" />
+    <Dependency ObjectName="AsMem" />
+    <Dependency ObjectName="AsTCP" />
+    <Dependency ObjectName="standard" />
+  </Dependencies>
 </Library>

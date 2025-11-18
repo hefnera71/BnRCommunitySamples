@@ -9,7 +9,7 @@
  * Implementation of library PCLTCP
  ********************************************************************) 
 
-(* TODO: Add your comment here *)
+(* add a string to virtual page *)
 FUNCTION PCLAddString
 
 	IF ident > 0 THEN

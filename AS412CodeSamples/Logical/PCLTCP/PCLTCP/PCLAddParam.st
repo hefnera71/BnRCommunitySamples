@@ -9,7 +9,7 @@
  * Implementation of library PCLTCP
  ********************************************************************) 
 
-(* TODO: Add your comment here *)
+(* handle some predefined parameters, add command to virtual page *)
 FUNCTION PCLAddParam
 	
 	brsftoa(value, ADR(szVal));

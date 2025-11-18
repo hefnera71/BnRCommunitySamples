@@ -9,7 +9,7 @@
  * Implementation of library PCLTCP
  ********************************************************************) 
 
-(* Initialize function *)
+(* ONLY FOR USE IN INIT PROGRAM - Initialize function *)
 FUNCTION_BLOCK PCLTcpInit
 
 	internal.STRUCT_START := STRUCT_IDENT;
@@ -27,6 +27,7 @@ FUNCTION_BLOCK PCLTcpInit
 				internal.ident := ident;
 				internal.lenMem := pageSize;
 				internal.pStartMem := AsMemPartAlloc_0.mem;
+				internal.memPartCreateIdent := AsMemPartCreate_0.ident;
 				internal.pNext := internal.pStartMem;
 				internal.state := PCLResetMemory(ident);
 				

@@ -9,7 +9,7 @@
  * Implementation of library PCLTCP
  ********************************************************************) 
 
-(* TODO: Add your comment here *)
+(* add a line = string including CR+LF to virtual page *)
 FUNCTION PCLAddLine
 	
 	PCLAddLine := PCLAddString(ident, pString);

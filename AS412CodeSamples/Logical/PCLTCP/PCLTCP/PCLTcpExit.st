@@ -2,28 +2,27 @@
  * COPYRIGHT --  
  ********************************************************************
  * Library: PCLTCP
- * File: PCLAddChar.st
+ * File: PCLTcpPrint.st
  * Author: hefnera
- * Created: September 29, 2011
+ * Created: September 20, 2011
  ********************************************************************
  * Implementation of library PCLTCP
  ********************************************************************) 
 
-(* add a single character to virtual page *)
-FUNCTION PCLAddChar
-
+(* ONY FOR USE IN EXIT PROGRAM - Deinitialize function *)
+FUNCTION_BLOCK PCLTcpExit
+	
+	
+	(*  *)
+	status := 16#FFFF;
 	IF ident > 0 THEN
- 		dynInternal ACCESS ident;
+		dynInternal ACCESS ident;
 		IF dynInternal.STRUCT_START = STRUCT_IDENT AND dynInternal.STRUCT_END = STRUCT_IDENT THEN
-			IF dynInternal.state = 0 THEN
-				IF dynInternal.lenMem > 2 THEN
-					tmp[0] := charVal;
-					tmp[1] := 0;
-					dynInternal.pNext := brsstrcpy(dynInternal.pNext, ADR(tmp));
-					dynInternal.lenData := dynInternal.pNext - dynInternal.pStartMem;
-				ELSE
-					dynInternal.state := PCLTCP_ERR_MEMORY;
-				END_IF
+			IF dynInternal.memPartCreateIdent > 0 THEN
+				AsMemPartDestroy_0(enable := TRUE, ident := dynInternal.memPartCreateIdent);
+				dynInternal.state := AsMemPartDestroy_0.status;
+			ELSE
+				dynInternal.state := PCLTCP_ERR_MEMORY;
 			END_IF
 		ELSE
 			dynInternal.state := PCLTCP_ERR_INVALID_IDENT;
@@ -31,6 +30,6 @@ FUNCTION PCLAddChar
   	ELSE
 		dynInternal.state := PCLTCP_ERR_NO_IDENT;
 	END_IF
-	PCLAddChar := dynInternal.state;
-
-END_FUNCTION
+	status := dynInternal.state;	
+	
+END_FUNCTION_BLOCK

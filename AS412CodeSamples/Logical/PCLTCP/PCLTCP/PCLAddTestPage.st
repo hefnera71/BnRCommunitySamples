@@ -9,7 +9,7 @@
  * Implementation of library PCLTCP
  ********************************************************************) 
 
-(* TODO: Add your comment here *)
+(* Adds a predefined test page to the virtual page - can be used to test printing functionality without adding much code  *)
 FUNCTION PCLAddTestPage
 
 	IF ident > 0 THEN

@@ -9,7 +9,7 @@
  * Implementation of library PCLTCP
  ********************************************************************) 
 
-(* TODO: Add your comment here *)
+(* reset the virtual page memory *)
 FUNCTION PCLResetMemory
 
 	IF ident > 0 THEN

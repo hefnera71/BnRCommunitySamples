@@ -15,4 +15,6 @@ VAR
 	PCLTcpPrint_0 : PCLTcpPrint;
 	ii : INT;
 	szTmp : STRING[10];
+	PCLTcpExit_0 : PCLTcpExit;
+	sIpAddrOfPrinter : STRING[20];
 END_VAR

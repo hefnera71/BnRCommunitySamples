@@ -9,7 +9,7 @@
  * Implementation of library PCLTCP
  ********************************************************************) 
 
-(* TODO: Add your comment here *)
+(*  RELATIVE positioning of the printing cursor inside the PCL coordinate system  *)
 FUNCTION PCLSetCursorRel
 
 	IF x >= 0 THEN

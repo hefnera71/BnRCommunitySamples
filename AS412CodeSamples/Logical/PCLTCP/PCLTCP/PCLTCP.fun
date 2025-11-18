@@ -24,26 +24,6 @@ FUNCTION_BLOCK PCLTcpInit (*Initialize function, ONLY FOR INIT USE*)
 	END_VAR
 END_FUNCTION_BLOCK
 
-FUNCTION PCLAddString : UINT (* add a character or command string to page *)
-	VAR_INPUT
-		ident : UDINT; (* ident from init function *)
-		pString : UDINT; (* pointer to string to add *)
-	END_VAR
-	VAR
-		dynInternal : REFERENCE TO PCLTCP_Internal_type;
-		szLen : UDINT;
-	END_VAR
-END_FUNCTION
-
-FUNCTION PCLResetMemory : UINT (* initialize page memory *)
-	VAR_INPUT
-		ident : UDINT; (* ident from init function *)
-	END_VAR
-	VAR
-		dynInternal : REFERENCE TO PCLTCP_Internal_type;
-	END_VAR
-END_FUNCTION
-
 FUNCTION_BLOCK PCLTcpPrint (* send page memory to printer *)
 	VAR_INPUT
 		ident : UDINT; (* ident from init function *)
@@ -73,6 +53,39 @@ FUNCTION_BLOCK PCLTcpPrint (* send page memory to printer *)
 		TCP_STEP_WAITSEND : UINT := 50;
 	END_VAR
 END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK PCLTcpExit
+	VAR_INPUT
+		ident : UDINT; (* ident from init function *)
+	END_VAR
+	VAR_OUTPUT
+		status : UINT; (* state of fub / function call *)
+	END_VAR
+	VAR
+		dynInternal : REFERENCE TO PCLTCP_Internal_type;
+		AsMemPartDestroy_0 : AsMemPartDestroy;
+	END_VAR
+END_FUNCTION_BLOCK
+
+FUNCTION PCLAddString : UINT (* add a character or command string to page *)
+	VAR_INPUT
+		ident : UDINT; (* ident from init function *)
+		pString : UDINT; (* pointer to string to add *)
+	END_VAR
+	VAR
+		dynInternal : REFERENCE TO PCLTCP_Internal_type;
+		szLen : UDINT;
+	END_VAR
+END_FUNCTION
+
+FUNCTION PCLResetMemory : UINT (* initialize page memory *)
+	VAR_INPUT
+		ident : UDINT; (* ident from init function *)
+	END_VAR
+	VAR
+		dynInternal : REFERENCE TO PCLTCP_Internal_type;
+	END_VAR
+END_FUNCTION
 
 FUNCTION PCLAddLine : UINT (* add a character or command string to page, with PCL_CRLF at end *)
 	VAR_INPUT

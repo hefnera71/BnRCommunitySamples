@@ -9,8 +9,7 @@
  * Implementation of library PCLTCP
  ********************************************************************) 
 
-(* Setup font height and pitch, height in pixel, pitch in chars per inch *)
-(* if input is 0, don't change parameter *)
+(* Setup font height and pitch, height in pixel, pitch in chars per inch // if one input parameter = 0, no change is applied on that parameter *)
 FUNCTION PCLSetFontSize
 
 		IF ident > 0 THEN

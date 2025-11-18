@@ -16,7 +16,7 @@
 
 
 *)
-
+(* send data to printer *)
 FUNCTION_BLOCK PCLTcpPrint
 	
 	(*  *)
