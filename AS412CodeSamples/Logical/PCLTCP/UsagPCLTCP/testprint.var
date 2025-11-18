@@ -1,0 +1,18 @@
+(********************************************************************
+ * COPYRIGHT --  
+ ********************************************************************
+ * Program: testprint
+ * File: testprint.var
+ * Author: hefnera
+ * Created: September 20, 2011
+ ********************************************************************
+ * Local variables of program testprint
+ ********************************************************************)
+VAR
+	testStep : UINT;
+	PCLTcpInit_0 : PCLTcpInit;
+	ident : UDINT;
+	PCLTcpPrint_0 : PCLTcpPrint;
+	ii : INT;
+	szTmp : STRING[10];
+END_VAR

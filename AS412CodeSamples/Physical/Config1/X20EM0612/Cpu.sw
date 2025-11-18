@@ -9,6 +9,7 @@
   <TaskClass Name="Cyclic#4">
     <Task Name="UsagePing" Source="WebPing.UsagePing.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsagePush" Source="Pushover.UsagePush.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="UsagPCLTCP" Source="PCLTCP.UsagPCLTCP.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#5" />
   <TaskClass Name="Cyclic#6" />
@@ -58,5 +59,6 @@
     <LibraryObject Name="sys_lib" Source="Libraries.sys_lib.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="RtModMon" Source="ModuleMonitoring.RtModMon.lby" Memory="UserROM" Language="IEC" Debugging="true" />
     <LibraryObject Name="asieccon" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="PCLTCP" Source="PCLTCP.PCLTCP.lby" Memory="UserROM" Language="IEC" Debugging="true" />
   </Libraries>
 </SwConfiguration>

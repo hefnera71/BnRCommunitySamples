@@ -11,5 +11,6 @@
     <Object Type="Package" Description="Web frontend to ping from plc">WebPing</Object>
     <Object Type="Package" Description="send pushmessages via pushover.net">Pushover</Object>
     <Object Type="Package">ModuleMonitoring</Object>
+    <Object Type="Package" Description="Raw ASCII printing via network">PCLTCP</Object>
   </Objects>
 </Package>
