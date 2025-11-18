@@ -1,0 +1,2 @@
+For more details, please additionally see the following post in the B&R community:
+https://community.br-automation.com/t/pcltcp-print-ascii-texts-directly-on-a-network-printer-that-supports-raw-printing-by-pcl-commands/9058
