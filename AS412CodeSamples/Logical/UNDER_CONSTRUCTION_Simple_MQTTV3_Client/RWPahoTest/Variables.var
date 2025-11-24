@@ -1,0 +1,16 @@
+VAR
+	sPubBuffer : STRING[80];
+	xPublish : BOOL;
+	RW_MQTT_Client_Pub : RW_MQTT_ClientPub;
+	RW_MQTT_Client_Sub : RW_MQTT_ClientSub;
+	sSubBuffer : STRING[1024];
+	sPubBaseTopic : STRING[80];
+	iPubTopicCounter : USINT;
+	sPubSubTopic : STRING[2];
+	DTGetTime_0 : DTGetTime;
+	TON_0 : TON;
+	HostByName_0 : HostByName;
+	sBrokerIpAddress : STRING[15];
+	testrunStep : UINT;
+	sBrokerDnsName : STRING[80];
+END_VAR
