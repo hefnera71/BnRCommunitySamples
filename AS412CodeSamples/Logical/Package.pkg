@@ -10,7 +10,8 @@
     <Object Type="Package" Description="calculation of sunrise / sunset">TBSWAstro</Object>
     <Object Type="Package" Description="Web frontend to ping from plc">WebPing</Object>
     <Object Type="Package" Description="send pushmessages via pushover.net">Pushover</Object>
-    <Object Type="Package">ModuleMonitoring</Object>
+    <Object Type="Package" Description="DEBUGGING - log BR module changes in logger">ModuleMonitoring</Object>
     <Object Type="Package" Description="Raw ASCII printing via network">PCLTCP</Object>
+    <Object Type="Package" Description="A simple webservice library to communicate with tasmota devices">TasmotaWebservice</Object>
   </Objects>
 </Package>

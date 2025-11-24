@@ -1,0 +1,9 @@
+VAR CONSTANT
+	tasmotapiSTEP_ABORTED : UINT := 30;
+	tasmotapiSTEP_SEND : UINT := 10;
+	tasmotapiSTEP_RESPONSE : UINT := 20;
+	tasmotapiSTEP_IDLE : UINT := 1;
+	tasmotapiSTEP_END : UINT := 50;
+	tasmotapiSTEP_WAIT_RESPONSE : UINT := 11;
+	tasmotapiERROR_PARAMETER : UINT := 55555;
+END_VAR

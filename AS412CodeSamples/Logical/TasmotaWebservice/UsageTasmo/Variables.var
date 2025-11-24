@@ -1,0 +1,5 @@
+VAR
+	tasmotapiSendRequest_0 : tasmotapiSendRequest;
+	sResponse : ARRAY[0..9] OF STRING[80];
+	bSendRequest : BOOL;
+END_VAR
