@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio Version=4.12.8.41 FileVersion="4.9"?>
+<Hardware xmlns="http://br-automation.co.at/AS/Hardware">
+  <Module Name="X20CP1686X" Type="X20CP1686X" Version="1.6.2.0">
+    <Connector Name="IF2">
+      <Parameter ID="ActivateDevice" Value="1" />
+      <Parameter ID="HostName" Value="commutest" />
+      <Parameter ID="ActivateIna" Value="0" />
+      <Parameter ID="ActivateSnmp" Value="1" />
+    </Connector>
+    <Connector Name="IF3">
+      <Parameter ID="EplHostName" Value="commutest" />
+      <Parameter ID="CycleTime" Value="2000" />
+      <Parameter ID="HostName" Value="commutest" />
+    </Connector>
+    <Parameter ID="ConfigurationID" Value="BnRCommunitySamples_Config1" />
+    <Group ID="FileDevice1" />
+    <Parameter ID="FileDeviceName1" Value="USER" />
+    <Parameter ID="FileDevicePath1" Value="USER_PATH" />
+    <Parameter ID="EthernetHostName" Value="commutest" />
+    <Parameter ID="ActivateDns" Value="1" />
+    <Parameter ID="DnsDefaultDomain" Value="brdev.net" />
+    <Parameter ID="GetDnsFromDhcp" Value="2" />
+  </Module>
+</Hardware>

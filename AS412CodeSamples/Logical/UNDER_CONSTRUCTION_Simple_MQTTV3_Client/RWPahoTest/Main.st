@@ -3,9 +3,14 @@ PROGRAM _INIT
 	(* Insert code here *)
 
 	// storage for broker name
-	sBrokerDnsName := 'test.mosquitto.org';
+	sBrokerDnsName := 'broker.hivemq.com';
 	// storage for ip address
 	sBrokerIpAddress := '';
+	// storage for user / password if needed
+	sUser := '';
+	sPassword := '';
+	// storage for TCP port
+	uPort := 1883;
 	
 	// setup publish instance
 	sPubBaseTopic := 'RWmqtt/Test/';
@@ -17,9 +22,9 @@ PROGRAM _INIT
 	
 	RW_MQTT_Client_Pub.I_typParameter.sClientID := 'X20_RWmqttPub';
 	RW_MQTT_Client_Pub.I_typParameter.sServerUri :=''; 	// here, an ip address is needed !! - the address is determined later
-	RW_MQTT_Client_Pub.I_typParameter.uiPort := 1883;				
-	RW_MQTT_Client_Pub.I_typParameter.sUsername := '';
-	RW_MQTT_Client_Pub.I_typParameter.sPassword := '';
+	RW_MQTT_Client_Pub.I_typParameter.uiPort := uPort;				
+	RW_MQTT_Client_Pub.I_typParameter.sUsername := sUser;
+	RW_MQTT_Client_Pub.I_typParameter.sPassword := sPassword;
 
 
 	// setup subscribe instance
@@ -34,9 +39,9 @@ PROGRAM _INIT
 	
 	RW_MQTT_Client_Sub.I_typParameter.sClientID := 'X20_RWmqttSub';
 	RW_MQTT_Client_Sub.I_typParameter.sServerUri := ''; 	// here, an ip address is needed !! - the address is determined later
-	RW_MQTT_Client_Sub.I_typParameter.uiPort := 1883;
-	RW_MQTT_Client_Sub.I_typParameter.sUsername := '';
-	RW_MQTT_Client_Sub.I_typParameter.sPassword := '';
+	RW_MQTT_Client_Sub.I_typParameter.uiPort := uPort;
+	RW_MQTT_Client_Sub.I_typParameter.sUsername := sUser;
+	RW_MQTT_Client_Sub.I_typParameter.sPassword := sPassword;
 
 	RW_MQTT_Client_Sub.I_typSubscribe.ContentBuffer := ADR(sSubBuffer);
 	RW_MQTT_Client_Sub.I_typSubscribe.ContentBufferSize := SIZEOF(sSubBuffer);
@@ -67,6 +72,10 @@ PROGRAM _CYCLIC
 						// address was converted and is available in sBrokerIpAddress
 						RW_MQTT_Client_Sub.I_typParameter.sServerUri := sBrokerIpAddress;
 						RW_MQTT_Client_Pub.I_typParameter.sServerUri := sBrokerIpAddress;
+						
+						// set port
+						RW_MQTT_Client_Pub.I_typParameter.uiPort := uPort;				
+						RW_MQTT_Client_Sub.I_typParameter.uiPort := uPort;
 						
 						// enable functions
 						RW_MQTT_Client_Pub.I_xEnable := TRUE;

@@ -12,6 +12,10 @@
 #include "MQTTPacket/MQTTPacket.h"
 #include "MQTTPacket/MQTTConnect.h"
 
+#include <RWPahoMqtt.h>
+#include <AsBrStr.h>
+USINT buffer[rwmqtt_INTERNAL_BUFFER_SIZE];
+
 /* TODO: Add your comment here */
 void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 {
@@ -23,6 +27,7 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 		case 0: 
 			if (inst->I_xEnable == 1){
 				inst->uiState = 10;
+				brsmemset(&buffer, 0, sizeof(buffer));
 			}
 			//inst->I_xSubscribe = 0;
 			break;
@@ -72,7 +77,7 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 			MQTTPacket_connectData_.password.cstring = (char*)inst->I_typParameter.sPassword;
 			MQTTPacket_connectData_.cleansession = 1;		
 
-			inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_connect(&inst->buffer, sizeof(inst->buffer), &MQTTPacket_connectData_);
+			inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_connect(&buffer, sizeof(buffer), &MQTTPacket_connectData_);
 
 			inst->uiState++;
 			break; 
@@ -80,7 +85,7 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 		case 31:
 			inst->TcpSend_0.enable = 1;
 			inst->TcpSend_0.ident = inst->TcpClient_0.ident;
-			inst->TcpSend_0.pData = &inst->buffer;
+			inst->TcpSend_0.pData = &buffer;
 
 			inst->TcpSend_0.flags = 0;
 			TcpSend(&inst->TcpSend_0);	 
@@ -99,8 +104,8 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 		case 32:
 			inst->TcpRecv_0.enable = 1;
 			inst->TcpRecv_0.ident =  inst->TcpClient_0.ident;
-			inst->TcpRecv_0.pData = &inst->buffer;
-			inst->TcpRecv_0.datamax = sizeof(inst->buffer);
+			inst->TcpRecv_0.pData = &buffer;
+			inst->TcpRecv_0.datamax = sizeof(buffer);
 			inst->TcpRecv_0.flags = 0;
 			TcpRecv(&inst->TcpRecv_0);
 			if (inst->TcpRecv_0.status == ERR_OK) {
@@ -108,7 +113,7 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 					inst->Q_xConnected = inst->Q_iPahoFcCallResult = MQTTDeserialize_connack(
 						&inst->Internal.sessionPresent, 
 						&inst->Internal.connack_rc, 
-						&inst->buffer, 
+						&buffer, 
 						inst->TcpRecv_0.recvlen
 						);
 					inst->uiState = 40;
@@ -172,8 +177,8 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 					}
 		
 					inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_subscribe(
-						&inst->buffer, 
-						sizeof(inst->buffer), 
+						&buffer, 
+						sizeof(buffer), 
 						0, 
 						4712, 
 						topicCount,
@@ -199,7 +204,7 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 		case 41:	
 			inst->TcpSend_0.enable = 1;
 			inst->TcpSend_0.ident = inst->TcpClient_0.ident;
-			inst->TcpSend_0.pData = &inst->buffer;
+			inst->TcpSend_0.pData = &buffer;
 
 			inst->TcpSend_0.flags = 0;
 			TcpSend(&inst->TcpSend_0);	 
@@ -224,8 +229,8 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 			else {
 				inst->TcpRecv_0.enable = 1;
 				inst->TcpRecv_0.ident =  inst->TcpClient_0.ident;
-				inst->TcpRecv_0.pData = &inst->buffer;
-				inst->TcpRecv_0.datamax = sizeof(inst->buffer);
+				inst->TcpRecv_0.pData = &buffer;
+				inst->TcpRecv_0.datamax = sizeof(buffer);
 				inst->TcpRecv_0.flags = 0;
 				TcpRecv(&inst->TcpRecv_0);
 			
@@ -241,7 +246,7 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 							1,
 							&count,
 							grantedQoS,
-							&inst->buffer, 
+							&buffer, 
 							inst->TcpRecv_0.recvlen
 							);						
 						inst->uiState = 50;
@@ -283,8 +288,8 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 				{
 					inst->TcpRecv_0.enable = 1;
 					inst->TcpRecv_0.ident =  inst->TcpClient_0.ident;
-					inst->TcpRecv_0.pData = &inst->buffer;
-					inst->TcpRecv_0.datamax = sizeof(inst->buffer);
+					inst->TcpRecv_0.pData = &buffer;
+					inst->TcpRecv_0.datamax = sizeof(buffer);
 					inst->TcpRecv_0.flags = 0;
 					TcpRecv(&inst->TcpRecv_0);
 	
@@ -308,7 +313,7 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 								&topicName,
 								&pPayload,
 								&payloadLen,
-								(char*)inst->buffer,
+								(char*)buffer,
 								inst->TcpRecv_0.recvlen
 								);
 					
@@ -403,8 +408,8 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 			}
 			
 			inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_unsubscribe(
-				&inst->buffer, 
-				sizeof(inst->buffer), 
+				&buffer, 
+				sizeof(buffer), 
 				0, 
 				4713, 
 				topicCount, 
@@ -417,7 +422,7 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 		case 61:
 			inst->TcpSend_0.enable = 1;
 			inst->TcpSend_0.ident = inst->TcpClient_0.ident;
-			inst->TcpSend_0.pData = &inst->buffer;
+			inst->TcpSend_0.pData = &buffer;
 
 			inst->TcpSend_0.flags = 0;
 			TcpSend(&inst->TcpSend_0);	 
@@ -437,8 +442,8 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 		case 62:
 			inst->TcpRecv_0.enable = 1;
 			inst->TcpRecv_0.ident =  inst->TcpClient_0.ident;
-			inst->TcpRecv_0.pData = &inst->buffer;
-			inst->TcpRecv_0.datamax = sizeof(inst->buffer);
+			inst->TcpRecv_0.pData = &buffer;
+			inst->TcpRecv_0.datamax = sizeof(buffer);
 			inst->TcpRecv_0.flags = 0;
 			TcpRecv(&inst->TcpRecv_0);
 			if (inst->TcpRecv_0.status == ERR_OK) {
@@ -447,7 +452,7 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 					unsigned short packetid;
 					int result = inst->Q_iPahoFcCallResult = MQTTDeserialize_unsuback(
 						&packetid,
-						&inst->buffer, 
+						&buffer, 
 						inst->TcpRecv_0.recvlen
 						);						
 					// back to start subcribe
@@ -480,8 +485,8 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 		//  ping
 		case 90:
 			inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_pingreq(		
-				&inst->buffer, 
-				sizeof(inst->buffer)
+				&buffer, 
+				sizeof(buffer)
 				);
 			inst->uiState++;
 			break; 
@@ -489,7 +494,7 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 		case 91:
 			inst->TcpSend_0.enable = 1;
 			inst->TcpSend_0.ident = inst->TcpClient_0.ident;
-			inst->TcpSend_0.pData = &inst->buffer;
+			inst->TcpSend_0.pData = &buffer;
 
 			inst->TcpSend_0.flags = 0;
 			TcpSend(&inst->TcpSend_0);	 
@@ -508,8 +513,8 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 		case 92:
 			inst->TcpRecv_0.enable = 1;
 			inst->TcpRecv_0.ident =  inst->TcpClient_0.ident;
-			inst->TcpRecv_0.pData = &inst->buffer;
-			inst->TcpRecv_0.datamax = sizeof(inst->buffer);
+			inst->TcpRecv_0.pData = &buffer;
+			inst->TcpRecv_0.datamax = sizeof(buffer);
 			inst->TcpRecv_0.flags = 0;
 			TcpRecv(&inst->TcpRecv_0);
 			if (inst->TcpRecv_0.status == ERR_OK) {
@@ -523,7 +528,7 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 						&packettype,
 						&dup,
 						&packetId,
-						&inst->buffer, 
+						&buffer, 
 						inst->TcpRecv_0.recvlen
 						);			
 					// back to recv
@@ -558,8 +563,8 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 	
 		case 100:
 			inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_disconnect(
-				&inst->buffer, 
-				sizeof(inst->buffer)
+				&buffer, 
+				sizeof(buffer)
 				);
 			inst->Q_xConnected = 0;
 			inst->uiState++;
@@ -568,7 +573,7 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 		case 101:
 			inst->TcpSend_0.enable = 1;
 			inst->TcpSend_0.ident = inst->TcpClient_0.ident;
-			inst->TcpSend_0.pData = &inst->buffer;
+			inst->TcpSend_0.pData = &buffer;
 
 			inst->TcpSend_0.flags = 0;
 			TcpSend(&inst->TcpSend_0);	 

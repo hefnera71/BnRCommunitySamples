@@ -13,4 +13,7 @@ VAR
 	sBrokerIpAddress : STRING[15];
 	testrunStep : UINT;
 	sBrokerDnsName : STRING[80];
+	sUser : STRING[32];
+	sPassword : STRING[32];
+	uPort : UINT;
 END_VAR
