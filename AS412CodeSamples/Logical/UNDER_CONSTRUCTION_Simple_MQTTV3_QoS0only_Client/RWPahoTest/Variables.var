@@ -9,7 +9,6 @@ VAR
 	sPubSubTopic : STRING[2];
 	DTGetTime_0 : DTGetTime;
 	TON_0 : TON;
-	HostByName_0 : HostByName;
 	sBrokerIpAddress : STRING[15];
 	testrunStep : UINT;
 	sBrokerDnsName : STRING[80];

@@ -13,6 +13,6 @@
     <Object Type="Package" Description="DEBUGGING - log BR module changes in logger">ModuleMonitoring</Object>
     <Object Type="Package" Description="Raw ASCII printing via network">PCLTCP</Object>
     <Object Type="Package" Description="A simple webservice library to communicate with tasmota devices">TasmotaWebservice</Object>
-    <Object Type="Package">UNDER_CONSTRUCTION_Simple_MQTTV3_Client</Object>
+    <Object Type="Package">UNDER_CONSTRUCTION_Simple_MQTTV3_QoS0only_Client</Object>
   </Objects>
 </Package>
