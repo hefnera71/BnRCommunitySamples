@@ -21,28 +21,33 @@ PROGRAM _INIT
 	RW_MQTT_Client_Pub.I_typPublish.Topic := ''; // the topic is defined later in the test sequence
 	
 	RW_MQTT_Client_Pub.I_typParameter.sClientID := 'X20_RWmqttPub';
-	RW_MQTT_Client_Pub.I_typParameter.sServerUri :=''; 	// here, an ip address is needed !! - the address is determined later
+	RW_MQTT_Client_Pub.I_typParameter.sServerUri := sBrokerDnsName; 	// when using DNS name, please ensure that DNS is configured right
 	RW_MQTT_Client_Pub.I_typParameter.uiPort := uPort;				
 	RW_MQTT_Client_Pub.I_typParameter.sUsername := sUser;
 	RW_MQTT_Client_Pub.I_typParameter.sPassword := sPassword;
 
 
-	// setup subscribe instance
-	//RW_MQTT_Client_Sub.I_typSubscribe.TopicArrayCount := 1;
-	//RW_MQTT_Client_Sub.I_typSubscribe.TopicArray[0] := 'RWmqtt/Test/#';
 
+	// setup subscribe instance
+	(*
+	RW_MQTT_Client_Sub.I_typSubscribe.TopicArrayCount := 1;
+	RW_MQTT_Client_Sub.I_typSubscribe.TopicArray[0] := 'RWmqtt/Test/#';
+	*)
+	
+	// a example how to subsrcibe multiple topics - max 5 topics are possible with this implementation
 	RW_MQTT_Client_Sub.I_typSubscribe.TopicArrayCount := 4;
 	RW_MQTT_Client_Sub.I_typSubscribe.TopicArray[0] := 'RWmqtt/Test/1';
 	RW_MQTT_Client_Sub.I_typSubscribe.TopicArray[1] := 'RWmqtt/Test/3';
 	RW_MQTT_Client_Sub.I_typSubscribe.TopicArray[2] := 'RWmqtt/Test/7';
 	RW_MQTT_Client_Sub.I_typSubscribe.TopicArray[3] := 'RWmqtt/+/8';
-	
+
 	RW_MQTT_Client_Sub.I_typParameter.sClientID := 'X20_RWmqttSub';
-	RW_MQTT_Client_Sub.I_typParameter.sServerUri := ''; 	// here, an ip address is needed !! - the address is determined later
+	RW_MQTT_Client_Sub.I_typParameter.sServerUri := sBrokerDnsName; 	// when using DNS name, please ensure that DNS is configured right
 	RW_MQTT_Client_Sub.I_typParameter.uiPort := uPort;
 	RW_MQTT_Client_Sub.I_typParameter.sUsername := sUser;
 	RW_MQTT_Client_Sub.I_typParameter.sPassword := sPassword;
 
+	// where to store the topic content received
 	RW_MQTT_Client_Sub.I_typSubscribe.ContentBuffer := ADR(sSubBuffer);
 	RW_MQTT_Client_Sub.I_typSubscribe.ContentBufferSize := SIZEOF(sSubBuffer);
 
@@ -58,44 +63,20 @@ PROGRAM _CYCLIC
 	
 	CASE testrunStep OF
 	
-		1: // determine broker IP address first before going on - we need a broker ip address for the mqtt lib to use
+		1: 
 			
-			// be aware that you have to have DNS client enabled and configured!!!
-			HostByName_0(enable := TRUE, pName := ADR(sBrokerDnsName));
-			IF HostByName_0.status <> 16#FFFF THEN
-				IF HostByName_0.status = 0 THEN
-					IF ethInetNtoa(HostByName_0.address, ADR(sBrokerIpAddress)) <> 0 THEN
-						// if status <> 0, address cannot be converted, so it's invalid!
-						sBrokerIpAddress := '';
-						testrunStep := 99;
-					ELSE
-						// address was converted and is available in sBrokerIpAddress
-						RW_MQTT_Client_Sub.I_typParameter.sServerUri := sBrokerIpAddress;
-						RW_MQTT_Client_Pub.I_typParameter.sServerUri := sBrokerIpAddress;
-						
-						// set port
-						RW_MQTT_Client_Pub.I_typParameter.uiPort := uPort;				
-						RW_MQTT_Client_Sub.I_typParameter.uiPort := uPort;
-						
-						// enable functions
-						RW_MQTT_Client_Pub.I_xEnable := TRUE;
+			// enable functions
+			RW_MQTT_Client_Pub.I_xEnable := TRUE;
 
-						RW_MQTT_Client_Sub.I_xEnable := TRUE;
-						RW_MQTT_Client_Sub.I_xSubscribe := TRUE;
+			
+			RW_MQTT_Client_Sub.I_xEnable := TRUE;
+			RW_MQTT_Client_Sub.I_xSubscribe := TRUE;
 						
-						// start auto publish sequence
-						xPublish := TRUE;
+			// start auto publish sequence
+			xPublish := TRUE;
 
-						// proceed with mqtt testing routine
-						testrunStep := 2;
-					END_IF
-				ELSE
-					// error! Cannot resolve IP address
-					testrunStep := 99;
-				END_IF
-				HostByName_0(enable := FALSE);
-			END_IF
-
+			// proceed with mqtt testing routine
+			testrunStep := 2;
 	
 		2: // stay here "forever" - testing routinge for publish / subscribe
 			
