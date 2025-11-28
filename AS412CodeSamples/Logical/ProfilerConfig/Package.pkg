@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="Library" Language="IEC" Description="helper library: read a file - just for use in INIT PROGRAM">FReadInit</Object>
+    <Object Type="Library" Language="IEC" Description="helper library: parse a content for &lt;Name&gt;=&lt;Value&gt; tuples">NamValPars</Object>
+    <Object Type="Library" Language="IEC" Description="configure the AR profiler by code at startup - only for use in INIT PROGRAM">ProfConfig</Object>
+    <Object Type="Program" Language="IEC" Description="demo task - how to use">ProfCfTest</Object>
+    <Object Type="File" Description="configuration file sample">profconf.setup</Object>
+  </Objects>
+</Package>

@@ -10,9 +10,10 @@
     <Object Type="Package" Description="calculation of sunrise / sunset">TBSWAstro</Object>
     <Object Type="Package" Description="Web frontend to ping from plc">WebPing</Object>
     <Object Type="Package" Description="send pushmessages via pushover.net">Pushover</Object>
-    <Object Type="Package" Description="DEBUGGING - log BR module changes in logger">ModuleMonitoring</Object>
+    <Object Type="Package" Description="FOR DEBUGGING - log BR module changes in logger">ModuleMonitoring</Object>
     <Object Type="Package" Description="Raw ASCII printing via network">PCLTCP</Object>
     <Object Type="Package" Description="A simple webservice library to communicate with tasmota devices">TasmotaWebservice</Object>
-    <Object Type="Package">UNDER_CONSTRUCTION_Simple_MQTTV3_QoS0only_Client</Object>
+    <Object Type="Package" Description="FOR DEBUGGING - configure the AR profiler by code at startup with an external configuration file">ProfilerConfig</Object>
+    <Object Type="Package" Description="UNSTABLE - a basic mqtt V3 client implementation - by now, only QoS 0 is possible, no retaining, no TLS security">UNDER_CONSTRUCTION_Simple_MQTTV3_QoS0only_Client</Object>
   </Objects>
 </Package>

@@ -12,6 +12,7 @@
     <Task Name="UsagPCLTCP" Source="PCLTCP.UsagPCLTCP.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsageTasmo" Source="TasmotaWebservice.UsageTasmo.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="RWPahoTest" Source="UNDER_CONSTRUCTION_Simple_MQTTV3_QoS0only_Client.RWPahoTest.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="ProfCfTest" Source="ProfilerConfig.ProfCfTest.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#5" />
   <TaskClass Name="Cyclic#6" />
@@ -64,5 +65,10 @@
     <LibraryObject Name="PCLTCP" Source="PCLTCP.PCLTCP.lby" Memory="UserROM" Language="IEC" Debugging="true" />
     <LibraryObject Name="TasmotAPI" Source="TasmotaWebservice.TasmotAPI.lby" Memory="UserROM" Language="IEC" Debugging="true" />
     <LibraryObject Name="RWPahoMqtt" Source="UNDER_CONSTRUCTION_Simple_MQTTV3_QoS0only_Client.RWPahoMqtt.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
+    <LibraryObject Name="NamValPars" Source="ProfilerConfig.NamValPars.lby" Memory="UserROM" Language="IEC" Debugging="true" />
+    <LibraryObject Name="FReadInit" Source="ProfilerConfig.FReadInit.lby" Memory="UserROM" Language="IEC" Debugging="true" />
+    <LibraryObject Name="ProfConfig" Source="ProfilerConfig.ProfConfig.lby" Memory="UserROM" Language="IEC" Debugging="true" />
+    <LibraryObject Name="FileIO" Source="Libraries.FileIO.lby" Memory="UserROM" Language="binary" Debugging="true" />
+    <LibraryObject Name="brsystem" Source="Libraries.brsystem.lby" Memory="UserROM" Language="binary" Debugging="true" />
   </Libraries>
 </SwConfiguration>

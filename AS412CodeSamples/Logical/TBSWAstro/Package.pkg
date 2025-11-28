@@ -3,7 +3,7 @@
 <Package xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
     <Object Type="Library" Language="ANSIC" Description="thle library contains the algorithm for calculation + IEC interface">TBSWAstro</Object>
-    <Object Type="Program" Language="IEC" Description="DEMO CALL - how to use the function">UsagAstro</Object>
+    <Object Type="Program" Language="IEC" Description="demo task - how to use">UsagAstro</Object>
     <Object Type="File" Description="some more documentation - AI translated">Library TBSWAstro en.pdf</Object>
   </Objects>
 </Package>

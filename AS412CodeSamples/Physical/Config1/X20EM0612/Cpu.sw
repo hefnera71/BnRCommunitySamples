@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?AutomationStudio FileVersion="4.9"?>
 <SwConfiguration CpuAddress="SL1" xmlns="http://br-automation.co.at/AS/SwConfiguration">
-  <TaskClass Name="Cyclic#1" />
+  <TaskClass Name="Cyclic#1">
+    <Task Name="ProfCfTest" Source="ProfilerConfig.ProfCfTest.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+  </TaskClass>
   <TaskClass Name="Cyclic#2">
     <Task Name="UsagAstro" Source="TBSWAstro.UsagAstro.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
@@ -60,9 +62,14 @@
     <LibraryObject Name="ArEventLog" Source="Libraries.ArEventLog.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="sys_lib" Source="Libraries.sys_lib.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="RtModMon" Source="ModuleMonitoring.RtModMon.lby" Memory="UserROM" Language="IEC" Debugging="true" />
-    <LibraryObject Name="asieccon" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="PCLTCP" Source="PCLTCP.PCLTCP.lby" Memory="UserROM" Language="IEC" Debugging="true" />
     <LibraryObject Name="TasmotAPI" Source="TasmotaWebservice.TasmotAPI.lby" Memory="UserROM" Language="IEC" Debugging="true" />
     <LibraryObject Name="RWPahoMqtt" Source="UNDER_CONSTRUCTION_Simple_MQTTV3_QoS0only_Client.RWPahoMqtt.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
+    <LibraryObject Name="ProfConfig" Source="ProfilerConfig.ProfConfig.lby" Memory="UserROM" Language="IEC" Debugging="true" />
+    <LibraryObject Name="FileIO" Source="Libraries.FileIO.lby" Memory="UserROM" Language="binary" Debugging="true" />
+    <LibraryObject Name="brsystem" Source="Libraries.brsystem.lby" Memory="UserROM" Language="binary" Debugging="true" />
+    <LibraryObject Name="FReadInit" Source="ProfilerConfig.FReadInit.lby" Memory="UserROM" Language="IEC" Debugging="true" />
+    <LibraryObject Name="NamValPars" Source="ProfilerConfig.NamValPars.lby" Memory="UserROM" Language="IEC" Debugging="true" />
+    <LibraryObject Name="asieccon" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
   </Libraries>
 </SwConfiguration>

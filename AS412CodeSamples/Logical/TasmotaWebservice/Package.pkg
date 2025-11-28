@@ -2,8 +2,8 @@
 <?AutomationStudio FileVersion="4.9"?>
 <Package xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
-    <Object Type="Library" Language="IEC">TasmotAPI</Object>
-    <Object Type="Program" Language="IEC">UsageTasmo</Object>
+    <Object Type="Library" Language="IEC" Description="library containing the webservice client connection to a tasmota device">TasmotAPI</Object>
+    <Object Type="Program" Language="IEC" Description="demo task - how to use">UsageTasmo</Object>
     <Object Type="File">tasmotapi doc.pdf</Object>
   </Objects>
 </Package>

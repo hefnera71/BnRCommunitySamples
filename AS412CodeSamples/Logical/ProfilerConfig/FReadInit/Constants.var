@@ -1,0 +1,4 @@
+VAR CONSTANT
+	freadinitERROR_NOT_ENOUGH_MEM : UINT := 1;
+	freadinitERROR_NOT_IN_INIT : UINT := 2;
+END_VAR

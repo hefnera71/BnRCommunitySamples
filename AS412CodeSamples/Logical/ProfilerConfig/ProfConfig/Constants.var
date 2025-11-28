@@ -1,0 +1,4 @@
+VAR CONSTANT
+	profconfigERROR_NOTININIT : UINT := 2;
+	profconfigERROR_LIBBUFFER : UINT := 1;
+END_VAR

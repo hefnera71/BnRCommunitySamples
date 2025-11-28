@@ -3,7 +3,7 @@
 <Package xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
     <Object Type="Library" Language="IEC" Description="the library containing the pushover api implementation">TBSWPush</Object>
-    <Object Type="Program" Language="IEC" Description="DEMO CALL - how to use, contains also some explanation comments">UsagePush</Object>
+    <Object Type="Program" Language="IEC" Description="demo task - how to use, contains also some explanation comments">UsagePush</Object>
     <Object Type="File">Info.txt</Object>
   </Objects>
 </Package>

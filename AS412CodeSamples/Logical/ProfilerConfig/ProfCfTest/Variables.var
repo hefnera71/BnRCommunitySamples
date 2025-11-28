@@ -1,0 +1,4 @@
+VAR
+	ProfilerConfig : PROFILER_DEFINITION;
+	ProfilerConfig_INIT_0 : ProfilerConfig_INIT;
+END_VAR

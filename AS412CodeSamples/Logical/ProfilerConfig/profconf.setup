@@ -1,0 +1,23 @@
+# !!! all entries are case sensistive !!!
+# !!! empty lines are NOT ALLOWED and will lead to unexpected results !!!
+#
+# to set the right values, at some parameters the constant values from AsArProf have to be used!
+# right now, all constant values have to be set as decimal number, usage of hex values or constant name is not supported
+# for understanding the names and values used, please see AsArProf help: https://help.br-automation.com/#/en/6/libraries/asarprof/datatypes/constants_asarprof.html
+#
+logGroup=4169007119		# 4169007119 means profLOGGRP_ALL  
+logMode=1			# 1 = profLOGMOD_CONTINUOUS
+archMode=3			# 3 = profARCHMOD_OPT_ERROR + profARCHMOD_OPT_FILE
+memTypeDef=2			# 2 = profMEMTYPE_USERROM
+memTypeDat=65			# 65 = profMEMTYPE_DRAM
+backupLevel=0			# 0 = profBKPLEVEL_EXCEPTION
+bufferSize=1500000		# profiler data module size in byte
+addDataSize=10			# additional byte per USER EVENT entry
+addOsTskCnt=100			# additional buffer for spawned system tasks
+pArchDevice=USER		# file device name for archive to store, when profARCHMOD_OPT_FILE is set
+#
+libFctCnt=4			# number of additional library functions to profile
+libfc=httpService		# name of library function to profile		
+libfc=IcmpPing			# name of library function to profile		
+libfc=HostByName		# name of library function to profile		
+libfc=WebPingInterface		# name of library function to profile
