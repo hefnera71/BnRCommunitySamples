@@ -11,7 +11,7 @@
     <Task Name="UsagePush" Source="Pushover.UsagePush.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsagPCLTCP" Source="PCLTCP.UsagPCLTCP.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsageTasmo" Source="TasmotaWebservice.UsageTasmo.prg" Memory="UserROM" Language="IEC" Debugging="true" />
-    <Task Name="RWPahoTest" Source="_UNDER_CONSTRUCTION.Simple_MQTTV3_QoS0only_Client.RWPahoTest.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="RWExtTest" Source="_EXTENDED_TESTS.RWExtTest.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="ProfCfTest" Source="ProfilerConfig.ProfCfTest.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#5" />

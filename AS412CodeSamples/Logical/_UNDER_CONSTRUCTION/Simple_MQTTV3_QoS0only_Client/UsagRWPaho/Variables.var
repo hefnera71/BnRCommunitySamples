@@ -1,0 +1,8 @@
+VAR
+	RW_MQTT_ClientPub_0 : RW_MQTT_ClientPub;
+	sPublishContent : STRING[80];
+	RW_MQTT_ClientSub_0 : RW_MQTT_ClientSub;
+	bPublish : BOOL;
+	sSubcribeContent : STRING[80];
+	bSubscribe : BOOL;
+END_VAR

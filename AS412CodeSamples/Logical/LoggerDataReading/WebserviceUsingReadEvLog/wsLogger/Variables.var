@@ -1,0 +1,42 @@
+VAR
+	pNext : UDINT;
+	chr : REFERENCE TO USINT;
+	jj : UDINT;
+	httpGetParamUrl_0 : httpGetParamUrl;
+	sParamNameBuffer : STRING[10];
+	sErrorFooter : STRING[80];
+	sErrorContent : STRING[512];
+	errorNumber : DINT;
+	sErrorTrailer : STRING[200];
+	ResponseHeader : httpResponseHeader_t;
+	DatObjInfo_0 : DatObjInfo;
+	Request : STRING[512];
+	Uri : STRING[999];
+	sJsonResponse : ARRAY[0..MAX_INDEX_RESULT] OF STRING[200];
+	tResultData : ARRAY[0..MAX_INDEX_RESULT] OF ReadEvLog_Entry_type;
+	ReadEvLogEntries_0 : ReadEvLogEntries;
+	wsloggerStep : UINT;
+	maxResponseMem : UDINT;
+	lenJsonResponse : UDINT;
+	sTemp : STRING[512];
+	ii : UINT;
+	RequestHeader : httpRequestHeader_t;
+	Webservice : httpService := (0);
+	moIndex : UINT;
+	moStatus : UINT;
+	moPrevIndex : UINT;
+	tMoData : MO_List_typ;
+	sParamGetModNamesBuffer : STRING[10];
+	httpGetParamUrl_1 : httpGetParamUrl;
+END_VAR
+VAR CONSTANT
+	CONST_PARAM_NAME_BUFFER : STRING[10] := 'myLogger';
+	stepIDLE : UINT := 0;
+	stepREADLOG : UINT := 10;
+	stepGETLOGGERMODULES : UINT := 11;
+	stepGENERATERESP : UINT := 20;
+	stepSENDRESP : UINT := 30;
+	stepSENDHTML : UINT := 31;
+	stepSENDERROR : UINT := 32;
+	MAX_INDEX_RESULT : UINT := 999;
+END_VAR

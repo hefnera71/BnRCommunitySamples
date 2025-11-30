@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="Program" Language="IEC" Description="webservice code using ReadEvLog and delivering data as JSON">wsLogger</Object>
+    <Object Type="DataObject" Language="Simple" Description="byte-coded wsLogger webservice frontend">wsLData</Object>
+    <Object Type="File">wsLogger informations.pdf</Object>
+  </Objects>
+</Package>

@@ -1,0 +1,17 @@
+VAR
+	bGenerateLoggerEntries : BOOL;
+	ArEventLogGetIdent_0 : ArEventLogGetIdent;
+	ArEventLogCreate_0 : ArEventLogCreate;
+	myLoggerIdent : ArEventLogIdentType;
+	jj : UINT;
+	sJJ : STRING[10];
+	eventID : DINT;
+	ArEventLogWrite_0 : ArEventLogWrite;
+	originID : ArEventLogRecordIDType;
+	sObjectID : STRING[36];
+	sAddText : STRING[80];
+	tempOriginID : ArEventLogRecordIDType;
+END_VAR
+VAR CONSTANT
+	MAX_INDEX_RESULT : UINT := 999;
+END_VAR

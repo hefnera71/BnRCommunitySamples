@@ -24,7 +24,7 @@ PROGRAM _INIT
 	ProfilerConfig.pLibFunctions := 0;								// extra library profiling
 	ProfilerConfig.pArchDevice := 0;								// File Device, the archive is saved to
 	
-	ProfilerConfig_INIT_0(sDevice := 'USER', sFile := 'profconf.setup', bExecuteIfFileNotFound := TRUE, ProfilerConfigStruct := ProfilerConfig);
+	ProfilerConfig_INIT_0(sDevice := 'USER', sFile := 'profconf.setup', bExecuteIfFileNotFound := FALSE, ProfilerConfigStruct := ProfilerConfig);
 	
 	
 	

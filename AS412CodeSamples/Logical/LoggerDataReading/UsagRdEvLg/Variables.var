@@ -1,0 +1,7 @@
+VAR
+	bRead : BOOL;
+	uReadStep : UINT;
+	ReadEvLogEntries_0 : ReadEvLogEntries;
+	tResultData : ARRAY[0..99] OF ReadEvLog_Entry_type;
+	ReadEvLogEventDescription_0 : ReadEvLogEventDescription;
+END_VAR
