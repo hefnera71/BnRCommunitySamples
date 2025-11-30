@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="Program" Language="IEC" Description="NOT NEEDED FOR DEMO - some runtime measurement testing of SHA256 performance / needed time">RTTestS256</Object>
+    <Object Type="Program" Language="IEC" Description="NOT NEEDED FOR DEMO - some runtime measurement testing of XTEA performance / needed time">RTTestXTea</Object>
+  </Objects>
+</Package>

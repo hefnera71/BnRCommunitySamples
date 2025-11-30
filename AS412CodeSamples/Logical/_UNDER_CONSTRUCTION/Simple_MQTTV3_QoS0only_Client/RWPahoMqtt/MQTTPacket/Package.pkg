@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="File">MQTTConnect.h</Object>
+    <Object Type="File">MQTTConnectClient.c</Object>
+    <Object Type="File">MQTTConnectServer.c</Object>
+    <Object Type="File">MQTTDeserializePublish.c</Object>
+    <Object Type="File">MQTTFormat.c</Object>
+    <Object Type="File">MQTTFormat.h</Object>
+    <Object Type="File">MQTTPacket.c</Object>
+    <Object Type="File">MQTTPacket.h</Object>
+    <Object Type="File">MQTTPublish.h</Object>
+    <Object Type="File">MQTTSerializePublish.c</Object>
+    <Object Type="File">MQTTSubscribe.h</Object>
+    <Object Type="File">MQTTSubscribeClient.c</Object>
+    <Object Type="File">MQTTSubscribeServer.c</Object>
+    <Object Type="File">MQTTUnsubscribe.h</Object>
+    <Object Type="File">MQTTUnsubscribeClient.c</Object>
+    <Object Type="File">MQTTUnsubscribeServer.c</Object>
+    <Object Type="File">edl-v10.txt</Object>
+    <Object Type="File">epl-v10.txt</Object>
+  </Objects>
+</Package>

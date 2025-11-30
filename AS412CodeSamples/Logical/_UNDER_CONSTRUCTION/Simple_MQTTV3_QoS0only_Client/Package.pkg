@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="Library" Language="ANSIC" Description="implementation based on PahoMqtt packet implementation + native AsTcp for communication (noSSL, only QoS 0 + more restrictions)">RWPahoMqtt</Object>
+    <Object Type="Program" Language="IEC" Description="demo + test task ">RWPahoTest</Object>
+  </Objects>
+</Package>

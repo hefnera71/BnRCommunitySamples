@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="Package" Description="UNSTABLE - a basic mqtt V3 client implementation - by now, only QoS 0 is possible, no retaining, no TLS security">Simple_MQTTV3_QoS0only_Client</Object>
+  </Objects>
+</Package>

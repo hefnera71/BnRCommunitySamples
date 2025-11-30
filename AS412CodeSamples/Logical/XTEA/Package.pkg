@@ -4,6 +4,5 @@
   <Objects>
     <Object Type="Library" Language="ANSIC" Description="the library containing XTEA block cipher algorithm">xtea</Object>
     <Object Type="Program" Language="IEC" Description="demo task - how to use">UsageXTea</Object>
-    <Object Type="Program" Language="IEC" Description="NOT NEEDED FOR DEMO - some runtime measurement testing of XTEA performance / needed time">RTTestXTea</Object>
   </Objects>
 </Package>

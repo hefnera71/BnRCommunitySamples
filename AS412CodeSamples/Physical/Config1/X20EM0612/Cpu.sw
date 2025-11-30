@@ -13,16 +13,16 @@
     <Task Name="UsagePush" Source="Pushover.UsagePush.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsagPCLTCP" Source="PCLTCP.UsagPCLTCP.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsageTasmo" Source="TasmotaWebservice.UsageTasmo.prg" Memory="UserROM" Language="IEC" Debugging="true" />
-    <Task Name="RWPahoTest" Source="UNDER_CONSTRUCTION_Simple_MQTTV3_QoS0only_Client.RWPahoTest.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="RWPahoTest" Source="_UNDER_CONSTRUCTION.Simple_MQTTV3_QoS0only_Client.RWPahoTest.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#5" />
   <TaskClass Name="Cyclic#6" />
   <TaskClass Name="Cyclic#7" />
   <TaskClass Name="Cyclic#8">
     <Task Name="UsageXTea" Source="XTEA.UsageXTea.prg" Memory="UserROM" Language="IEC" Debugging="true" />
-    <Task Name="RTTestXTea" Source="XTEA.RTTestXTea.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="RTTestXTea" Source="_EXTENDED_TESTS.RTTestXTea.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsagSHA256" Source="SHA256.UsagSHA256.prg" Memory="UserROM" Language="IEC" Debugging="true" />
-    <Task Name="RTTestS256" Source="SHA256.RTTestS256.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="RTTestS256" Source="_EXTENDED_TESTS.RTTestS256.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsagModMon" Source="ModuleMonitoring.UsagModMon.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <Binaries>
@@ -64,7 +64,7 @@
     <LibraryObject Name="RtModMon" Source="ModuleMonitoring.RtModMon.lby" Memory="UserROM" Language="IEC" Debugging="true" />
     <LibraryObject Name="PCLTCP" Source="PCLTCP.PCLTCP.lby" Memory="UserROM" Language="IEC" Debugging="true" />
     <LibraryObject Name="TasmotAPI" Source="TasmotaWebservice.TasmotAPI.lby" Memory="UserROM" Language="IEC" Debugging="true" />
-    <LibraryObject Name="RWPahoMqtt" Source="UNDER_CONSTRUCTION_Simple_MQTTV3_QoS0only_Client.RWPahoMqtt.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
+    <LibraryObject Name="RWPahoMqtt" Source="_UNDER_CONSTRUCTION.Simple_MQTTV3_QoS0only_Client.RWPahoMqtt.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
     <LibraryObject Name="ProfConfig" Source="ProfilerConfig.ProfConfig.lby" Memory="UserROM" Language="IEC" Debugging="true" />
     <LibraryObject Name="FileIO" Source="Libraries.FileIO.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="brsystem" Source="Libraries.brsystem.lby" Memory="UserROM" Language="binary" Debugging="true" />

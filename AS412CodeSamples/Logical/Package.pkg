@@ -14,6 +14,7 @@
     <Object Type="Package" Description="Raw ASCII printing via network">PCLTCP</Object>
     <Object Type="Package" Description="A simple webservice library to communicate with tasmota devices">TasmotaWebservice</Object>
     <Object Type="Package" Description="FOR DEBUGGING - configure the AR profiler by code at startup with an external configuration file">ProfilerConfig</Object>
-    <Object Type="Package" Description="UNSTABLE - a basic mqtt V3 client implementation - by now, only QoS 0 is possible, no retaining, no TLS security">UNDER_CONSTRUCTION_Simple_MQTTV3_QoS0only_Client</Object>
+    <Object Type="Package" Description="Programs and packages not finished yet">_UNDER_CONSTRUCTION</Object>
+    <Object Type="Package" Description="Programs for extended function testing of code contained in this project">_EXTENDED_TESTS</Object>
   </Objects>
 </Package>
