@@ -5,4 +5,5 @@ VAR
 	bPublish : BOOL;
 	sSubcribeContent : STRING[80];
 	bSubscribe : BOOL;
+	uSubscriptionReceived : UDINT;
 END_VAR

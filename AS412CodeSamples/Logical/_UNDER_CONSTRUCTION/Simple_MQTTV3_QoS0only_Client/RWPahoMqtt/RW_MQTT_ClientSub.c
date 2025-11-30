@@ -1,3 +1,20 @@
+/*
+
+	(**************************************************************************************************************
+	PLEASE NOTE - the library RWPahoMqtt is just a restricted portation of parts of PahoMQTT C embedded code
+	only the packet formatting functions are used out of PahoMQTT, the communication is based on AsTCP
+	Right now, the implementation just supports
+		MQTT V3
+		unencrypted communication
+		only QualityOfService Zero (QoS 0), and therefore no packetID (as if packetID is just used with QoS1,2
+		no retain, lastWill, testament, a.s.o.
+	
+	--> Therefor, it should be used only for non-critical data, where the broker exists inside the own local network
+	
+	!!! MANY THANKS to STEFFEN H. providing the first version of the code !!!
+	***************************************************************************************************************)
+
+*/
 
 #include <bur/plctypes.h>
 #ifdef __cplusplus

@@ -1,13 +1,5 @@
 
 PROGRAM _INIT
-	// ------------------------------------------------------------------------------------------------------------------
-	// Configuration of profiler
-	// put this code into the _INIT program of the first task inside the first task class used
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// !!!! ONLY FOR USE INSIDE _INIT PROGRAM !!!! because of REPEAT...UNTIL
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// needs AsArProf, ArEventLog, SYS_lib, BRsystem, AsBrStr, CfgFParser, FReadInit
-
 
 	// SET SOME PRESETS - if the profiler confuguration file exists, they will be overwritten by file entries!
 	
@@ -25,8 +17,6 @@ PROGRAM _INIT
 	ProfilerConfig.pArchDevice := 0;								// File Device, the archive is saved to
 	
 	ProfilerConfig_INIT_0(sDevice := 'USER', sFile := 'profconf.setup', bExecuteIfFileNotFound := FALSE, ProfilerConfigStruct := ProfilerConfig);
-	
-	
 	
 	
 END_PROGRAM

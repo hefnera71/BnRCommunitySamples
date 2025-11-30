@@ -1,6 +1,19 @@
 
 PROGRAM _INIT
 
+	(**************************************************************************************************************
+	PLEASE NOTE - the library RWPahoMqtt is just a restricted portation of parts of PahoMQTT C embedded code
+	only the packet formatting functions are used out of PahoMQTT, the communication is based on AsTCP
+	Right now, the implementation just supports
+		MQTT V3
+		unencrypted communication
+		only QualityOfService Zero (QoS 0), and therefore no packetID (as if packetID is just used with QoS1,2
+		no retain, lastWill, testament, a.s.o.
+	
+	--> Therefor, it should be used only for non-critical data, where the broker exists inside the own local network
+	
+	!!! MANY THANKS to STEFFEN H. providing the first version of the code !!!
+	***************************************************************************************************************)
 	
 	//
 	// setting up the publishing instance
@@ -27,11 +40,15 @@ PROGRAM _INIT
 	RW_MQTT_ClientSub_0.I_typSubscribe.ContentBufferSize := SIZEOF(sSubcribeContent); // the maximum storage size
 	RW_MQTT_ClientSub_0.I_xEnable := TRUE; // enable the fb -> the client will try to connect to the broker
 	
+	uSubscriptionReceived := 0;
+	
 END_PROGRAM
 
 PROGRAM _CYCLIC
-	(* Insert code here *)
 
+	// simple demo code for usage see below: use bPublish and bSubscribe beow to activate subscribing and publishing
+	
+	
 	// publishing
 	// are we connected?
  	IF RW_MQTT_ClientPub_0.Q_xConnected = TRUE THEN
@@ -55,6 +72,7 @@ PROGRAM _CYCLIC
 	// subscribing
 	// are we connected?
 	IF RW_MQTT_ClientSub_0.Q_xConnected = TRUE THEN
+		// want to start the subscibing?
 		IF bSubscribe = TRUE THEN
 			RW_MQTT_ClientSub_0.I_xSubscribe := TRUE; // enable the subscription -> the fb 
 			// please note - the subscription keeps active until you unsubscribe!
@@ -66,8 +84,12 @@ PROGRAM _CYCLIC
 	// call the fb
 	RW_MQTT_ClientSub_0();
 	
-	// if you've received somethin, you will see
-	// RW_MQTT_ClientSub_0.I_typSubscribe.ReceivedTopic
+	// to check if new subscription data arrived, check RW_MQTT_ClientSub_0.I_typSubscribe.ReceiveCount for changes
+	IF uSubscriptionReceived <> RW_MQTT_ClientSub_0.I_typSubscribe.ReceiveCount THEN
+		uSubscriptionReceived := RW_MQTT_ClientSub_0.I_typSubscribe.ReceiveCount;
+		// if you've received something, you will see the topic received under RW_MQTT_ClientSub_0.I_typSubscribe.ReceivedTopic
+		// the content is copied to your configured buffer
+	END_IF		
 	
 	
 END_PROGRAM

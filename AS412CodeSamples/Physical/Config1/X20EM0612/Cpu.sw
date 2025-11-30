@@ -3,6 +3,7 @@
 <SwConfiguration CpuAddress="SL1" xmlns="http://br-automation.co.at/AS/SwConfiguration">
   <TaskClass Name="Cyclic#1">
     <Task Name="ProfCfTest" Source="ProfilerConfig.ProfCfTest.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="DatForEvLo" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#2">
     <Task Name="UsagAstro" Source="TBSWAstro.UsagAstro.prg" Memory="UserROM" Language="IEC" Debugging="true" />
@@ -23,11 +24,10 @@
     <Task Name="UsagSHA256" Source="SHA256.UsagSHA256.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsagModMon" Source="ModuleMonitoring.UsagModMon.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsagRdEvLg" Source="LoggerDataReading.UsagRdEvLg.prg" Memory="UserROM" Language="IEC" Debugging="true" />
-    <Task Name="DatForEvLo" Source="" Memory="UserROM" Language="Binary" />
-    <Task Name="wsLogger" Source="" Memory="UserROM" Language="Binary" />
+    <Task Name="wsLogger" Source="LoggerDataReading.WebserviceUsingReadEvLog.wsLogger.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <DataObjects>
-    <DataObject Name="wsLData" Source="" Memory="UserROM" Language="Binary" />
+    <DataObject Name="wsLData" Source="LoggerDataReading.WebserviceUsingReadEvLog.wsLData.dob" Memory="UserROM" Language="Simple" />
   </DataObjects>
   <Binaries>
     <BinaryObject Name="FWRules" Source="" Memory="UserROM" Language="Binary" />

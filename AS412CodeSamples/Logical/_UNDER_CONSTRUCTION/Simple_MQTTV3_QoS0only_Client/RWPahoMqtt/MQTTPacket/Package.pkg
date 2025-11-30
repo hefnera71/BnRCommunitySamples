@@ -20,5 +20,6 @@
     <Object Type="File">MQTTUnsubscribeServer.c</Object>
     <Object Type="File">edl-v10.txt</Object>
     <Object Type="File">epl-v10.txt</Object>
+    <Object Type="File">README.txt</Object>
   </Objects>
 </Package>
