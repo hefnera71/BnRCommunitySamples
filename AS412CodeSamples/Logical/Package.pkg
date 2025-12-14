@@ -16,6 +16,5 @@
     <Object Type="Package" Description="FOR DEBUGGING - configure the AR profiler by code at startup with an external configuration file">ProfilerConfig</Object>
     <Object Type="Package" Description="read entries from loggers to a own variable structure, including some filter possiblities">LoggerDataReading</Object>
     <Object Type="Package" Description="Programs and packages not finished yet">_UNDER_CONSTRUCTION</Object>
-    <Object Type="Package" Description="Programs needed for extended function testing of code contained in this project">_EXTENDED_TESTS</Object>
   </Objects>
 </Package>

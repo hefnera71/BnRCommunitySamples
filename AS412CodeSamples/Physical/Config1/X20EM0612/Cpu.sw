@@ -25,6 +25,8 @@
     <Task Name="UsagModMon" Source="ModuleMonitoring.UsagModMon.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsagRdEvLg" Source="LoggerDataReading.UsagRdEvLg.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="wsLogger" Source="LoggerDataReading.WebserviceUsingReadEvLog.wsLogger.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="RTTestXTea" Source="" Memory="UserROM" Language="Binary" />
+    <Task Name="RTTestS256" Source="" Memory="UserROM" Language="Binary" />
   </TaskClass>
   <DataObjects>
     <DataObject Name="wsLData" Source="LoggerDataReading.WebserviceUsingReadEvLog.wsLData.dob" Memory="UserROM" Language="Simple" />
