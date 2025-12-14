@@ -6,7 +6,7 @@ By now, the repository "BnRCommunitySamples" contains a B&R Automation Studio 4.
 
 ## Getting Started
 
-* The Automation Studio project itself serves only for code administration and has no overarching functionality
+* The Automation Studio project itself serves just for code administration and has no overarching functionality
 * The Logical View of the "AS412CodeSamples" project is organized in packages
   * each package contains the library / function implementation and/or a sample task + some additional information / documentation (if available)
   * each package should therefore be usable independently of the "AS412CodeSamples" project (B&R standard libraries used by the libraries / tasks have to be added in your own project).
