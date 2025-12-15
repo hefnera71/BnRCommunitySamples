@@ -1,19 +1,14 @@
-(********************************************************************
- * COPYRIGHT --  
- ********************************************************************
- * Library: PCLTCP
- * File: PCLSetPageMargins.st
- * Author: hefnera
- * Created: September 30, 2011
- ********************************************************************
- * Implementation of library PCLTCP
- ********************************************************************) 
+(*
+// Copyright (c) 2025 Alexander Hefner
+// 
+// Licensed under the MIT License - see LICENSE.txt file for details
+*)
 
 (* Setup margins of page *)
 FUNCTION PCLSetPageMargins
 
 	IF ident > 0 THEN
- 		dynInternal ACCESS ident;
+		dynInternal ACCESS ident;
 		IF dynInternal.STRUCT_START = STRUCT_IDENT AND dynInternal.STRUCT_END = STRUCT_IDENT THEN
 			IF dynInternal.state = 0 THEN
 				(* if parameter is < 0, do not change *)

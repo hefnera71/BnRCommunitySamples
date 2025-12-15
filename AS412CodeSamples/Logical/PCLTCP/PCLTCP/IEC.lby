@@ -19,6 +19,7 @@
     <File>PCLSetCursorRel.st</File>
     <File>PCLSetPageMargins.st</File>
     <File>PCLSetFontSize.st</File>
+    <File>LICENSE.txt</File>
   </Files>
   <Dependencies>
     <Dependency ObjectName="AsBrStr" />

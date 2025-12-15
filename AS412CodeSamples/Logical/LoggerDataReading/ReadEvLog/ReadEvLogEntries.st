@@ -1,5 +1,10 @@
+(*
+// Copyright (c) 2025 Alexander Hefner
+// 
+// Licensed under the MIT License - see LICENSE.txt file for details
+*)
 
-(* TODO: Add your comment here *)
+(* works SYNCRONOUS - read a number of logger entries into a data structure *)
 FUNCTION_BLOCK ReadEvLogEntries
 
 	IF EDGEPOS(execute) = TRUE THEN

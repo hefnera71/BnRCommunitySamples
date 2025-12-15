@@ -6,6 +6,7 @@
     <File Description="Exported constants">Constants.var</File>
     <File Description="Exported functions and function blocks">NamValPars.fun</File>
     <File>ParseForNameValueTuples.st</File>
+    <File>LICENSE.txt</File>
   </Files>
   <Dependencies>
     <Dependency ObjectName="AsBrStr" />

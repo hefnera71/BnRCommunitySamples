@@ -1,5 +1,10 @@
+(*
+// Copyright (c) 2025 Alexander Hefner
+// 
+// Licensed under the MIT License - see LICENSE.txt file for details
+*)
 
-(* TODO: Add your comment here *)
+(* provide the pushover web client service *)
 FUNCTION_BLOCK PushoverSendMessage
 
 	internal.interface.send := send;

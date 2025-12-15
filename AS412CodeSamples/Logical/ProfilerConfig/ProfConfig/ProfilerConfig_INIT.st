@@ -1,3 +1,9 @@
+(*
+// Copyright (c) 2025 Alexander Hefner
+// 
+// Licensed under the MIT License - see LICENSE.txt file for details
+*)
+
 FUNCTION_BLOCK ProfilerConfig_INIT
 
 	status := 16#FFFF;

@@ -1,13 +1,8 @@
-(********************************************************************
- * COPYRIGHT --  
- ********************************************************************
- * Library: PCLTCP
- * File: PclTcpINIT.st
- * Author: hefnera
- * Created: September 20, 2011
- ********************************************************************
- * Implementation of library PCLTCP
- ********************************************************************) 
+(*
+// Copyright (c) 2025 Alexander Hefner
+// 
+// Licensed under the MIT License - see LICENSE.txt file for details
+*)
 
 (* ONLY FOR USE IN INIT PROGRAM - Initialize function *)
 FUNCTION_BLOCK PCLTcpInit

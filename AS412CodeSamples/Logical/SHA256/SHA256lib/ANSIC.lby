@@ -8,5 +8,6 @@
     <File Description="internal">sha256.h</File>
     <File Description="internal">sha256.c</File>
     <File Description="function to call">GetSha256Hash.c</File>
+    <File>LICENSE.txt</File>
   </Files>
 </Library>

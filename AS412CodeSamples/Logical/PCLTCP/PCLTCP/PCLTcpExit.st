@@ -1,13 +1,8 @@
-(********************************************************************
- * COPYRIGHT --  
- ********************************************************************
- * Library: PCLTCP
- * File: PCLTcpPrint.st
- * Author: hefnera
- * Created: September 20, 2011
- ********************************************************************
- * Implementation of library PCLTCP
- ********************************************************************) 
+(*
+// Copyright (c) 2025 Alexander Hefner
+// 
+// Licensed under the MIT License - see LICENSE.txt file for details
+*)
 
 (* ONY FOR USE IN EXIT PROGRAM - Deinitialize function *)
 FUNCTION_BLOCK PCLTcpExit

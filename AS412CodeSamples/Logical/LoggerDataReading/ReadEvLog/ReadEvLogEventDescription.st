@@ -1,3 +1,8 @@
+(*
+// Copyright (c) 2025 Alexander Hefner
+// 
+// Licensed under the MIT License - see LICENSE.txt file for details
+*)
 
 (* Works ASYNCHRONOUS, can be used as extension for ReadEvLogEntries to get the event id description texts *)
 FUNCTION_BLOCK ReadEvLogEventDescription

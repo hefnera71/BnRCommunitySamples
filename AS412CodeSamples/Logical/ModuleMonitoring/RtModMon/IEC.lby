@@ -7,6 +7,7 @@
     <File Description="Exported functions and function blocks">RtModMon.fun</File>
     <File>ModuleMonitoring.st</File>
     <File>ModMonActions.st</File>
+    <File>LICENSE.txt</File>
   </Files>
   <Dependencies>
     <Dependency ObjectName="astime" />

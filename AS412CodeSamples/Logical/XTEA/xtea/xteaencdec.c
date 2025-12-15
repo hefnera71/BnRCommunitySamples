@@ -1,4 +1,9 @@
 
+// Copyright (c) 2025 Alexander Hefner
+// 
+// Licensed under the MIT License - see LICENSE.txt file for details
+
+
 #include <bur/plctypes.h>
 #include <asbrstr.h>
 #ifdef __cplusplus

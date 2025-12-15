@@ -1,13 +1,8 @@
-(********************************************************************
- * COPYRIGHT --  
- ********************************************************************
- * Library: PCLTCP
- * File: PCLAddCRLF.st
- * Author: hefnera
- * Created: September 30, 2011
- ********************************************************************
- * Implementation of library PCLTCP
- ********************************************************************) 
+(*
+// Copyright (c) 2025 Alexander Hefner
+// 
+// Licensed under the MIT License - see LICENSE.txt file for details
+*)
 
 (* Adds a PCL conform CR LF via cursor positioning commands *)
 FUNCTION PCLAddCRLF

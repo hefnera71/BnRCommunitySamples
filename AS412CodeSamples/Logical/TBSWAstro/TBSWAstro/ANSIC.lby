@@ -8,6 +8,7 @@
     <File Description="Exported functions and function blocks">TBSWAstro.fun</File>
     <File>sunriset.h</File>
     <File>sunriset.c</File>
+    <File>LICENSE.txt</File>
   </Files>
   <Dependencies>
     <Dependency ObjectName="astime" />

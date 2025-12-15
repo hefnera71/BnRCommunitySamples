@@ -9,6 +9,7 @@
     <Object Type="File">RW_MQTT_ClientSub.c</Object>
     <Object Type="File">heapsize.cpp</Object>
     <Object Type="Package">MQTTPacket</Object>
+    <Object Type="File">LICENSE.txt</Object>
   </Objects>
   <Dependencies>
     <Dependency ObjectName="AsTCP" />

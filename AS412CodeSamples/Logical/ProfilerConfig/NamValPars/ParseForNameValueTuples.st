@@ -1,5 +1,9 @@
+(*
+// Copyright (c) 2025 Alexander Hefner
+// 
+// Licensed under the MIT License - see LICENSE.txt file for details
+*)
 
-(* TODO: Add your comment here *)
 FUNCTION_BLOCK ParseForNameValueTuples
 	
 	status := 16#FFFF;

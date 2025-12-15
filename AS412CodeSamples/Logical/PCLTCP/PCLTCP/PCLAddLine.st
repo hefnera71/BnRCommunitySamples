@@ -1,13 +1,8 @@
-(********************************************************************
- * COPYRIGHT --  
- ********************************************************************
- * Library: PCLTCP
- * File: PCLAddLine.st
- * Author: hefnera
- * Created: September 23, 2011
- ********************************************************************
- * Implementation of library PCLTCP
- ********************************************************************) 
+(*
+// Copyright (c) 2025 Alexander Hefner
+// 
+// Licensed under the MIT License - see LICENSE.txt file for details
+*)
 
 (* add a line = string including CR+LF to virtual page *)
 FUNCTION PCLAddLine

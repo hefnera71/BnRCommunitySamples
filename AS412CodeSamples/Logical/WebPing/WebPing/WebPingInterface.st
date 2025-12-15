@@ -1,5 +1,11 @@
 
-(* TODO: Add your comment here *)
+(*
+// Copyright (c) 2025 Alexander Hefner
+// 
+// Licensed under the MIT License - see LICENSE.txt file for details
+*)
+
+(* Provide the ping webservice *)
 FUNCTION_BLOCK WebPingInterface
 	
 	IF EDGENEG(enable) THEN

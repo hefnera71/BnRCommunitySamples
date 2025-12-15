@@ -6,5 +6,6 @@
     <File Description="Exported constants">Constants.var</File>
     <File Description="Exported functions and function blocks">TasmotAPI.fun</File>
     <File>tasmotapiSendRequest.st</File>
+    <File>LICENSE.txt</File>
   </Files>
 </Library>

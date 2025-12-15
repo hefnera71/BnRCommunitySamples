@@ -6,6 +6,7 @@
     <File Description="Exported constants">Constants.var</File>
     <File Description="Exported functions and function blocks">WebPing.fun</File>
     <File>WebPingInterface.st</File>
+    <File>LICENSE.txt</File>
   </Files>
   <Dependencies>
     <Dependency ObjectName="AsBrStr" />

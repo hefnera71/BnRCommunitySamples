@@ -8,6 +8,7 @@
     <File Description="Exported constants">InternalConstants.var</File>
     <File Description="Exported functions and function blocks">TBSWPush.fun</File>
     <File>PushoverSendMessage.st</File>
+    <File>LICENSE.txt</File>
   </Files>
   <Dependencies>
     <Dependency ObjectName="Operator" Target="SG4" />

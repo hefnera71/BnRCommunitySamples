@@ -1,19 +1,14 @@
-(********************************************************************
- * COPYRIGHT --  
- ********************************************************************
- * Library: PCLTCP
- * File: PCLAddString.st
- * Author: hefnera
- * Created: September 20, 2011
- ********************************************************************
- * Implementation of library PCLTCP
- ********************************************************************) 
+(*
+// Copyright (c) 2025 Alexander Hefner
+// 
+// Licensed under the MIT License - see LICENSE.txt file for details
+*)
 
 (* add a string to virtual page *)
 FUNCTION PCLAddString
 
 	IF ident > 0 THEN
- 		dynInternal ACCESS ident;
+		dynInternal ACCESS ident;
 		IF dynInternal.STRUCT_START = STRUCT_IDENT AND dynInternal.STRUCT_END = STRUCT_IDENT THEN
 			IF dynInternal.state = 0 THEN
 				szLen := brsstrlen(pString);

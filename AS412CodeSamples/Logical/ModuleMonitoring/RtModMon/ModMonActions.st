@@ -1,3 +1,9 @@
+(*
+// Copyright (c) 2025 Alexander Hefner
+// 
+// Licensed under the MIT License - see LICENSE.txt file for details
+*)
+
 ACTION ActionGetStrModData: 
 	brsstrcat(ADR(sLogString), ADR(' ver:'));
 	brsstrcat(ADR(sLogString), ADR(refModuleChangeRuntimeInfo.MOInfo_info.sVersion));

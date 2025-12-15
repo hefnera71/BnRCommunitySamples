@@ -1,19 +1,14 @@
-(********************************************************************
- * COPYRIGHT --  
- ********************************************************************
- * Library: PCLTCP
- * File: PCLAddChar.st
- * Author: hefnera
- * Created: September 29, 2011
- ********************************************************************
- * Implementation of library PCLTCP
- ********************************************************************) 
+(*
+// Copyright (c) 2025 Alexander Hefner
+// 
+// Licensed under the MIT License - see LICENSE.txt file for details
+*)
 
 (* add a single character to virtual page *)
 FUNCTION PCLAddChar
 
 	IF ident > 0 THEN
- 		dynInternal ACCESS ident;
+		dynInternal ACCESS ident;
 		IF dynInternal.STRUCT_START = STRUCT_IDENT AND dynInternal.STRUCT_END = STRUCT_IDENT THEN
 			IF dynInternal.state = 0 THEN
 				IF dynInternal.lenMem > 2 THEN

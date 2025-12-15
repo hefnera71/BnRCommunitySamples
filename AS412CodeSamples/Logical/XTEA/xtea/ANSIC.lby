@@ -6,6 +6,7 @@
     <File Description="Exported constants">Constants.var</File>
     <File Description="Exported functions and function blocks">xtea.fun</File>
     <File Description="block cipher encryption / decryption algorithm">xteaencdec.c</File>
+    <File>LICENSE.txt</File>
   </Files>
   <Dependencies>
     <Dependency ObjectName="AsBrStr" />
