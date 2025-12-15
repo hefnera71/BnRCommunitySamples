@@ -4,13 +4,13 @@ This repository is intended to make some of my functions / samples already publi
 
 To quote Forrest Gump: "Life is like a box of chocolates - you never know what you're gonna get." :-)
 
-By now, the repository "BnRCommunitySamples" contains a B&R Automation Studio 4.12 project named "AS412CodeSamples", which bundles some **assorted libraries and sample tasks**.
+By now, this repository "BnRCommunitySamples" contains a B&R Automation Studio 4.12 project named "AS412CodeSamples", which bundles some **assorted libraries and sample tasks**.
 All content was developed for my private projects or educational reasons.
 
 ## Getting Started
 
 * The Automation Studio project itself serves just for code administration and has no overarching functionality
-* The Logical View of the "AS412CodeSamples" project is organized in packages
+* The Logical View is organized in packages
   * each package contains the library / function implementation and/or a sample task + some additional information / documentation (if available)
   * each package should therefore be usable independently of the "AS412CodeSamples" project (B&R standard libraries used by the libraries / tasks have to be added in your own project).
 
