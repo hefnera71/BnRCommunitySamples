@@ -17,19 +17,19 @@ All content was developed for my private projects or educational reasons.
 ## Description
 
 Here's a very short description abount the content of each package:
-* "XTEA" - a lean symmetric block cipher encryption / decryption (how to use: see code comments in [sample task](AS412CodeSamples/Logical/XTEA/UsageXTea/Main.st) )
-* "SHA256" - hash algorithm  (how to use: see [PDF](AS412CodeSamples/Logical/SHA256/Sha256lib%20en.pdf) ) 
-* "TBSWAstro" - calculation of sunrise / sunset at a specific date (how to use: see [PDF](AS412CodeSamples/Logical/TBSWAstro/Library%20TBSWAstro%20en.pdf) ) 
-* "WebPing" - Web frontend to ping from plc (how to use: see [Community post](https://community.br-automation.com/t/ping-from-a-plc-webservice-frontend/1063) )
-* "Pushover" - send pushmessages via pushover.net (how to use: see code comments in sample task and [Community post](https://community.br-automation.com/t/push-notifications/8874/6?u=alexander.hefner) )
-*  "ModuleMonitoring" - log BR module changes in logger (how to use: see [PDF](AS412CodeSamples/Logical/ModuleMonitoring/RtModMon.pdf) )
-*  "PCLTCP" - Raw ASCII printing via network (how to use: see [PDF](AS412CodeSamples/Logical/PCLTCP/PCLTCP.pdf) and [Community post](https://community.br-automation.com/t/pcltcp-print-ascii-texts-directly-on-a-network-printer-that-supports-raw-printing-by-pcl-commands/9058) )
-*  "TasmotaWebservice" - A simple webservice library to communicate with [Tasmota devices](https://tasmota.github.io/docs/) (how to use: see code comments in [sample task](AS412CodeSamples/Logical/TasmotaWebservice/UsageTasmo/Main.st) and [PDF](AS412CodeSamples/Logical/TasmotaWebservice/tasmotapi%20doc.pdf) )
-*  "ProfilerConfig" - configure the AR profiler by code at startup using an external configuration file (how to use: see [sample configuration file](AS412CodeSamples/Logical/ProfilerConfig/profconf.setup) and [AS Library help](https://help.br-automation.com/#/en/6/libraries/asarprof/datatypes/constants_asarprof.html) )
-*  "LoggerDataReading" - read entries from loggers to a own variable structure, including some filter possiblities (how to use: see code comments in [sample task](AS412CodeSamples/Logical/LoggerDataReading/UsagRdEvLg/Main.st) )
-* "LoggerDataReading" --> "WebserviceUsingReadEvLog" - a webservice that uses ReadEvLog library to provide a webbased access for the logger modules (how to use: see [PDF](AS412CodeSamples/Logical/LoggerDataReading/WebserviceUsingReadEvLog/wsLogger%20informations.pdf) )
+* **"XTEA"** - a lean symmetric block cipher encryption / decryption (how to use: see code comments in [sample task](AS412CodeSamples/Logical/XTEA/UsageXTea/Main.st) )
+* **"SHA256"** - hash algorithm  (how to use: see [PDF](AS412CodeSamples/Logical/SHA256/Sha256lib%20en.pdf) ) 
+* **"TBSWAstro"** - calculation of sunrise / sunset at a specific date (how to use: see [PDF](AS412CodeSamples/Logical/TBSWAstro/Library%20TBSWAstro%20en.pdf) ) 
+* **"WebPing"** - Web frontend to ping from plc (how to use: see [Community post](https://community.br-automation.com/t/ping-from-a-plc-webservice-frontend/1063) )
+* **"Pushover"** - send pushmessages via pushover.net (how to use: see code comments in sample task and [Community post](https://community.br-automation.com/t/push-notifications/8874/6?u=alexander.hefner) )
+*  **"ModuleMonitoring"** - log BR module changes in logger (how to use: see [PDF](AS412CodeSamples/Logical/ModuleMonitoring/RtModMon.pdf) )
+*  **"PCLTCP"** - Raw ASCII printing via network (how to use: see [PDF](AS412CodeSamples/Logical/PCLTCP/PCLTCP.pdf) and [Community post](https://community.br-automation.com/t/pcltcp-print-ascii-texts-directly-on-a-network-printer-that-supports-raw-printing-by-pcl-commands/9058) )
+*  **"TasmotaWebservice"** - A simple webservice library to communicate with [Tasmota devices](https://tasmota.github.io/docs/) (how to use: see code comments in [sample task](AS412CodeSamples/Logical/TasmotaWebservice/UsageTasmo/Main.st) and [PDF](AS412CodeSamples/Logical/TasmotaWebservice/tasmotapi%20doc.pdf) )
+*  **"ProfilerConfig"** - configure the AR profiler by code at startup using an external configuration file (how to use: see [sample configuration file](AS412CodeSamples/Logical/ProfilerConfig/profconf.setup) and [AS Library help](https://help.br-automation.com/#/en/6/libraries/asarprof/datatypes/constants_asarprof.html) )
+*  **"LoggerDataReading"** - read entries from loggers to a own variable structure, including some filter possiblities (how to use: see code comments in [sample task](AS412CodeSamples/Logical/LoggerDataReading/UsagRdEvLg/Main.st) )
+* "LoggerDataReading" --> **"WebserviceUsingReadEvLog"** - a webservice that uses ReadEvLog library to provide a webbased access for the logger modules (how to use: see [PDF](AS412CodeSamples/Logical/LoggerDataReading/WebserviceUsingReadEvLog/wsLogger%20informations.pdf) )
 *  "_UNDER_CONSTRUCTION" - just a conatiner for programs and packages not finished yet
-* "_UNDER_CONSTRUCTION" --> "Simple_MQTTV3_QoS0only_Client" - a basic mqtt V3 client implementation - by now, only QoS 0 is possible, no retaining, no TLS security (how to use: see code comments in [sample task](AS412CodeSamples/Logical/_UNDER_CONSTRUCTION/Simple_MQTTV3_QoS0only_Client/UsagRWPaho/Main.st) )
+* "_UNDER_CONSTRUCTION" --> **"Simple_MQTTV3_QoS0only_Client"** - a basic mqtt V3 client implementation - by now, only QoS 0 is possible, no retaining, no TLS security (how to use: see code comments in [sample task](AS412CodeSamples/Logical/_UNDER_CONSTRUCTION/Simple_MQTTV3_QoS0only_Client/UsagRWPaho/Main.st) )
 
 ## Authors
 
