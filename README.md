@@ -29,7 +29,7 @@ Here's a very short description abount the content of each package:
 *  **"LoggerDataReading"** - read entries from loggers to a own variable structure, including some filter possiblities (how to use: see code comments in [sample task](AS412CodeSamples/Logical/LoggerDataReading/UsagRdEvLg/Main.st) )
 * "LoggerDataReading" --> **"WebserviceUsingReadEvLog"** - a webservice that uses ReadEvLog library to provide a webbased access for the logger modules (how to use: see [PDF](AS412CodeSamples/Logical/LoggerDataReading/WebserviceUsingReadEvLog/wsLogger%20informations.pdf) )
 *  "_UNDER_CONSTRUCTION" - just a conatiner for programs and packages not finished yet
-* "_UNDER_CONSTRUCTION" --> **"Simple_MQTTV3_QoS0only_Client"** - a basic mqtt V3 client implementation - by now, only QoS 0 is possible, no retaining, no TLS security (how to use: see code comments in [sample task](AS412CodeSamples/Logical/_UNDER_CONSTRUCTION/Simple_MQTTV3_QoS0only_Client/UsagRWPaho/Main.st) )
+* "_UNDER_CONSTRUCTION" --> **"Simple_MQTTV3_QoS0only_Client"** - a basic mqtt V3 client implementation - by now, only QoS 0 is possible, no retaining, no last-will / testament, no TLS security - it's just intended to use with a local broker (how to use: see code comments in [sample task](AS412CodeSamples/Logical/_UNDER_CONSTRUCTION/Simple_MQTTV3_QoS0only_Client/UsagRWPaho/Main.st) )
 
 ## Authors
 
