@@ -13,11 +13,11 @@ All content was developed for my private projects or educational reasons.
 * The Logical View is organized in packages
   * each package contains the library / function implementation and/or a sample task + some additional information / documentation (if available)
   * each package should therefore be usable independently of the "AS412CodeSamples" project (B&R standard libraries used by the libraries / tasks have to be added in your own project).
-  * Even if documenation of a library/function is missing, there should be at least some comments in the sample tasks, and a short description of the function / function block interfaces in the .fun-Files.
+  * Even if there's no documenation for a library/function is included, there should be at least some comments in the sample tasks, and a short description of the function / function block interfaces in the .fun-Files.
 
 ## Description
 
-Here's a very short description abount the content of each package:
+Here's a very short description about the content of each package:
 * **"XTEA"** - a lean symmetric block cipher encryption / decryption (how to use: see code comments in [sample task](AS412CodeSamples/Logical/XTEA/UsageXTea/Main.st) )
 * **"SHA256"** - hash algorithm  (how to use: see [PDF](AS412CodeSamples/Logical/SHA256/Sha256lib%20en.pdf) ) 
 * **"TBSWAstro"** - calculation of sunrise / sunset at a specific date (how to use: see [PDF](AS412CodeSamples/Logical/TBSWAstro/Library%20TBSWAstro%20en.pdf) ) 
