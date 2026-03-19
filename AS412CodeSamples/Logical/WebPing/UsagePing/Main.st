@@ -1,7 +1,11 @@
 
 PROGRAM _INIT
-	(* Insert code here *)
-	WebPingInterface_0(enable := TRUE, enableIfStats := TRUE, ifStatsName := 'IF2');
+	
+	// use http
+	// WebPingInterface_0(enable := TRUE, https := FALSE, enableIfStats := TRUE, ifStatsName := 'IF2');
+	
+	// use https -> please setup the webserver and SSL configuration accordingly
+	WebPingInterface_0(enable := TRUE, https := TRUE, enableIfStats := TRUE, ifStatsName := 'IF2');
 	WebPingInterface_0();
 	 
 END_PROGRAM

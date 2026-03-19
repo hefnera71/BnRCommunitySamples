@@ -41,9 +41,11 @@ TYPE
 		eStep : WsPingMainStep_enum;
 		eConfigStep : WsPingConfigStep_enum;
 		uiStatusInetAton : UINT;
+		bUseHttps : BOOL;
 	END_STRUCT;
 	WsPingFB_type : 	STRUCT 
 		Webservice : httpService;
+		WebserviceHttps : httpsService;
 		GetParamUrl : httpGetParamUrl;
 		Ping : IcmpPing;
 		GetDnsMode : CfgGetDnsMode;

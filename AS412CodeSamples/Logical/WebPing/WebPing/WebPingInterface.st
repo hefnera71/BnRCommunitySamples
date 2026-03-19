@@ -25,6 +25,7 @@ FUNCTION_BLOCK WebPingInterface
 	IF bExit THEN
 		(* Unregister Webservice *)
 		WsPing.FB.Webservice(enable := 0);
+		WsPing.FB.WebserviceHttps(enable := 0);
 		bExit := FALSE;
 	END_IF
 	
@@ -42,10 +43,29 @@ FUNCTION_BLOCK WebPingInterface
 				WsPing.FB.Webservice.pResponseData 		:= ADR(WsPing.Data.szResponse);
 				WsPing.FB.Webservice.responseDataLen 	:= brsstrlen(ADR(WsPing.Data.szResponse));
 				WsPing.FB.Webservice.pResponseHeader 	:= ADR(WsPing.Data.tResponseHeader);
+
+				WsPing.FB.WebserviceHttps.pServiceName 		:= ADR('ping.cgi'); (* Name of webservice *)
+				WsPing.FB.WebserviceHttps.option 			:= httpOPTION_HTTP_11 + httpOPTION_SERVICE_TYPE_NAME;
+				WsPing.FB.WebserviceHttps.pRequestData		:= ADR(WsPing.Data.szRequest);
+				WsPing.FB.WebserviceHttps.pRequestHeader		:= ADR(WsPing.Data.tRequestHeader);
+				WsPing.FB.WebserviceHttps.pUri				:= ADR(WsPing.Data.szUri);
+				WsPing.FB.WebserviceHttps.uriSize			:= SIZEOF(WsPing.Data.szUri);
 	
+				WsPing.FB.WebserviceHttps.pResponseData 		:= ADR(WsPing.Data.szResponse);
+				WsPing.FB.WebserviceHttps.responseDataLen 	:= brsstrlen(ADR(WsPing.Data.szResponse));
+				WsPing.FB.WebserviceHttps.pResponseHeader 	:= ADR(WsPing.Data.tResponseHeader);
+
 				(* register webservice*)
-				WsPing.FB.Webservice(enable := 1);
-	
+				IF https = FALSE THEN
+					WsPing.Control.bUseHttps := FALSE;
+					WsPing.FB.Webservice(enable := 1);
+					WsPing.FB.WebserviceHttps(enable := 0);
+				ELSE
+					WsPing.Control.bUseHttps := TRUE;
+					WsPing.FB.Webservice(enable := 0);
+					WsPing.FB.WebserviceHttps(enable := 1);
+				END_IF
+				
 				// ETH interface where statistics should be read from
 				IF enableIfStats = TRUE THEN
 					IF ifStatsName = '' THEN
@@ -59,14 +79,25 @@ FUNCTION_BLOCK WebPingInterface
 				
 				(* wait for new request *)
 			WsPingIDLE:
-				IF  WsPing.FB.Webservice.send = TRUE  THEN 
-					WsPing.FB.Webservice.send := FALSE; (* Reset *)
-				END_IF
-
-				IF WsPing.FB.Webservice.status = ERR_OK AND  WsPing.FB.Webservice.phase = httpPHASE_RECEIVED  THEN
-					WsPing.Control.eStep := WsPingGET_PARAMETER;
-				END_IF
-		
+				
+				IF WsPing.Control.bUseHttps = FALSE THEN
+					IF  WsPing.FB.Webservice.send = TRUE  THEN 
+						WsPing.FB.Webservice.send := FALSE; (* Reset *)
+					END_IF
+	
+					IF WsPing.FB.Webservice.status = ERR_OK AND  WsPing.FB.Webservice.phase = httpPHASE_RECEIVED  THEN
+						WsPing.Control.eStep := WsPingGET_PARAMETER;
+					END_IF
+				ELSE
+					IF  WsPing.FB.WebserviceHttps.send = TRUE  THEN 
+						WsPing.FB.WebserviceHttps.send := FALSE; (* Reset *)
+					END_IF
+	
+					IF WsPing.FB.WebserviceHttps.status = ERR_OK AND  WsPing.FB.WebserviceHttps.phase = httpPHASE_RECEIVED  THEN
+						WsPing.Control.eStep := WsPingGET_PARAMETER;
+					END_IF
+				END_IF					
+				
 				(* read request variables *)
 			WsPingGET_PARAMETER:
 			
@@ -354,8 +385,13 @@ FUNCTION_BLOCK WebPingInterface
 				brsstrcat(ADR(WsPing.Data.szResponse),ADR(WsPing.Data.szHostnameOrIpAddr));
 			
 				WsPing.Data.tResponseHeader.contentType := 'text/html';
-				WsPing.FB.Webservice.responseDataLen := brsstrlen(ADR(WsPing.Data.szResponse));
-				WsPing.FB.Webservice.send := TRUE; (* Send on positive edge*)
+				IF WsPing.Control.bUseHttps = FALSE THEN
+					WsPing.FB.Webservice.responseDataLen := brsstrlen(ADR(WsPing.Data.szResponse));
+					WsPing.FB.Webservice.send := TRUE; (* Send on positive edge*)
+				ELSE
+					WsPing.FB.WebserviceHttps.responseDataLen := brsstrlen(ADR(WsPing.Data.szResponse));
+					WsPing.FB.WebserviceHttps.send := TRUE; (* Send on positive edge*)
+				END_IF					
 				WsPing.Control.eStep := WsPingIDLE;
 
 		
@@ -482,9 +518,15 @@ FUNCTION_BLOCK WebPingInterface
 					WsPing.Data.szTemp32 := UINT_TO_STRING(WsPing.FB.GetEthStat.status);
 					brsstrcat(ADR(WsPing.Data.szResponse),ADR(WsPing.Data.szTemp32));
 				END_IF
+
 				WsPing.Data.tResponseHeader.contentType := 'text/html';
-				WsPing.FB.Webservice.responseDataLen := brsstrlen(ADR(WsPing.Data.szResponse));
-				WsPing.FB.Webservice.send := TRUE; (* Send on positive edge*)
+				IF WsPing.Control.bUseHttps = FALSE THEN
+					WsPing.FB.Webservice.responseDataLen := brsstrlen(ADR(WsPing.Data.szResponse));
+					WsPing.FB.Webservice.send := TRUE; (* Send on positive edge*)
+				ELSE
+					WsPing.FB.WebserviceHttps.responseDataLen := brsstrlen(ADR(WsPing.Data.szResponse));
+					WsPing.FB.WebserviceHttps.send := TRUE; (* Send on positive edge*)
+				END_IF					
 				WsPing.Control.eStep := WsPingIDLE;
 			
 				(* send the initial data for diplaying web interface *)
@@ -646,15 +688,23 @@ FUNCTION_BLOCK WebPingInterface
 				</html>'));
 
 				WsPing.Data.tResponseHeader.contentType := 'text/html';
-				WsPing.FB.Webservice.responseDataLen := brsstrlen(ADR(WsPing.Data.szResponse));
-
-				WsPing.FB.Webservice.send := TRUE; (* Send on positive edge*)
+				IF WsPing.Control.bUseHttps = FALSE THEN
+					WsPing.FB.Webservice.responseDataLen := brsstrlen(ADR(WsPing.Data.szResponse));
+					WsPing.FB.Webservice.send := TRUE; (* Send on positive edge*)
+				ELSE
+					WsPing.FB.WebserviceHttps.responseDataLen := brsstrlen(ADR(WsPing.Data.szResponse));
+					WsPing.FB.WebserviceHttps.send := TRUE; (* Send on positive edge*)
+				END_IF					
 				WsPing.Control.eStep := WsPingIDLE;
 		
 		END_CASE
 	
 		(* execute the webservice *)
-		WsPing.FB.Webservice();
+		IF WsPing.Control.bUseHttps = FALSE THEN
+			WsPing.FB.Webservice();
+		ELSE
+			WsPing.FB.WebserviceHttps();
+		END_IF			
 
 		
 	END_IF

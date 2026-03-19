@@ -1,7 +1,8 @@
 
-{REDUND_ERROR} {REDUND_UNREPLICABLE} FUNCTION_BLOCK WebPingInterface (*Webservice "ping.cgi" to provide a web based interface for using PING on the PLC*) (*$GROUP=User,$CAT=User,$GROUPICON=User.png,$CATICON=User.png*)
+{REDUND_ERROR} FUNCTION_BLOCK WebPingInterface (*Webservice "ping.cgi" to provide a web based interface for using PING on the PLC*) (*$GROUP=User,$CAT=User,$GROUPICON=User.png,$CATICON=User.png*)
 	VAR_INPUT
 		enable : {REDUND_UNREPLICABLE} BOOL; (*enables the whole webservice functionality*)
+		https : BOOL; (*if FALSE, http is used for the webservice, if TRUE https is used*)
 		enableIfStats : {REDUND_UNREPLICABLE} BOOL; (*enables the functionality of reading out and displaying ETH interface statistics*)
 		ifStatsName : {REDUND_UNREPLICABLE} STRING[32]; (*default name of the ETH interface (can be changed inside the web interface)*)
 	END_VAR

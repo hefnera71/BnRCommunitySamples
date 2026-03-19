@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Configuration>
+  <Element ID="SSLCfgForWebserverDemo" Type="SSLCFG">
+    <Selector ID="SSLCfgType" Value="CommonSslCfg">
+      <Group ID="OwnCertificate">
+        <Property ID="OwnCertificate" Value="SampleCert.cer" />
+        <Property ID="OwnCertificatePrivateKey" Value="SampleKey.key" />
+      </Group>
+      <Selector ID="SSLCipherSuite" Value="TLS_1_2">
+        <Property ID="ADH-AES128-SHA" Value="off" />
+        <Property ID="ADH-AES256-SHA" Value="off" />
+        <Property ID="ADH-CAMELLIA128-SHA" Value="off" />
+        <Property ID="ADH-CAMELLIA256-SHA" Value="off" />
+        <Property ID="ADH-SEED-SHA" Value="off" />
+        <Property ID="AES128-SHA" Value="off" />
+        <Property ID="AES256-SHA" Value="off" />
+        <Property ID="CAMELLIA128-SHA" Value="off" />
+        <Property ID="CAMELLIA256-SHA" Value="off" />
+        <Property ID="DH-DSS-AES128-SHA" Value="off" />
+        <Property ID="DH-DSS-AES256-SHA" Value="off" />
+        <Property ID="DH-DSS-CAMELLIA128-SHA" Value="off" />
+        <Property ID="DH-DSS-CAMELLIA256-SHA" Value="off" />
+        <Property ID="DH-DSS-SEED-SHA" Value="off" />
+        <Property ID="DH-RSA-AES128-SHA" Value="off" />
+        <Property ID="DH-RSA-AES256-SHA" Value="off" />
+        <Property ID="DH-RSA-CAMELLIA128-SHA" Value="off" />
+        <Property ID="DH-RSA-CAMELLIA256-SHA" Value="off" />
+        <Property ID="DH-RSA-SEED-SHA" Value="off" />
+        <Property ID="DHE-DSS-AES128-SHA" Value="off" />
+        <Property ID="DHE-DSS-AES256-SHA" Value="off" />
+        <Property ID="DHE-DSS-CAMELLIA128-SHA" Value="off" />
+        <Property ID="DHE-DSS-CAMELLIA256-SHA" Value="off" />
+        <Property ID="DHE-DSS-RC4-SHA" Value="off" />
+        <Property ID="DHE-DSS-SEED-SHA" Value="off" />
+        <Property ID="DHE-RSA-AES128-SHA" Value="off" />
+        <Property ID="DHE-RSA-AES256-SHA" Value="off" />
+        <Property ID="DHE-RSA-CAMELLIA128-SHA" Value="off" />
+        <Property ID="DHE-RSA-CAMELLIA256-SHA" Value="off" />
+        <Property ID="DHE-RSA-SEED-SHA" Value="off" />
+        <Property ID="ECDHE-ECDSA-AES128-SHA" Value="off" />
+        <Property ID="ECDHE-ECDSA-AES256-SHA" Value="off" />
+        <Property ID="ECDHE-ECDSA-DES-CBC3-SHA" Value="off" />
+        <Property ID="ECDHE-ECDSA-NULL-SHA" Value="off" />
+        <Property ID="ECDHE-ECDSA-RC4-SHA" Value="off" />
+        <Property ID="ECDHE-RSA-AES128-SHA" Value="off" />
+        <Property ID="ECDHE-RSA-AES256-SHA" Value="off" />
+        <Property ID="ECDHE-RSA-DES-CBC3-SHA" Value="off" />
+        <Property ID="ECDHE-RSA-NULL-SHA" Value="off" />
+        <Property ID="ECDHE-RSA-RC4-SHA" Value="off" />
+        <Property ID="EXP1024-DES-CBC-SHA" Value="off" />
+        <Property ID="EXP1024-DHE-DSS-DES-CBC-SHA   " Value="off" />
+        <Property ID="EXP1024-DHE-DSS-RC4-SHA" Value="off" />
+        <Property ID="EXP1024-RC2-CBC-MD5" Value="off" />
+        <Property ID="EXP1024-RC4-MD5" Value="off" />
+        <Property ID="EXP1024-RC4-SHA" Value="off" />
+        <Property ID="SEED-SHA" Value="off" />
+        <Property ID="PSK-RC4-SHA" Value="off" />
+        <Property ID="PSK-3DES-EDE-CBC-SHA" Value="off" />
+        <Property ID="PSK-AES128-CBC-SHA" Value="off" />
+        <Property ID="PSK-AES256-CBC-SHA" Value="off" />
+        <Property ID="SRP-3DES-EDE-CBC-SHA" Value="off" />
+        <Property ID="SRP-RSA-3DES-EDE-CBC-SHA" Value="off" />
+        <Property ID="SRP-DSS-3DES-EDE-CBC-SHA" Value="off" />
+        <Property ID="SRP-AES-128-CBC-SHA" Value="off" />
+        <Property ID="SRP-RSA-AES-128-CBC-SHA" Value="off" />
+        <Property ID="SRP-DSS-AES-128-CBC-SHA" Value="off" />
+        <Property ID="SRP-AES-256-CBC-SHA" Value="off" />
+        <Property ID="SRP-RSA-AES-256-CBC-SHA" Value="off" />
+        <Property ID="SRP-DSS-AES-256-CBC-SHA" Value="off" />
+        <Property ID="NULL-SHA256" Value="off" />
+        <Property ID="AES128-SHA256" Value="off" />
+        <Property ID="AES256-SHA256" Value="off" />
+        <Property ID="DH-DSS-AES128-SHA256" Value="off" />
+        <Property ID="DH-RSA-AES128-SHA256" Value="off" />
+        <Property ID="DHE-DSS-AES128-SHA256" Value="off" />
+        <Property ID="DHE-RSA-AES128-SHA256" Value="off" />
+        <Property ID="DH-DSS-AES256-SHA256" Value="off" />
+        <Property ID="DH-RSA-AES256-SHA256" Value="off" />
+        <Property ID="DHE-DSS-AES256-SHA256" Value="off" />
+        <Property ID="DHE-RSA-AES256-SHA256" Value="off" />
+        <Property ID="ADH-AES128-SHA256" Value="off" />
+        <Property ID="ADH-AES256-SHA256" Value="off" />
+        <Property ID="AES128-GCM-SHA256" Value="on" />
+        <Property ID="AES256-GCM-SHA384" Value="on" />
+        <Property ID="DHE-RSA-AES128-GCM-SHA256" Value="off" />
+        <Property ID="DHE-RSA-AES256-GCM-SHA384" Value="off" />
+        <Property ID="DH-RSA-AES128-GCM-SHA256" Value="on" />
+        <Property ID="DH-RSA-AES256-GCM-SHA384" Value="on" />
+        <Property ID="DHE-DSS-AES128-GCM-SHA256" Value="on" />
+        <Property ID="DHE-DSS-AES256-GCM-SHA384" Value="on" />
+        <Property ID="DH-DSS-AES128-GCM-SHA256" Value="on" />
+        <Property ID="DH-DSS-AES256-GCM-SHA384" Value="on" />
+        <Property ID="ADH-AES128-GCM-SHA256" Value="off" />
+        <Property ID="ADH-AES256-GCM-SHA384" Value="off" />
+        <Property ID="ECDHE-ECDSA-AES128-SHA256" Value="on" />
+        <Property ID="ECDHE-ECDSA-AES256-SHA384" Value="on" />
+        <Property ID="ECDHE-RSA-AES128-SHA256" Value="on" />
+        <Property ID="ECDHE-RSA-AES256-SHA384" Value="on" />
+        <Property ID="ECDHE-ECDSA-AES128-GCM-SHA256" Value="on" />
+        <Property ID="ECDHE-ECDSA-AES256-GCM-SHA384" Value="on" />
+        <Property ID="ECDHE-RSA-AES128-GCM-SHA256" Value="on" />
+        <Property ID="ECDHE-RSA-AES256-GCM-SHA384" Value="on" />
+      </Selector>
+      <Selector ID="ValidateCommBuddy" Value="off" />
+    </Selector>
+  </Element>
+</Configuration>

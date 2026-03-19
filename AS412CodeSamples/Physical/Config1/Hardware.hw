@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?AutomationStudio Version=4.12.8.41 FileVersion="4.9"?>
+<?AutomationStudio Version=4.12.9.18 FileVersion="4.9"?>
 <Hardware xmlns="http://br-automation.co.at/AS/Hardware">
   <Module Name="X20EM0612" Type="X20EM0612" Version="1.0.1.0">
     <Connector Name="IF2">
@@ -20,5 +20,7 @@
     <Parameter ID="ActivateDns" Value="1" />
     <Parameter ID="DnsDefaultDomain" Value="fritz.box" />
     <Parameter ID="GetDnsFromDhcp" Value="2" />
+    <Parameter ID="WebServerProtocol" Value="3" />
+    <Parameter ID="HttpsSslCfg" Value="SSLCfgForWebserverDemo" />
   </Module>
 </Hardware>
