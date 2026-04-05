@@ -4,5 +4,6 @@
   <Objects>
     <Object Type="Library" Language="ANSIC" Description="library to deserialize JSON string into an structure array ">TinyJsonLb</Object>
     <Object Type="Program" Language="IEC" Description="demo task to test basic functionality">UsageTJlb</Object>
+    <Object Type="File">README.txt</Object>
   </Objects>
 </Package>
