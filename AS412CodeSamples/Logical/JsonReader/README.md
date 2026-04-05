@@ -20,5 +20,3 @@ Basic usage:
 		// result < 0 --> error, please see description in TinyJsonLb->Constants.var
 		result := TinyJsonDump(ADR(sTestString), ADR(jValues), SIZEOF(jValues), ADR('StatusSTS:Wifi'));
 		// --> see SampleScreenshotTinyJsonLb2
-
- 
