@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="Library" Language="ANSIC" Description="library to deserialize JSON string into an structure array ">TinyJsonLb</Object>
+    <Object Type="Program" Language="IEC" Description="demo task to test basic functionality">UsageTJlb</Object>
+  </Objects>
+</Package>

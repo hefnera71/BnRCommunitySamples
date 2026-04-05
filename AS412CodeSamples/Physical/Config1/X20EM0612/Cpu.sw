@@ -4,6 +4,8 @@
   <TaskClass Name="Cyclic#1">
     <Task Name="ProfCfTest" Source="ProfilerConfig.ProfCfTest.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="DatForEvLo" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
+    <Task Name="RTTestXTea" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
+    <Task Name="RTTestS256" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#2">
     <Task Name="UsagAstro" Source="TBSWAstro.UsagAstro.prg" Memory="UserROM" Language="IEC" Debugging="true" />
@@ -15,6 +17,7 @@
     <Task Name="UsagePush" Source="Pushover.UsagePush.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsagPCLTCP" Source="PCLTCP.UsagPCLTCP.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsageTasmo" Source="TasmotaWebservice.UsageTasmo.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="UsageTJlb" Source="JsonReader.UsageTJlb.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#5" />
   <TaskClass Name="Cyclic#6" />
@@ -25,8 +28,6 @@
     <Task Name="UsagModMon" Source="ModuleMonitoring.UsagModMon.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsagRdEvLg" Source="LoggerDataReading.UsagRdEvLg.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="wsLogger" Source="LoggerDataReading.WebserviceUsingReadEvLog.wsLogger.prg" Memory="UserROM" Language="IEC" Debugging="true" />
-    <Task Name="RTTestXTea" Source="" Memory="UserROM" Language="Binary" />
-    <Task Name="RTTestS256" Source="" Memory="UserROM" Language="Binary" />
   </TaskClass>
   <DataObjects>
     <DataObject Name="wsLData" Source="LoggerDataReading.WebserviceUsingReadEvLog.wsLData.dob" Memory="UserROM" Language="Simple" />
@@ -78,6 +79,7 @@
     <LibraryObject Name="NamValPars" Source="ProfilerConfig.NamValPars.lby" Memory="UserROM" Language="IEC" Debugging="true" />
     <LibraryObject Name="ReadEvLog" Source="LoggerDataReading.ReadEvLog.lby" Memory="UserROM" Language="IEC" Debugging="true" />
     <LibraryObject Name="DataObj" Source="Libraries.DataObj.lby" Memory="UserROM" Language="binary" Debugging="true" />
+    <LibraryObject Name="TinyJsonLb" Source="JsonReader.TinyJsonLb.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
     <LibraryObject Name="asieccon" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
   </Libraries>
 </SwConfiguration>

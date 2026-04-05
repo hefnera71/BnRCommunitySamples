@@ -14,8 +14,8 @@
     <Object Type="Package">mappView</Object>
   </Objects>
   <Configuration ModuleId="X20EM0612">
-    <AutomationRuntime Version="J4.93" />
-    <Build GccVersion="4.1.2" />
+    <AutomationRuntime Version="S4.93" />
+    <Build GccVersion="6.3.0" />
     <DefaultTargetMemory Tasks="UserROM" />
     <Transfer SavedOfflineInstallationFolder="" SavedPipDestinationFolder="" SavedRuntimeUtilityCenterPackagePath="" />
     <Vc FirmwareVersion="V4.73.2" />

@@ -1,0 +1,12 @@
+VAR
+	jValuesSmall : {REDUND_UNREPLICABLE} ARRAY[0..31] OF TinyJsonLibValues_typ;
+	jValues : {REDUND_UNREPLICABLE} ARRAY[0..255] OF TinyJsonLibValues_typ;
+	liResult : DINT;
+	strElementName : STRING[64];
+	sTestStringWrong : STRING[8000];
+	sTestString : STRING[8000];
+	testStep : UINT;
+	sTestStringTooBig : STRING[10000];
+	bParseTestString : BOOL;
+	result : DINT;
+END_VAR

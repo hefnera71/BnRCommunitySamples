@@ -1,0 +1,11 @@
+VAR CONSTANT
+	tinyjson_PATH_BUFFER_SIZE : UINT := 256; (*size of the internal path buffer - has to have the same size as TinyJsonLibValues_typ->path*)
+	tinyjson_DATA_BUFFER_SIZE : UINT := 8192; (*size of the internal buffer for the complete json input string - only input strings below that size can be processed*)
+	tinyjson_T_MEM_SIZE : UINT := 256; (*size of the TinyJson number of tokens possible - if processing big JSON strings, maybe you have to higher this value*)
+	tinyjsonERR_JSONINPUTINVALID : DINT := -1; (*JSON input string can't be parsed - is invalid / has invalid structure, or token size is too small*)
+	tinyjsonERR_DESTARRAYTOOSMALL : DINT := -5; (*destination array has to few elements to process all JSON entries*)
+	tinyjsonERR_JSONELEMENTINVALID : DINT := -6; (*like JSONINPUTINVALID, but when processing single or sub-elements (input ".pElementName" is used)*)
+	tinyjsonERR_DESTARRAYINVALID : DINT := -4; (*computed destination array max index is 0*)
+	tinyjsonERR_JSONINPUTTOOLARGE : DINT := -3; (*JSON input string size exceeds DATA_BUFFER_SIZE*)
+	tinyjsonERR_PARAMETERINVALID : DINT := -2; (*at least one mandatory input parameter is 0*)
+END_VAR
