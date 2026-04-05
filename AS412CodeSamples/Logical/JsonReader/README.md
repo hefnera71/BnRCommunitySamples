@@ -8,12 +8,26 @@ So I decided to write my own function to deserialize the JSON responses (based o
 * type of an element
 * order and path information inside the JSON structure
   
-... so that I can react to the informations in the code without changing variable declarations.
+... so that I can react to the informations in the JSON object without changing PLC variable declarations.
 
+# Content of the AS package "JsonReader"
+* the AS library "TinyJsonLb" exporting the function "TinyJsonDump()", which deserializes a JSON string
+* the AS task "UsageTJlb", which just contains some basic test calls
 
-# Basic usage
+# How to use
+* import the library "TinyJsonLn"
+* declare an array of structure of type "TinyJsonLibValues_typ" (which is defined by "TinyJsonLb") as result memory
+* call the function
+> TinyJsonDump( < address of string containing the JSON data > , < address of result array > , < sizeof result array > , < optional: path of JSON sub-element > );
 
 ## Example 1 - read complete JSON object
+```
+VAR
+	jValues : {REDUND_UNREPLICABLE} ARRAY[0..255] OF TinyJsonLibValues_typ;
+	result : DINT;
+END_VAR
+```
+
 ```
 // deserialize the JSON content in "sTestString" into array "jValues" of TinyJsonLibValues_typ[0..255]
 // result > 0 --> number of array elements containing data
@@ -25,6 +39,13 @@ result := TinyJsonDump(ADR(sTestString), ADR(jValues), SIZEOF(jValues), 0);
 ![./UsageTJlb/SampleScreenshotTinyJsonLb.png](UsageTJlb/SampleScreenshotTinyJsonLb.png)
 
 ## Example 2: read sub-element from JSON object
+```
+VAR
+	jValues : {REDUND_UNREPLICABLE} ARRAY[0..255] OF TinyJsonLibValues_typ;
+	result : DINT;
+END_VAR
+```
+
 ```
 // deserialize JSON sub-element 'StatusSTS:Wifi' content into array "jValues" of TinyJsonLibValues_typ[0..255]
 // result > 0 --> number of array elements containing data
