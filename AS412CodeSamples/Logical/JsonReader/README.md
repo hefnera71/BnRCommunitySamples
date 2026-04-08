@@ -56,6 +56,7 @@ result := TinyJsonDump(ADR(sTestString), ADR(jValues), SIZEOF(jValues), ADR('Sta
 ![./UsageTJlb/SampleScreenshotTinyJsonLb.png](UsageTJlb/SampleScreenshotTinyJsonLb2.png)
 
 # Known limitations
+* path and order information invalid, if JSON input string root is array of objects (... work in progress to solve that ...)
 * direct reading of sub-elements of type "array element" using "< optional: path of JSON sub-element >" parameter is not possible
 * maximum size of JSON input string is 8192 byte (to adapt, change "tinyjson_DATA_BUFFER_SIZE" value and recompile)
 * maximum number of tokens in JSON is 256 (to adapt, change "tinyjson_T_MEM_SIZE" value and recompile)
