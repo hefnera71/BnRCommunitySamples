@@ -106,7 +106,7 @@ static void dump(json_t const* json, jsonType_t parentType, UINT* jIndex, UINT j
 				(*jIndex)++;
 				(*jOrder)++;
 				if (brsstrlen((UDINT)jPath) > 0) { brsstrcat((UDINT)jPath, (UDINT)":"); }
-				brsstrcat((UDINT)jPath, (UDINT)name);
+				if (name) { brsstrcat((UDINT)jPath, (UDINT)name); }
 				dump( child, propertyType, jIndex, jMaxElements, jOutput, jOrder, jArrayIndex, jPath, errDestIndex );
 			}
 			else
