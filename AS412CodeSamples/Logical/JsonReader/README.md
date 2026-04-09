@@ -38,6 +38,12 @@ V1.00.0
 * maximum size of JSON input string is 8192 byte (to adapt, change "tinyjson_DATA_BUFFER_SIZE" value and recompile)
 * maximum number of tokens in JSON is 256 (to adapt, change "tinyjson_T_MEM_SIZE" value and recompile)
 
+# How to use
+* import the library "TinyJsonLn"
+* declare an array of structure of type "TinyJsonLibValues_typ" (which is defined by "TinyJsonLb") as result memory
+* call the function
+> TinyJsonDump( < address of string containing the JSON data > , < address of result array > , < sizeof result array > , < optional: path of JSON sub-element > );
+
 ## Example 1 - read complete JSON object
 ```
 VAR
@@ -55,12 +61,6 @@ result := TinyJsonDump(ADR(sTestString), ADR(jValues), SIZEOF(jValues), 0);
 ```
 
 ![./UsageTJlb/SampleScreenshotTinyJsonLb.png](UsageTJlb/SampleScreenshotTinyJsonLb.png)
-
-# How to use
-* import the library "TinyJsonLn"
-* declare an array of structure of type "TinyJsonLibValues_typ" (which is defined by "TinyJsonLb") as result memory
-* call the function
-> TinyJsonDump( < address of string containing the JSON data > , < address of result array > , < sizeof result array > , < optional: path of JSON sub-element > );
 
 ## Example 2: read sub-element from JSON object
 ```
