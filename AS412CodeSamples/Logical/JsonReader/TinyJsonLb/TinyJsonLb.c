@@ -52,7 +52,7 @@ INT* jArrayIndex			-> array index of a json element (if element is array) - need
 char* jPath					-> pointer to a temporary variable building the path - needed because of using strrchr which manipulates the source memory
 BOOL* errDestIndex			-> not enough space in destination
 */
-static void dump(json_t const* json, jsonType_t parentType, UINT* jIndex, UINT jMaxElements, TinyJsonLibValues_typ* jOutput, UINT* jOrder, INT* jArrayIndex, char* jPath, BOOL* errDestIndex)
+static void dump(json_t const* json, jsonType_t parentType, UINT* jIndex, UINT jMaxElements, TinyJsonLibValues_typ* jOutput, UINT* jOrder, char* jPath, BOOL* errDestIndex)
 {
 	json_t const* child;
 	TinyJsonLibValues_typ* pjData = jOutput;
@@ -72,22 +72,13 @@ static void dump(json_t const* json, jsonType_t parentType, UINT* jIndex, UINT j
 			char const* name = json_getName( child );
 			if ( name )
 			{
-				// copy here to plc struct;
+				// copy name to plc struct
 				CheckAndCopyDestStr((UDINT)&pjData->key, sizeof pjData->key, (UDINT)name);
 			}
 			else
 			{
-				if (*jArrayIndex > -1)
-				{
-					char sArrayIndex[7] = {0};
-					brsitoa(*jArrayIndex, (UDINT)sArrayIndex);
-					char sArrayStr[10] = {0};
-					brsstrcpy((UDINT)sArrayStr, (UDINT)"~[");
-					brsstrcat((UDINT)sArrayStr,(UDINT)sArrayIndex);
-					brsstrcat((UDINT)sArrayStr, (UDINT)"]");
-					CheckAndCopyDestStr((UDINT)&pjData->key, sizeof pjData->key, (UDINT)sArrayStr);
-					(*jArrayIndex)++;
-				}
+				// assuming array element
+				CheckAndCopyDestStr((UDINT)&pjData->key, sizeof pjData->key, (UDINT)"~[..]");
 			}
 
 			if ( propertyType == JSON_OBJ || propertyType == JSON_ARRAY )
@@ -96,7 +87,6 @@ static void dump(json_t const* json, jsonType_t parentType, UINT* jIndex, UINT j
 				if ( propertyType == JSON_ARRAY)
 				{
 					CheckAndCopyDestStr((UDINT)&pjData->value, sizeof pjData->value, (UDINT)"~ARRAY");
-					*jArrayIndex = 0;
 				}
 				else
 				{
@@ -106,8 +96,16 @@ static void dump(json_t const* json, jsonType_t parentType, UINT* jIndex, UINT j
 				(*jIndex)++;
 				(*jOrder)++;
 				if (brsstrlen((UDINT)jPath) > 0) { brsstrcat((UDINT)jPath, (UDINT)":"); }
-				if (name) { brsstrcat((UDINT)jPath, (UDINT)name); }
-				dump( child, propertyType, jIndex, jMaxElements, jOutput, jOrder, jArrayIndex, jPath, errDestIndex );
+				// 2026-04-09 adding else to add array information into path
+				if (name) { brsstrcat((UDINT)jPath, (UDINT)name); } else {brsstrcat((UDINT)jPath, (UDINT)"~[..]");}
+				// call recursive
+				dump( child, propertyType, jIndex, jMaxElements, jOutput, jOrder, jPath, errDestIndex );
+				// returning here after recursive call
+				(*jOrder)--;
+				// manipulate path string
+				char* x = strrchr(jPath, ':');
+				if (x != NULL) *x = 0; else strcpy(jPath, "\0");
+				
 			}
 			else
 			{
@@ -126,12 +124,6 @@ static void dump(json_t const* json, jsonType_t parentType, UINT* jIndex, UINT j
 			*errDestIndex = 1;
 		}
 	}
-	
-	(*jOrder)--;
-	*jArrayIndex = -1;
-	// manipulate path string
-	char* x = strrchr(jPath, ':');
-	if (x != NULL) *x = 0;
 }
 
 DINT TinyJsonDump(UDINT pJsonString, UDINT pResultArray, UDINT resultArraySize, UDINT pElementName)
@@ -156,6 +148,13 @@ DINT TinyJsonDump(UDINT pJsonString, UDINT pResultArray, UDINT resultArraySize, 
 
 	// clean up destination array
 	brsmemset(pResultArray, 0, resultArraySize);
+	// set type in destionation array to JSON_NULL
+	TinyJsonLibValues_typ* pResArrayElm = (TinyJsonLibValues_typ*)pResultArray;	
+	for (int i = 0; i < jMaxElements; i++)
+	{
+		pResArrayElm->type = tjJSON_NULL;	
+		pResArrayElm++;
+	}
 
 	// TODO: can this be allocated?
 	static json_t mem[tinyjson_T_MEM_SIZE];
@@ -170,7 +169,6 @@ DINT TinyJsonDump(UDINT pJsonString, UDINT pResultArray, UDINT resultArraySize, 
 		
 		UINT jElementIndex = 0;
 		UINT jElementOrder = 0;
-		INT jElementArrayIndex = -1;
 		BOOL errDestIndex = 0;
 		// TODO: can this be allocated?
 		static char pathStr[tinyjson_PATH_BUFFER_SIZE];
@@ -209,8 +207,17 @@ DINT TinyJsonDump(UDINT pJsonString, UDINT pResultArray, UDINT resultArraySize, 
 			jsonType_t type = json_getType( json );
 			if ( type == JSON_OBJ || type == JSON_ARRAY )
 			{
+				// build root element
+				TinyJsonLibValues_typ* entry0 = (TinyJsonLibValues_typ*) pResultArray;
+				entry0->type = type;
+				// copy here to plc struct;
+				CheckAndCopyDestStr((UDINT)&entry0->key, sizeof entry0->key, (UDINT)"~$ROOT");
+				// copy here to plc struct;
+				CheckAndCopyDestStr((UDINT)&entry0->value, sizeof entry0->value, (UDINT)"~$ROOT");
+				
+				jElementIndex++; jElementOrder++;
 				// read out all json (sub-)elements
-				dump(json, JSON_NULL, &jElementIndex, jMaxElements, (TinyJsonLibValues_typ*)pResultArray, &jElementOrder, &jElementArrayIndex, pathStr, &errDestIndex);
+				dump(json, type, &jElementIndex, jMaxElements, (TinyJsonLibValues_typ*)pResultArray, &jElementOrder, pathStr, &errDestIndex);
 				if (!errDestIndex)
 				{
 					result = jElementIndex;

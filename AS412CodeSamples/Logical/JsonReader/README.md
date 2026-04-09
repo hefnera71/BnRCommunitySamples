@@ -14,11 +14,29 @@ So I decided to write my own function to deserialize the JSON responses (based o
 * the AS library "TinyJsonLb" exporting the function "TinyJsonDump()", which deserializes a JSON string
 * the AS task "UsageTJlb", which just contains some basic test calls
 
-# How to use
-* import the library "TinyJsonLn"
-* declare an array of structure of type "TinyJsonLibValues_typ" (which is defined by "TinyJsonLb") as result memory
-* call the function
-> TinyJsonDump( < address of string containing the JSON data > , < address of result array > , < sizeof result array > , < optional: path of JSON sub-element > );
+# Version history
+
+V1.00.2
+* introduced "$ROOT" object, when root node is of complex type
+  * if existing (root node != simple element), then always in result array at index [0])
+  * helpful if you need to know the root object type (tjJSON_ARRAY or tjJSON_OBJECT)
+* FIX: pagefault caused by NULL pointer
+* FIX: right handling of JSON structures like "array of objects" and similar
+* CHANGE: removed JSON array index number (as it's not working under all conditions, I'm sorry)
+* CHANGE: all internal generated entries in the result array, which are not directly derived from the JSON input data, are starting with "~"
+  * ~$ROOT (entered in "key" and/or "value" element = token is the root node)
+  * ~[..] (entered in "key" element = token is an array element)
+  * ~ARRAY (entered in "value" element = token is start of an array) 
+  * ~OBJECT (entered in "value" element = token is start of an object)
+
+V1.00.0
+* initial release
+
+# Known limitations
+* path information and / or key cannot resolve array index 
+* direct reading of sub-elements of type or containing "array element" using "< optional: path of JSON sub-element >" parameter is not possible
+* maximum size of JSON input string is 8192 byte (to adapt, change "tinyjson_DATA_BUFFER_SIZE" value and recompile)
+* maximum number of tokens in JSON is 256 (to adapt, change "tinyjson_T_MEM_SIZE" value and recompile)
 
 ## Example 1 - read complete JSON object
 ```
@@ -38,6 +56,12 @@ result := TinyJsonDump(ADR(sTestString), ADR(jValues), SIZEOF(jValues), 0);
 
 ![./UsageTJlb/SampleScreenshotTinyJsonLb.png](UsageTJlb/SampleScreenshotTinyJsonLb.png)
 
+# How to use
+* import the library "TinyJsonLn"
+* declare an array of structure of type "TinyJsonLibValues_typ" (which is defined by "TinyJsonLb") as result memory
+* call the function
+> TinyJsonDump( < address of string containing the JSON data > , < address of result array > , < sizeof result array > , < optional: path of JSON sub-element > );
+
 ## Example 2: read sub-element from JSON object
 ```
 VAR
@@ -51,13 +75,8 @@ END_VAR
 // result > 0 --> number of array elements containing data
 // result < 0 --> error, please see description in TinyJsonLb->Constants.var
 
-result := TinyJsonDump(ADR(sTestString), ADR(jValues), SIZEOF(jValues), ADR('StatusSTS:Wifi'));
+result := TinyJsonDump(ADR(sTestString), ADR(jValues), SIZEOF(jValues), ADR('StatusSNS:ENERGY'));
 ```
 ![./UsageTJlb/SampleScreenshotTinyJsonLb.png](UsageTJlb/SampleScreenshotTinyJsonLb2.png)
 
-# Known limitations
-* path and order information invalid, if JSON input string root is array of objects (... work in progress to solve that ...)
-* direct reading of sub-elements of type "array element" using "< optional: path of JSON sub-element >" parameter is not possible
-* maximum size of JSON input string is 8192 byte (to adapt, change "tinyjson_DATA_BUFFER_SIZE" value and recompile)
-* maximum number of tokens in JSON is 256 (to adapt, change "tinyjson_T_MEM_SIZE" value and recompile)
 
