@@ -1,0 +1,9 @@
+VAR CONSTANT
+	hashERR_STRINGNOTFOUND : DINT := -4; (*string was not found inside the hash table*)
+	hashERR_STRINGEXISTS : DINT := -3; (*a string to be added already exists - strings have to be unique!*)
+	hashERR_NULLMODULO : DINT := -2; (*hashtable module was set to 0*)
+	hashERR_NULLIDENT : DINT := -6; (*a ident was set to 0 when calling a function / function block*)
+	hashERR_NULLPOINTER : DINT := -5; (*a mandatory address was set to 0 when calling a function / function block*)
+	hashERR_NULLMEM : DINT := -1; (*AsMemPartCreate ident was 0 but needs to be valid*)
+	hashERR_TABLESIZE : DINT := -7; (*the calculated size of the hash table is smaller then a single hash field*)
+END_VAR

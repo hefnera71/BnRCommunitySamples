@@ -28,6 +28,7 @@
     <Task Name="UsagModMon" Source="ModuleMonitoring.UsagModMon.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsagRdEvLg" Source="LoggerDataReading.UsagRdEvLg.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="wsLogger" Source="LoggerDataReading.WebserviceUsingReadEvLog.wsLogger.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="HshManyStr" Source="HashTable.HshManyStr.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <DataObjects>
     <DataObject Name="wsLData" Source="LoggerDataReading.WebserviceUsingReadEvLog.wsLData.dob" Memory="UserROM" Language="Simple" />
@@ -44,6 +45,7 @@
     <BinaryObject Name="ashwd" Source="" Memory="SystemROM" Language="Binary" />
     <BinaryObject Name="Role" Source="" Memory="UserROM" Language="Binary" />
     <BinaryObject Name="ashwac" Source="" Memory="UserROM" Language="Binary" />
+    <BinaryObject Name="SampleCfg" Source="" Memory="UserROM" Language="Binary" />
   </Binaries>
   <Libraries>
     <LibraryObject Name="xtea" Source="XTEA.xtea.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
@@ -80,6 +82,8 @@
     <LibraryObject Name="ReadEvLog" Source="LoggerDataReading.ReadEvLog.lby" Memory="UserROM" Language="IEC" Debugging="true" />
     <LibraryObject Name="DataObj" Source="Libraries.DataObj.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="TinyJsonLb" Source="JsonReader.TinyJsonLb.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
+    <LibraryObject Name="HashTable" Source="HashTable.HashTable.lby" Memory="UserROM" Language="IEC" Debugging="true" />
+    <LibraryObject Name="Measure" Source="HashTable.HelperLib.Measure.lby" Memory="UserROM" Language="IEC" Debugging="true" />
     <LibraryObject Name="asieccon" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
   </Libraries>
 </SwConfiguration>

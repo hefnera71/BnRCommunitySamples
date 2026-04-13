@@ -1,0 +1,38 @@
+VAR
+	j : USINT;
+	i : USINT;
+	k : USINT;
+	l : USINT;
+	mychar : ARRAY[0..4] OF USINT;
+	c : UDINT;
+	sDummyData : ARRAY[0..MAX_IDX_TESTDATA] OF STRING[40];
+	sString : ARRAY[0..MAX_IDX_TESTDATA] OF STRING[5];
+	INIT_StrHashTab_0 : INIT_StrHashTab;
+	ii : UDINT;
+	statusInsert : DINT;
+	bError : BOOL;
+	bSearch : BOOL;
+	sSearchstring : STRING[80];
+	FindStrPInHashTab_0 : FindStrPInHashTab;
+	dDummyDataString : REFERENCE TO STRING[40];
+	MeasureRT_0 : MeasureRT;
+	tHashTableInfoBeforeInsert : HashTableInfo_typ;
+	tHashTableInfoAfterInsert : HashTableInfo_typ;
+	tHashTableInfoAfterDelete : HashTableInfo_typ;
+	tHashTableInfo : HashTableInfo_typ;
+	mm : UDINT;
+	MeasureRT_1 : MeasureRT;
+	measureFullTest : UDINT;
+	cntErrorFind : UDINT;
+	diffFindMin : DINT;
+	diffFindMax : DINT;
+	mmm : UDINT;
+	diffLoopMin : DINT;
+	diffLoopMax : DINT;
+	bTestRemove : BOOL;
+	RemoveStrPFromHashTab_0 : RemoveStrPFromHashTab;
+END_VAR
+VAR CONSTANT
+	MAX_IDX_TESTDATA : UDINT := 67599;
+	MAX_UDINT : UDINT := 16#FFFFFFFF;
+END_VAR

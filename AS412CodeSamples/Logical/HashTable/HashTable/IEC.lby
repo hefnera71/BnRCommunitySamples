@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Library SubType="IEC" xmlns="http://br-automation.co.at/AS/Library">
+  <Files>
+    <File Description="Exported data types">Types.typ</File>
+    <File Description="Exported constants">Constants.var</File>
+    <File Description="Exported functions and function blocks">HashTable.fun</File>
+    <File>InternalGenStrHash.st</File>
+    <File>InsertStrPToHashTab.st</File>
+    <File>FindStrPInHashTab.st</File>
+    <File>RemoveStrPFromHashTab.st</File>
+    <File>INIT_StrHashTab.st</File>
+    <File>EXIT_StrHashTab.st</File>
+    <File>GetHashTableInfo.st</File>
+    <File>GetNextStrDataP.st</File>
+    <File>Readme.md</File>
+    <File>scheme.png</File>
+    <File>LICENSE.txt</File>
+  </Files>
+  <Dependencies>
+    <Dependency ObjectName="AsBrStr" />
+    <Dependency ObjectName="AsMem" />
+  </Dependencies>
+</Library>
