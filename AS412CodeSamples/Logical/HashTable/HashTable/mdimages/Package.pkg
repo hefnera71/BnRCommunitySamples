@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="File">hash12.png</Object>
+    <Object Type="File">hash11.png</Object>
+    <Object Type="File">hash10.png</Object>
+    <Object Type="File">hash9.png</Object>
+    <Object Type="File">hash8.png</Object>
+    <Object Type="File">hash7.png</Object>
+    <Object Type="File">hash6.png</Object>
+    <Object Type="File">hash5.png</Object>
+    <Object Type="File">hash4.png</Object>
+    <Object Type="File">hash3.png</Object>
+    <Object Type="File">hash2.png</Object>
+    <Object Type="File">hash1.png</Object>
+    <Object Type="File">scheme.png</Object>
+  </Objects>
+</Package>
