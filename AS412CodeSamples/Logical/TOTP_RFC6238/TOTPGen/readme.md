@@ -34,7 +34,7 @@ https://totp.danhersam.com/
 
 Just have a look on the following screenshot:
 
-![](mdimages/hash1.png)
+![](TOTPUseCase.png)
 
 On the left side, you see the result of the PLC task after setting "bGenerateCode" to TRUE.
 On the right side, you see the setup and the result of the external token generator.
