@@ -36,8 +36,8 @@ Just have a look on the following screenshot:
 
 ![](TOTPUseCase.png)
 
-On the left side, you see the result of the PLC task after setting "bGenerateCode" to TRUE.
-On the right side, you see the setup and the result of the external token generator.
-* Yellow: the secret from the PLC as Base32 encoded string which is also used in the external token generator, and the token valid period (in seeconds) matching in both generators
+On the right side, you see the result of the PLC task after setting "bGenerateCode" to TRUE.
+On the left side, you see the setup and the result of the external token generator.
+* Yellow: the secret from the PLC as Base32 encoded string which is also used in the external token generator, and the token valid period (in seconds) matching in both generators
 * Green: just for information the usage of the UTC timestamp in the PLC, compared to the local time of my Windows environment
 * Blue: the rsult -> the generated token is equal in PLC and in the external generator 
