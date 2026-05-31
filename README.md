@@ -57,3 +57,4 @@ and Eclipse Distribution License v1.0 which accompany this distribution.
 * ["SHA256lib" uses Brad Conte - Crypto algorithms](https://github.com/B-Con/crypto-algorithms)
 * "TBSWAstro" uses SUNRISET.C released to the public domain by Paul Schlyter, December 1992
 * ["TinyJsonLb" uses Rafa García - TinyJson](https://github.com/rafagafe/tiny-json)
+* ["TOTPGen" uses Netthaw - TOTP-MCU](https://github.com/Netthaw/TOTP-MCU)
