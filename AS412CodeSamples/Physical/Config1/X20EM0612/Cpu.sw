@@ -18,6 +18,7 @@
     <Task Name="UsagPCLTCP" Source="PCLTCP.UsagPCLTCP.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsageTasmo" Source="TasmotaWebservice.UsageTasmo.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsageTJlb" Source="JsonReader.UsageTJlb.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="TOTPGen" Source="TOTP_RFC6238.TOTPGen.prg" Memory="UserROM" Language="ANSIC" Debugging="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#5" />
   <TaskClass Name="Cyclic#6" />
