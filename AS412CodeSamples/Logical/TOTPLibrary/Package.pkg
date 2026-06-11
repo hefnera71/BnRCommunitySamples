@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="Library" Language="ANSIC" Description="Library implementation">TOTPlib</Object>
+    <Object Type="Program" Language="IEC" Description="Sample task">TstTotpLib</Object>
+    <Object Type="File">readme.md</Object>
+    <Object Type="File">LICENSE.txt</Object>
+  </Objects>
+</Package>

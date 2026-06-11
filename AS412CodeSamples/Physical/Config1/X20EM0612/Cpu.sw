@@ -18,7 +18,8 @@
     <Task Name="UsagPCLTCP" Source="PCLTCP.UsagPCLTCP.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsageTasmo" Source="TasmotaWebservice.UsageTasmo.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="UsageTJlb" Source="JsonReader.UsageTJlb.prg" Memory="UserROM" Language="IEC" Debugging="true" />
-    <Task Name="TOTPGen" Source="TOTP_RFC6238.TOTPGen.prg" Memory="UserROM" Language="ANSIC" Debugging="true" />
+    <Task Name="TstTotpLib" Source="TOTPLibrary.TstTotpLib.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="TstWsQR" Source="QRCodeWebservice.TstWsQR.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#5" />
   <TaskClass Name="Cyclic#6" />
@@ -85,6 +86,9 @@
     <LibraryObject Name="TinyJsonLb" Source="JsonReader.TinyJsonLb.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
     <LibraryObject Name="HashTable" Source="HashTable.HashTable.lby" Memory="UserROM" Language="IEC" Debugging="true" />
     <LibraryObject Name="Measure" Source="HashTable.HelperLib.Measure.lby" Memory="UserROM" Language="IEC" Debugging="true" />
+    <LibraryObject Name="TOTPlib" Source="TOTPLibrary.TOTPlib.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
+    <LibraryObject Name="WsQRlib" Source="QRCodeWebservice.WsQRlib.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
+    <LibraryObject Name="ArCert" Source="Libraries.ArCert.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="asieccon" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
   </Libraries>
 </SwConfiguration>

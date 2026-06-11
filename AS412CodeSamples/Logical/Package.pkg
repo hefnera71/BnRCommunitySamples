@@ -17,6 +17,8 @@
     <Object Type="Package" Description="read entries from loggers to a own variable structure, including some filter possiblities">LoggerDataReading</Object>
     <Object Type="Package" Description="deserialize JSON string into structured array">JsonReader</Object>
     <Object Type="Package" Description="String based hash table library implementation plus test task">HashTable</Object>
+    <Object Type="Package" Description="Provide a QR code via AsHttps-based webservice">QRCodeWebservice</Object>
+    <Object Type="Package" Description="RFC 6238 TOTP implementation">TOTPLibrary</Object>
     <Object Type="Package">TOTP_RFC6238</Object>
     <Object Type="Package" Description="Programs and packages not finished yet">_UNDER_CONSTRUCTION</Object>
     <Object Type="File">LICENSE.txt</Object>

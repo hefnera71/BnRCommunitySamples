@@ -1,0 +1,6 @@
+VAR
+	sData : STRING[255];
+	bEnable : BOOL;
+	QRCodeWebservice_0 : QRCodeWebservice;
+	sName : STRING[80];
+END_VAR

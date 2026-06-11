@@ -1,0 +1,14 @@
+VAR
+	VerifyTOTPCode_0 : VerifyTOTPCode;
+	code : UDINT;
+	enable : BOOL;
+	cValidFrom : REFERENCE TO DTStructure;
+	cValidTo : REFERENCE TO DTStructure;
+	b32Secret : REFERENCE TO STRING[80];
+	otpAuthLink : REFERENCE TO STRING[255];
+	enaQR : BOOL;
+	QRCodeWebservice_0 : QRCodeWebservice;
+	id1 : STRING[80];
+	id2 : STRING[80];
+	useQR : BOOL;
+END_VAR
