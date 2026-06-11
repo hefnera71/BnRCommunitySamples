@@ -1,7 +1,0 @@
-VAR
-	UtcDTGetTime_0 : UtcDTGetTime;
-	sBase32encoded : ARRAY[0..127] OF USINT;
-	myCode : UDINT;
-	bGenerateCode : BOOL;
-	seconds : UDINT;
-END_VAR
