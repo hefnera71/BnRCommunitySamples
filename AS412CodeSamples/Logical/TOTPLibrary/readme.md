@@ -86,7 +86,7 @@ The task "TstToptLib" contains a simple example how to call the function block.
 Additionally, it includes a function block call out of a 2nd independent libary: WsQRLib.
 
 This library contains a function block which is providing a webservice (based on AsHttps) that generates a QR code out of a string.
-Please see the readme of the library WsQRlib for details (also included in that repository).
+Please see the [readme](https://github.com/hefnera71/BnRCommunitySamples/tree/master/AS412CodeSamples/Logical/QRCodeWebservice) of the library WsQRlib for details (also included in that repository).
 
 
 
