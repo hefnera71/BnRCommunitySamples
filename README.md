@@ -31,7 +31,7 @@ Here's a very short description about the content of each package:
 * "LoggerDataReading" --> **"WebserviceUsingReadEvLog"** - a webservice that uses ReadEvLog library to provide a webbased access for the logger modules (how to use: see [PDF](AS412CodeSamples/Logical/LoggerDataReading/WebserviceUsingReadEvLog/wsLogger%20informations.pdf) )
 * **"JsonReader"** - read a JSON string into a structured array (how to use: see [README.md](https://github.com/hefnera71/BnRCommunitySamples/blob/master/AS412CodeSamples/Logical/JsonReader/README.md) )
 * **"HashTable"** - a string based hash table implementation for efficient search (how to use: see [README.md](https://github.com/hefnera71/BnRCommunitySamples/blob/master/AS412CodeSamples/Logical/HashTable/HashTable/Readme.md) )
-* **"TOTP_RFC6238"** - a task written in C that implements the Time-based One-Time Password algorithm as defined in RFC 6238(how to use: see [README.md](https://github.com/hefnera71/BnRCommunitySamples/blob/master/AS412CodeSamples/Logical/TOTP_RFC6238/TOTPGen/readme.md) )
+* **"TOTPlib"** - a library that implements the Time-based One-Time Password algorithm as defined in RFC 6238 (how to use: see [README.md](https://github.com/hefnera71/BnRCommunitySamples/tree/master/AS412CodeSamples/Logical/TOTPLibrary/readme.md) )
 *  "_UNDER_CONSTRUCTION" - just a conatiner for programs and packages not finished yet
 * "_UNDER_CONSTRUCTION" --> **"Simple_MQTTV3_QoS0only_Client"** - a basic mqtt V3 client implementation - by now, only QoS 0 is possible, no retaining, no last-will / testament, no TLS security - it's just intended to use with a local broker (how to use: see code comments in [sample task](AS412CodeSamples/Logical/_UNDER_CONSTRUCTION/Simple_MQTTV3_QoS0only_Client/UsagRWPaho/Main.st) )
 
