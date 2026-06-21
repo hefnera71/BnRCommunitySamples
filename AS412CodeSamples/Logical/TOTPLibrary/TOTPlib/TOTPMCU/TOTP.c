@@ -1,5 +1,4 @@
 #include "TOTP.h"
-#include "sha1.h"
 
 uint8_t* _hmacKey;
 uint8_t _keyLength;

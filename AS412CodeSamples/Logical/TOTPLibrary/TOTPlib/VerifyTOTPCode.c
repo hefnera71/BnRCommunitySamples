@@ -12,6 +12,7 @@
 #include <ArCert.h>
 #include <AsTime.h>
 #include <string.h>
+#include <inttypes.h>
 #include "./TOTPMCU/TOTP.h"
 #include "./helper/Base32.h"
 #include "./helper/BuildSHA1Hmac.h"

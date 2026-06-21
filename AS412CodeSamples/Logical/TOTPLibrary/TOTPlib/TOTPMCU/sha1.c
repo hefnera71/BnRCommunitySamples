@@ -1,5 +1,20 @@
-#include <string.h>
 #include "sha1.h"
+
+union _buffer {
+	uint8_t b[BLOCK_LENGTH];
+	uint32_t w[BLOCK_LENGTH/4];
+} buffer;
+
+union _state {
+	uint8_t b[HASH_LENGTH];
+	uint32_t w[HASH_LENGTH/4];
+} state;
+
+uint8_t bufferOffset;
+uint32_t byteCount;
+uint8_t keyBuffer[BLOCK_LENGTH];
+uint8_t innerHash[HASH_LENGTH];
+
 
 #define SHA1_K0 0x5a827999
 #define SHA1_K20 0x6ed9eba1

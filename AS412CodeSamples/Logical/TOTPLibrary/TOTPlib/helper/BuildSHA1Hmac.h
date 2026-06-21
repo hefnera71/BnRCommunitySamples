@@ -6,6 +6,8 @@ extern "C" {
 #endif
 
 #include <inttypes.h>
+#include <string.h>
+#include "../TOTPMCU/sha1.h"
 
 #define SHA1_BLOCK_SIZE 20
 #define ASCII_OFFSET_09	0x30
