@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASOutputAnalyze", "ASOutputAnalyse\ASOutputAnalyze.csproj", "{AFF54A14-753F-4C5E-B7E4-94FD1C9FB9AB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AFF54A14-753F-4C5E-B7E4-94FD1C9FB9AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFF54A14-753F-4C5E-B7E4-94FD1C9FB9AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFF54A14-753F-4C5E-B7E4-94FD1C9FB9AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFF54A14-753F-4C5E-B7E4-94FD1C9FB9AB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1803E865-121A-4989-8AA7-CDF9A76407A3}
+	EndGlobalSection
+EndGlobal
