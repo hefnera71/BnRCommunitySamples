@@ -40,6 +40,7 @@
             this.ChkLastBuildOnly = new System.Windows.Forms.CheckBox();
             this.ChkSaveSummaryOnly = new System.Windows.Forms.CheckBox();
             this.linkOpenSettingsInEditor = new System.Windows.Forms.LinkLabel();
+            this.linkOpenResultFileInEditor = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // btnOpenLogFile
@@ -100,7 +101,7 @@
             // chkSkipMessages
             // 
             this.chkSkipMessages.AutoSize = true;
-            this.chkSkipMessages.Location = new System.Drawing.Point(171, 31);
+            this.chkSkipMessages.Location = new System.Drawing.Point(171, 34);
             this.chkSkipMessages.Name = "chkSkipMessages";
             this.chkSkipMessages.Size = new System.Drawing.Size(202, 17);
             this.chkSkipMessages.TabIndex = 7;
@@ -123,10 +124,10 @@
             this.linkOpenLogFileInEditor.AutoSize = true;
             this.linkOpenLogFileInEditor.Location = new System.Drawing.Point(13, 42);
             this.linkOpenLogFileInEditor.Name = "linkOpenLogFileInEditor";
-            this.linkOpenLogFileInEditor.Size = new System.Drawing.Size(139, 13);
+            this.linkOpenLogFileInEditor.Size = new System.Drawing.Size(156, 13);
             this.linkOpenLogFileInEditor.TabIndex = 9;
             this.linkOpenLogFileInEditor.TabStop = true;
-            this.linkOpenLogFileInEditor.Text = "Open output log file in editor";
+            this.linkOpenLogFileInEditor.Text = "Open AS output log file in editor";
             this.linkOpenLogFileInEditor.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenLogFileInEditor_LinkClicked);
             // 
             // ChkLastBuildOnly
@@ -160,11 +161,23 @@
             this.linkOpenSettingsInEditor.Text = "Open settings file in editor (restart needed after changes)";
             this.linkOpenSettingsInEditor.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenSettingsInEditor_LinkClicked);
             // 
+            // linkOpenResultFileInEditor
+            // 
+            this.linkOpenResultFileInEditor.AutoSize = true;
+            this.linkOpenResultFileInEditor.Location = new System.Drawing.Point(13, 58);
+            this.linkOpenResultFileInEditor.Name = "linkOpenResultFileInEditor";
+            this.linkOpenResultFileInEditor.Size = new System.Drawing.Size(117, 13);
+            this.linkOpenResultFileInEditor.TabIndex = 13;
+            this.linkOpenResultFileInEditor.TabStop = true;
+            this.linkOpenResultFileInEditor.Text = "Open result file in editor";
+            this.linkOpenResultFileInEditor.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpenResultFileInEditor_LinkClicked);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(764, 497);
+            this.Controls.Add(this.linkOpenResultFileInEditor);
             this.Controls.Add(this.linkOpenSettingsInEditor);
             this.Controls.Add(this.ChkSaveSummaryOnly);
             this.Controls.Add(this.ChkLastBuildOnly);
@@ -199,6 +212,7 @@
         private System.Windows.Forms.CheckBox ChkLastBuildOnly;
         private System.Windows.Forms.CheckBox ChkSaveSummaryOnly;
         private System.Windows.Forms.LinkLabel linkOpenSettingsInEditor;
+        private System.Windows.Forms.LinkLabel linkOpenResultFileInEditor;
     }
 }
 

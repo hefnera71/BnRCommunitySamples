@@ -156,17 +156,30 @@ namespace ASOutputAnalyse
                 }
             }
 
-            if (_OutputPath == String.Empty)
-            {
-                string dir = Path.GetDirectoryName(openFileDialog1.FileName);
-                string file = Path.GetFileName(openFileDialog1.FileName);
-                string ext = "_" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + "_analyzed.txt";
-                _OutputPath = dir + "\\" + file + ext;
-            }
+            DefineOutputPath();
 
             if (_AutoRun == true)
                 Run();
 
+        }
+
+        private void DefineOutputPath()
+        {
+            if (_OutputPath == String.Empty)
+            {
+                string dir = Path.GetDirectoryName(openFileDialog1.FileName);
+                if (dir == "")
+                {
+                    dir = Path.GetTempPath();    
+                }
+                string file = Path.GetFileName(openFileDialog1.FileName).Replace(".","_");
+                string ext = "_" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + "_analyzed.txt";
+                _OutputPath = dir;
+                if (!dir.EndsWith("\\"))
+                    _OutputPath += "\\";
+                _OutputPath += file + ext;
+
+            }
         }
 
         // start analyze
@@ -515,11 +528,21 @@ namespace ASOutputAnalyse
         // open the loaded log file in external editor
         private void linkOpenLogFileInEditor_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (File.Exists(openFileDialog1.FileName))
+            openTextFile(openFileDialog1.FileName);
+        }
+
+        private void linkOpenResultFileInEditor_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            openTextFile(_OutputPath);
+        }
+
+        private void openTextFile(string file)
+        {
+            if (File.Exists(file))
             {
                 try
                 {
-                    Process.Start(openFileDialog1.FileName);
+                    Process.Start(file);
                 }
                 catch (Exception ex)
                 {
