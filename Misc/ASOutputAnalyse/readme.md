@@ -5,7 +5,8 @@ It was a quick & dirty overnight solution, so don't blame me for the code qualit
 But as it's used by a few people here and there, I share it publicly anyway.
 
 It's a VS2026 community edition project using .NET 4.8.
-If you don't want to build ot on your own, the EXE build can be found directly under ./bin/release (where also the below mentioned settings file is located).
+
+**If you don't want to build it on your own, the EXE build can be found directly under [./bin/release](https://github.com/hefnera71/BnRCommunitySamples/tree/master/Misc/ASOutputAnalyse/ASOutputAnalyse/bin/Release)**
 
 # AsOutputAnalyse - What is it good for?
 
