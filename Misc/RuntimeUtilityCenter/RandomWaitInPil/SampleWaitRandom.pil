@@ -1,0 +1,3 @@
+Call ".\randomwait.bat", 5 10
+Message "Wait time was <PILLastResult>"
+

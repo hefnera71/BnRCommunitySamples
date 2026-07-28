@@ -1,0 +1,13 @@
+SetVar "COUNTER", "0"
+Label: "CountUp"
+Call ".\countup.bat", "<COUNTER>", "HideWindow=1"
+SetVar "COUNTER", "<PILLastResult>"
+Remark "--> Do here, what every you want to do for a limited number of cycles"
+Message "COUNTER value is <COUNTER>"
+Remark "<-- Do here, what every you want to do for a limited number of cycles"
+Compare "UnsignedInteger", "<COUNTER>", "9"
+IF "1" GOTO "End"
+Wait "1"
+GOTO "CountUp"
+Label: "End"
+
