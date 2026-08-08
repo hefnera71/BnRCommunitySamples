@@ -1,5 +1,6 @@
 # BnRCommunitySamples
 
+### Project status
 This repository is intended to make some of my functions / samples already published in the [B&R Community](https://community.br-automation.com/), but also some new stuff, easier accessible and maintainable.
 
 To quote Forrest Gump: "Life is like a box of chocolates - you never know what you're gonna get." :-)
@@ -7,11 +8,33 @@ To quote Forrest Gump: "Life is like a box of chocolates - you never know what y
 By now, this repository "BnRCommunitySamples" section **AS412CodeSamples** contains a **B&R Automation Studio 4.12 project**, which bundles some **assorted libraries and sample tasks**.
 The complete project content is additionally checked with AS6 and sould be compilable under **Automation Studio 6.x** after project upgrade.
 
-### The readme content below just documents **AS412CodeSamples**!
+**Section "AS412CodeSamples"**
 
-The seconds section "Misc" inside this repository is under construction and is used for tools outside of Automation Studio, but still having some dependency to AS / AR ... more documentation will follow ;-)
+The content following below just documents AS412CodeSamples.
 
-### All content in this repository was developed for my private projects or educational reasons. 
+**Section "Misc"**
+
+The second section "Misc" inside this repository is used for tools outside of Automation Studio, but still having some dependency to AS / AR.
+Please see the [readme for "Misc"](Misc/readme.md) for more details. 
+
+### License
+This project is released under the MIT License.
+
+The MIT license allows broad reuse, including modification and redistribution.
+
+Users remain responsible for evaluating the source for their own regulatory, operational, or commercial use.
+
+### Support policy
+This repository is shared as-is.
+
+The author does not sell anything out of it as a product and does not operate a commercial support service for the codebase.
+
+Support for the code itself is not guaranteed. 
+
+All content in the repository was developed for my private projects or educational reasons.
+This repository is not maintained as a commercial software product and should not be interpreted as such.
+ 
+
 
 ## Getting Started
 
