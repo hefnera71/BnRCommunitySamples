@@ -15,7 +15,7 @@ The content following below just documents AS412CodeSamples.
 **Section "Misc"**
 
 The second section "Misc" inside this repository is used for tools outside of Automation Studio, but still having some dependency to AS / AR.
-Please see the [readme for "Misc"](Misc/readme.md) for more details. 
+Please see the [readme for "Misc"](https://github.com/hefnera71/BnRCommunitySamples/tree/master/Misc) for more details. 
 
 ### License
 This project is released under the MIT License.
