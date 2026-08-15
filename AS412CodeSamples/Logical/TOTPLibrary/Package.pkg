@@ -2,7 +2,7 @@
 <?AutomationStudio FileVersion="4.9"?>
 <Package xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
-    <Object Type="Library" Language="ANSIC" Description="Library implementation">TOTPlib</Object>
+    <Object Type="Library" Language="ANSIC" Description="RFC 6238 TOTP implementation">TOTPlib</Object>
     <Object Type="Program" Language="IEC" Description="Sample task">TstTotpLib</Object>
     <Object Type="File">readme.md</Object>
     <Object Type="File">LICENSE.txt</Object>

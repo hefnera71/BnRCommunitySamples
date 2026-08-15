@@ -1,0 +1,5 @@
+VAR CONSTANT
+	uuidgenPHASE_READY : USINT := 2; (*UUID generator is initialized, new UUIDs can be generated using getNextUUID*)
+	uuidgenPHASE_INITIALIZING : USINT := 1; (*UUID generator is initializing, please keep caölling FB and wait until phase is _READY*)
+	uuidgenPHASE_STOPPED : USINT := 0; (*UUID generator is disabled, please enable FB*)
+END_VAR

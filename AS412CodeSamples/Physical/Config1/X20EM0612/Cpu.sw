@@ -31,6 +31,7 @@
     <Task Name="UsagRdEvLg" Source="LoggerDataReading.UsagRdEvLg.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="wsLogger" Source="LoggerDataReading.WebserviceUsingReadEvLog.wsLogger.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="HshManyStr" Source="HashTable.HshManyStr.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="TestUUID" Source="UUIDGenerator.TestUUID.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <DataObjects>
     <DataObject Name="wsLData" Source="LoggerDataReading.WebserviceUsingReadEvLog.wsLData.dob" Memory="UserROM" Language="Simple" />
@@ -89,6 +90,7 @@
     <LibraryObject Name="TOTPlib" Source="TOTPLibrary.TOTPlib.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
     <LibraryObject Name="WsQRlib" Source="QRCodeWebservice.WsQRlib.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
     <LibraryObject Name="ArCert" Source="Libraries.ArCert.lby" Memory="UserROM" Language="binary" Debugging="true" />
+    <LibraryObject Name="UUIDgen" Source="UUIDGenerator.UUIDgen.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
     <LibraryObject Name="asieccon" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
   </Libraries>
 </SwConfiguration>

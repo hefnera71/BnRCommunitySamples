@@ -1,0 +1,5 @@
+VAR
+	bEnable : BOOL;
+	bNext : BOOL;
+	UUIDGenerator_0 : UUIDGenerator;
+END_VAR

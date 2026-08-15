@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="Library" Language="ANSIC" Description="UUID V4 implementation">UUIDgen</Object>
+    <Object Type="Program" Language="IEC" Description="Sample call of the UUID library">TestUUID</Object>
+    <Object Type="File">LICENSE.txt</Object>
+    <Object Type="File">readme.md</Object>
+  </Objects>
+</Package>
