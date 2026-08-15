@@ -1,24 +1,31 @@
 # Library UUIDgen
 
 ## About
-This libary implements a random UUID (Universally Unique Identifier) generator 
-Such a UUID is a 128-bit number written as hex string.
-The're several use-cases where and how UUIDs are used: I personally implemented it (in the way it's available here) because I needed "some sort of random unique session tokens with almost no chance to get identical ones". 
+This libary implements a random UUID (Universally Unique Identifier) generator. 
 
-## How it works
+Such a UUID is a 128-bit number written as hex string.
+The're several use-cases where and how UUIDs are used: I personally implemented it in the way it's available here because I needed "some sort of random unique session tokens with almost no chance to get identical ones". 
+
+## Random vs. Pseudo-random
 As we all know, common hardware without some special functions / co-processors can just produce "pseudo-random" values.
 That means, if the random number generator is initialized with the same values or vectors, they produce always the same series of random values.
 So if there's no hardware to generate "real random" values, some external entropy is needed for initialization of the random generator.
 
+## How it works
 This implementation assumes, that the device is connected to the ethernet network (at least in my use-case, where I developed the function for, makes no sense without having a network connection).
+
 And as in networks normally always some non-predictible traffic is present (e.g. broadcasts & multicasts every device receives), I use the number of bytes received on the network interface as external entropy.
+
 Doing some initalization rounds with waiting a bit in between and additionally mixing + salting the byte numbers with some prime numbers should deliver some "random enough" init values for the generator.
-(if reading the network bytes once fails, I use the rtc time instead together with prime numbers -> but that very less random and just relies then on the unknown prime numbers, so it's not intended to use it in that way!)
+
+Additional information: if reading the network bytes once fails, I use the rtc time instead together with prime numbers -> but that's very less random and just relies then on the prime numbers, so it's not intended to use it in that way!
 
 ## what to do if you want to use it
-1.) change the prime numbers inside the source code to your own ones! -> search for the arrays "uint32_t primes1" and "uint32_t primes2" and change the values
-2.) don't start the function block initialization (.enable = TRUE) immediately while booting, wait some time before -> you have then a better chance that really already something happened at the ethernet interface
-3.) in networks with very low traffic, increase the wait time between two initialization rounds (search for the function block instance "ton_0" and rise the preset time (.PT value) -> sure, initialization will then take some seconds longer, but entropy is much better
+1.) change the prime numbers inside the source code to your own ones! ==> search for the arrays "uint32_t primes1" and "uint32_t primes2" and change the values
+
+2.) don't start the function block initialization (.enable = TRUE) immediately while booting, wait some time before ==> you have then a better chance that really already something happened at the ethernet interface
+
+3.) in networks with very low traffic, increase the wait time between two initialization rounds (search for the function block instance "ton_0" and rise the preset time (.PT value) ==> sure, initialization will then take some seconds longer, but entropy is (much) better.
 
 ## function block interface
 He're the function block UUIDGenerator inputs and outputs with some short usage comments.
