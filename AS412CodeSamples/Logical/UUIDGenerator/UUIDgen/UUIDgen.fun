@@ -10,4 +10,7 @@
 		UUID : {REDUND_UNREPLICABLE} STRING[32]; (*the (new) UUID*)
 		UUIDhyphened : {REDUND_UNREPLICABLE} STRING[36]; (*the (new) UUID with hyphens as defined in RFC*)
 	END_VAR
+	VAR
+		internal : {REDUND_UNREPLICABLE} uuidgenInternal_typ;
+	END_VAR
 END_FUNCTION_BLOCK
