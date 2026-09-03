@@ -20,6 +20,7 @@
     <Object Type="Package" Description="Provide a QR code via AsHttps-based webservice">QRCodeWebservice</Object>
     <Object Type="Package" Description="RFC 6238 TOTP implementation">TOTPLibrary</Object>
     <Object Type="Package" Description="UUID V4 implementation">UUIDGenerator</Object>
+    <Object Type="Package" Description="Library to authenticate via RBAC and upload a file via https (intended use: upload by script)">WsRbacAuthUpload</Object>
     <Object Type="Package" Description="Programs and packages not finished yet">_UNDER_CONSTRUCTION</Object>
     <Object Type="File">LICENSE.txt</Object>
   </Objects>

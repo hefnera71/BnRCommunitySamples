@@ -1,0 +1,8 @@
+VAR
+	RbacAuthUploadWebservice_0 : RbacAuthUploadWebservice;
+	AsMemPartCreate_0 : AsMemPartCreate;
+	AsMemPartAlloc_0 : AsMemPartAlloc;
+	AsMemPartAlloc_1 : AsMemPartAlloc;
+	AsMemPartDestroy_0 : AsMemPartDestroy;
+	tBufferConfig : WebUpload_extbuffer_wbuuid_typ;
+END_VAR

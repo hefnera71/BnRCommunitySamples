@@ -1,0 +1,1 @@
+.\run_pipeline.ps1 -baseUri "https://localhost" -user "User3" -password "87654321" -files "c:\test\new1.txt", "c:\test\new2.txt", "c:\test\new3.txt"

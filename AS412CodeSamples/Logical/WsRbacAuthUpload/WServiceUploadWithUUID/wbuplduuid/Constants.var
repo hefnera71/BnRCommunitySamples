@@ -1,0 +1,7 @@
+VAR CONSTANT
+	WBUUIDUPLOAD_MAX_REQUEST_SIZE : UDINT := 10240;
+	frcwritearlog_ERROR : DINT := -535887872;
+	frcwritearlog_WARNING : DINT := -1609629696;
+	frcwritearlog_SUCCESS : DINT := 537853952;
+	frcwritearlog_INFO : DINT := 1611595776;
+END_VAR

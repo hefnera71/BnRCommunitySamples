@@ -1,10 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?AutomationStudio FileVersion="4.9"?>
 <Configuration>
-  <Element ID="Anonymous" Type="User">               
-    <Property ID="UserID" Value="1" />    
+  <Element ID="Anonymous" Type="User">
+    <Property ID="UserID" Value="1" />
     <Group ID="Roles">
       <Property ID="Role[1]" Value="Everyone" />
+    </Group>
+  </Element>
+  <Element ID="User1" Type="User">
+    <Property ID="UserID" Value="2" Description="test user" />
+    <Property ID="Password" Value="1i7snW2zmEt0+2xvDGU1vqtbmNxTdH18ixAF5WQkEhXmLY1MzDY=" />
+    <Group ID="Roles">
+      <Property ID="Role[1]" Value="Everyone" />
+    </Group>
+  </Element>
+  <Element ID="User2" Type="User" Description="test user">
+    <Property ID="UserID" Value="3" />
+    <Property ID="Password" Value="5+YDiHtCM2XZjDrIy2IjvhGhXf8c1bZUo9IP9ajN73oa+eZsLic=" />
+    <Group ID="Roles">
+      <Property ID="Role[1]" Value="Administrators" />
+    </Group>
+  </Element>
+  <Element ID="User3" Type="User" Description="test user with RbacAuthWs role">
+    <Property ID="UserID" Value="4" />
+    <Property ID="Password" Value="YmqWfe0oeCHN6oxC43iSmpXdHWoxM06ki6foe50saTNsYRpXogI=" />
+    <Group ID="Roles">
+      <Property ID="Role[1]" Value="WEB_Uploader" />
     </Group>
   </Element>
 </Configuration>

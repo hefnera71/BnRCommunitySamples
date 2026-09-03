@@ -20,6 +20,7 @@
     <Task Name="UsageTJlb" Source="JsonReader.UsageTJlb.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="TstTotpLib" Source="TOTPLibrary.TstTotpLib.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="TstWsQR" Source="QRCodeWebservice.TstWsQR.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="TstWsRAU" Source="WsRbacAuthUpload.TstWsRAU.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <TaskClass Name="Cyclic#5" />
   <TaskClass Name="Cyclic#6" />
@@ -92,5 +93,8 @@
     <LibraryObject Name="ArCert" Source="Libraries.ArCert.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="UUIDgen" Source="UUIDGenerator.UUIDgen.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
     <LibraryObject Name="asieccon" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
+    <LibraryObject Name="wbuplduuid" Source="WsRbacAuthUpload.WServiceUploadWithUUID.wbuplduuid.lby" Memory="UserROM" Language="IEC" Debugging="true" />
+    <LibraryObject Name="RbacAuthWs" Source="WsRbacAuthUpload.RbacAuthWs.lby" Memory="UserROM" Language="IEC" Debugging="true" />
+    <LibraryObject Name="ArUser" Source="Libraries.ArUser.lby" Memory="UserROM" Language="binary" Debugging="true" />
   </Libraries>
 </SwConfiguration>

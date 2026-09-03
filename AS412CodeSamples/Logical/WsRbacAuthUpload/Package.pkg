@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="File">UNDER_DEVELOPMENT_README.txt</Object>
+    <Object Type="Package" Description="Upload webservice implementation used by RbacAuthWs">WServiceUploadWithUUID</Object>
+    <Object Type="Library" Language="IEC" Description="Authentication Webservice for uploading files (uses internally upload webservice)">RbacAuthWs</Object>
+    <Object Type="Program" Language="IEC" Description="Example Call">TstWsRAU</Object>
+    <Object Type="Package">client_scripts</Object>
+    <Object Type="Package">doc</Object>
+  </Objects>
+</Package>
