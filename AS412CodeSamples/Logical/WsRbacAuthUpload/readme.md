@@ -154,7 +154,7 @@ The user + password + role defintion is done inside Automation Studio.
 The role is not transferred via webservice but defined at the function block input parameter ".rbacRoleName".
 It's crucial to work with a dedicated role, because it makes no sense if every user existing in the RBAC setup automatically inherits the right to upload files.
 
-![./doc/AS_RBAC_Settings.png](doc/AS_RBAC_Settings.png)
+![./doc/AS_RBAC_Settings.png](doc/AS_RBAC_settings.png)
 
 ### logging
 The libraries are logging information about access to the webservices in the PLC logger automatically, just the logger module has to be configured at the function block interface.
