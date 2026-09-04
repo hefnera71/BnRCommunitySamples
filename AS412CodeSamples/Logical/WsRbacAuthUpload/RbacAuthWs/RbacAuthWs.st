@@ -1,3 +1,10 @@
+(*
+// Copyright (c) 2026 Alexander Hefner
+// 
+// Licensed under the MIT License - see LICENSE.txt file for details
+*)
+
+
 FUNCTION_BLOCK RbacAuthUploadWebservice
 
 	IF enable = TRUE THEN

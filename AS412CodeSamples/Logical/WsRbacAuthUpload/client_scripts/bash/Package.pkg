@@ -4,5 +4,6 @@
   <Objects>
     <Object Type="File">run_pipeline.sh</Object>
     <Object Type="File">example_call.txt</Object>
+    <Object Type="File">bash_call_screenshot.png</Object>
   </Objects>
 </Package>

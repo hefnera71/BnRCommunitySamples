@@ -4,5 +4,6 @@
   <Objects>
     <Object Type="File">run_pipeline.ps1</Object>
     <Object Type="File">example_call.txt</Object>
+    <Object Type="File">ps_call_screenshot.png</Object>
   </Objects>
 </Package>

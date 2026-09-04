@@ -1,3 +1,10 @@
+(*
+// Copyright (c) 2026 Andreas Werbelow, Alexander Hefner
+// 
+// Licensed under the MIT License - see LICENSE.txt file for details
+*)
+
+
 (* Function block to handle files that are sent to service, write them to given device and file *)
 FUNCTION_BLOCK WebUploadWithUuidAuth
 	
