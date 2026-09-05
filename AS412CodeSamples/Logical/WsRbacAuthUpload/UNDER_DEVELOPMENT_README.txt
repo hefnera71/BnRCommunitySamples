@@ -3,4 +3,3 @@ the content of this package is still under development, but already has some qui
 
 TODO:
 - improve error reset behavior in case of webservice errors (error resets a.s.o.)
-- make the HTML interface just a little bit(!) more nice

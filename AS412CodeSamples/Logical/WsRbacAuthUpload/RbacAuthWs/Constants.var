@@ -1,3 +1,3 @@
 VAR CONSTANT
-
+	rbacauthws_CONST_CSSSTYLE : STRING[500] := '<style> body { width: 100%; height: 100%; } .textStyle { margin: 5px; font-family: Arial, sans-serif; } .buttonStyle { position: relative; width: 90px; height: 35px; margin: 5px; cursor: pointer; } </style>';
 END_VAR

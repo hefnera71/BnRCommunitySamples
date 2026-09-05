@@ -263,9 +263,7 @@ In the upload service user interface, the file to upload has to be selected and 
 
 ![./doc/browser_upload.png](doc/browser_upload.png)
 
-After upload is finished, the user can decide to finish the process or upload another file:
 
-![./doc/browser_upload_done.png](doc/browser_upload_done.png)
 
 ## External references
 * The initial functionality of "wbuplduuid" was developed under the name "WebUpload" by Andreas W. (many thanks!).

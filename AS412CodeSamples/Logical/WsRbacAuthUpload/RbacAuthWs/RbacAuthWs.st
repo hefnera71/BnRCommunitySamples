@@ -126,9 +126,11 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 			internal.bSendInitialForm := FALSE;
 			IF NOT internal.bResponseIsJSON THEN
 				internal.ResponseHeader.contentType 	:= 'text/html'; (* Response is HTML data and this is the correct MIME type *)
-				internal.Response := '<html><head><script>function getTs(){document.getElementById("_ts").value = Date.now();}</script></head><body><h2>Authenticate</h2><form method="POST" action="/';
+				internal.Response := '<html><head><script>function getTs(){document.getElementById("_ts").value = Date.now();}</script>';
+				brsstrcat(ADR(internal.Response),ADR(rbacauthws_CONST_CSSSTYLE));
+				brsstrcat(ADR(internal.Response),ADR('</head><body><h2>Authenticate</h2><form method="POST" action="/'));;
 				brsstrcat(ADR(internal.Response),ADR(internal.authServiceName));
-				brsstrcat(ADR(internal.Response),ADR('?mode=html"><label for="user">Username:</label><input type="text" id="user" name="user" size="20" /><br><label for="password">Password:</label><input type="password" id="password" name="password" size="20" /><br><input type="submit" name="bt1" value="Submit" onclick="getTs();"><input type="hidden" name="_ts" id="_ts" value=""/></form></body></html>'));
+				brsstrcat(ADR(internal.Response),ADR('?mode=html"><table><tr><td><label for="user" class="textStyle">Username:</label></td><td><input type="text" id="user" name="user" class="textStyle" size="32" /></td></tr><tr><td><label for="password" class="textStyle">Password:</label></td><td><input type="password" id="password" name="password" class="textStyle" size="32" /></td></tr><tr><td><input type="submit" name="bt1" class="buttonStyle" value="Submit" onclick="getTs();"><input type="hidden" name="_ts" id="_ts" value=""/></td><td</td></tr></table></form></body></html>'));
 			ELSE
 				internal.ResponseHeader.contentType 	:= 'application/json';
 				internal.Response := '{status:"error", info:"parameters missing?"}';
@@ -208,26 +210,20 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 						brsstrcat(ADR(internal.sInfoMessage), ADR(internal.sTemp));
 					
 						IF NOT internal.bResponseIsJSON THEN
-							//internal.Response := '<html><body>';
-							//brsstrcat(ADR(internal.Response), ADR(internal.sInfoMessage));
-							//brsstrcat(ADR(internal.Response), ADR('! Navigate to:<br><a href="./'));
-							//brsstrcat(ADR(internal.Response), ADR(internal.sUploadLink));
-							//brsstrcat(ADR(internal.Response),ADR('">Upload Form</a></body></html>'));
 							internal.Response := '<html><head><meta http-equiv="refresh" content="2; ';
 							brsstrcat(ADR(internal.Response), ADR(internal.sUploadLink));
-							brsstrcat(ADR(internal.Response), ADR('&mode=html"></head><body>'));
+							brsstrcat(ADR(internal.Response), ADR('&mode=html">'));
+							brsstrcat(ADR(internal.Response),ADR(rbacauthws_CONST_CSSSTYLE));
+							brsstrcat(ADR(internal.Response),ADR('</head><body><span class="textStyle">'));
 							brsstrcat(ADR(internal.Response), ADR(internal.sInfoMessage));
-							brsstrcat(ADR(internal.Response), ADR('!<br>Forwarding in 2 seconds - if you$'re not forwarded, navigate to:<br><a href="./'));
+							brsstrcat(ADR(internal.Response), ADR('!</span><br><br><span class="textStyle">Forwarding in 2 seconds - if you$'re not forwarded, navigate to: <a href="./'));
 							brsstrcat(ADR(internal.Response), ADR(internal.sUploadLink));
-							brsstrcat(ADR(internal.Response),ADR('">Upload Form</a></body></html>'));
+							brsstrcat(ADR(internal.Response),ADR('">Upload Form</a></span></body></html>'));
 						ELSE
 							internal.Response := '{status:"ok", info:"';
 							brsstrcat(ADR(internal.Response), ADR(internal.sInfoMessage));
 							brsstrcat(ADR(internal.Response),ADR('", uuid:"'));
 							brsstrcat(ADR(internal.Response),ADR(internal.UUIDGenerator_0.UUID));
-							// brsstrcat(ADR(internal.Response),ADR('", link:"'));
-							//brsstrcat(ADR(internal.Response), ADR(internal.sUploadLink));
-							//brsstrcat(ADR(internal.Response), ADR('&mode=json&do_upload=true'));
 							brsstrcat(ADR(internal.Response),ADR('"}'));
 						END_IF
 					ELSE
@@ -285,7 +281,6 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 		IF EDGENEG(internal.WebUploadWithUuidAuth_0.enable) = TRUE THEN
 			wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_INFO, 'RbacAuthWs', 'upload webservice was disabled');
 		END_IF
-	
 		
 	ELSE
 

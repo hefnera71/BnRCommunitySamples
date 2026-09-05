@@ -121,7 +121,7 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 							// user signal -> finished
 							userFinished := TRUE;
 							IF NOT internal.bModeIsJson THEN
-								brsstrcpy(ADR(internal.Response), ADR('<html><head></head><body>Ended!</body></html>'));
+								brsstrcpy(ADR(internal.Response), ADR('<html><head></head><body><h2>Ended!</h2></body></html>'));
 							ELSE
 								brsstrcpy(ADR(internal.Response), ADR('{status:"ok", info:"ended"}'));
 							END_IF
@@ -135,11 +135,11 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 								// send html code
 								
 								IF NOT internal.bModeIsJson THEN
-									brsstrcpy(ADR(internal.Response), ADR('<html><head></head><body width="100%" height="100%">Choose file to upload:<br><form id="ulform" action="'));
+									brsstrcpy(ADR(internal.Response), ADR('<html><head><style> body { width: 100%; height: 100%; } .hidden { display: none; } .buttonStyle { position: relative; width: 90px; height: 35px; margin: 5px; cursor: pointer; } #fileName { margin: 5px; font-family: Arial, sans-serif; } </style></head><body width="100%" height="100%"><h2>Select file to upload</h2><form id="ulform" action="'));
 									brsstrcat(ADR(internal.Response), ADR(serviceName));
 									brsstrcat(ADR(internal.Response), ADR('?do_upload=true&mode=html&uuid='));
 									brsstrcat(ADR(internal.Response),ADR(internal.param1));
-									brsstrcat(ADR(internal.Response),ADR('" method="post" enctype="multipart/form-data"><input id="browseButton" name="datei" type="file" size="20000" accept="*.*" style="display:none" onchange="showFileName()"/><button type="button" onClick="document.getElementById($'browseButton$').click();">Browse...</button><span id="fileName">No file selected</span><button type="submit">Upload</button></form><script>function showFileName() {const input = document.getElementById($'browseButton$');const fileName = document.getElementById($'fileName$');if (input.files && input.files.length > 0) {fileName.textContent = input.files[0].name;} else {fileName.textContent = $'no file selected$';}}</script></body></html>'));
+									brsstrcat(ADR(internal.Response),ADR('" method="post" enctype="multipart/form-data"><input id="browseButton" name="datei" type="file" accept="*.*" class="hidden" onchange="showFileName()"/><button type="button" class="buttonStyle" onClick="document.getElementById($'browseButton$').click();">Browse...</button><span id="fileName">No file selected</span><button type="submit" class="buttonStyle">Upload</button></form><script>function showFileName() {const input = document.getElementById($'browseButton$');const fileName = document.getElementById($'fileName$');if (input.files && input.files.length > 0) {fileName.textContent = input.files[0].name;} else {fileName.textContent = $'no file selected$';}}</script></body></html>'));
 								ELSE
 									brsstrcpy(ADR(internal.Response), ADR('{status:"error", info:"parameters missing?"}'));
 								END_IF
@@ -332,15 +332,15 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 					
 					// and send response
 					IF NOT internal.bModeIsJson THEN
-						brsstrcpy(ADR(internal.Response), ADR('<html><body>Done!<br><a href="./'));
+						brsstrcpy(ADR(internal.Response), ADR('<html><head><style> body { width: 100%; height: 100%; } .textStyle { margin-left: 10px; font-family: Arial, sans-serif; }</style></head><body><h2>Done!</h2><span style="textStyle"><a href="./'));
 						brsstrcat(ADR(internal.Response), ADR(serviceName));
 						brsstrcat(ADR(internal.Response), ADR('?uuid='));
 						brsstrcat(ADR(internal.Response), ADR(internal.param1));
-						brsstrcat(ADR(internal.Response), ADR('">Another Upload?</a><br><a href="./'));
+						brsstrcat(ADR(internal.Response), ADR('&mode=html">Another Upload?</a><br><a href="./'));
 						brsstrcat(ADR(internal.Response), ADR(serviceName));
 						brsstrcat(ADR(internal.Response), ADR('?uuid='));
 						brsstrcat(ADR(internal.Response), ADR(internal.param1));
-						brsstrcat(ADR(internal.Response), ADR('&end_upload=true&mode=html">Finished?</a><br>'));
+						brsstrcat(ADR(internal.Response), ADR('&end_upload=true&mode=html"><br>Finished?</a></span><br>'));
 						brsstrcat(ADR(internal.Response), ADR('</body></html>'));
 					ELSE
 						brsstrcpy(ADR(internal.Response), ADR('{status:"ok", info:"upload done"}'));
@@ -365,9 +365,13 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 				brsitoa(Status, ADR(internal.sTemp) + brsstrlen(ADR(internal.sTemp)));
 				wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_ERROR, 'wbuplduuid', internal.sTemp);
 				IF NOT internal.bModeIsJson THEN
-					brsstrcpy(ADR(internal.Response), ADR('<html><body>Error!</body></html>'));
+					brsstrcpy(ADR(internal.Response), ADR('<html><body>Error!<br>'));
+					brsstrcat(ADR(internal.Response), ADR(internal.sTemp));
+					brsstrcat(ADR(internal.Response), ADR('</body></html>'));
 				ELSE
-					brsstrcpy(ADR(internal.Response), ADR('{status:"error", info:"upload failed"}'));
+					brsstrcpy(ADR(internal.Response), ADR('{status:"error", info:"upload failed. '));
+					brsstrcat(ADR(internal.Response), ADR(internal.sTemp));
+					brsstrcat(ADR(internal.Response), ADR('"}'));
 				END_IF
 
 				internal.WebService.responseDataLen := brsstrlen(ADR(internal.Response));

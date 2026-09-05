@@ -5,5 +5,10 @@
     <Object Type="File">uploadwebservice.drawio</Object>
     <Object Type="File">AS_logger.png</Object>
     <Object Type="File">AS_RBAC_settings.png</Object>
+    <Object Type="File">concept.drawio.png</Object>
+    <Object Type="File">browser_auth.png</Object>
+    <Object Type="File">browser_forward.png</Object>
+    <Object Type="File">browser_upload.png</Object>
+    <Object Type="File">browser_upload_done.png</Object>
   </Objects>
 </Package>
