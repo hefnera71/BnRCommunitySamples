@@ -7,12 +7,12 @@ PROGRAM _INIT
 	// if 10kByte are enough per file, you can set the externalBufferSetup to 0 -> thenb the internal buffer is used
 	
 	// allocate memory
-	AsMemPartCreate_0(enable := TRUE, len := 1024*1024 + 16); // 1MB
+	AsMemPartCreate_0(enable := TRUE, len := 1024*1024 + 16); // allocating 1MB - as 2 buffers are required, the maximum file size possible is then 0.5 MByte
 	IF AsMemPartCreate_0.status = 0 THEN
-		AsMemPartAlloc_0(enable := TRUE, ident := AsMemPartCreate_0.ident, len := 1024 * 512);
-		AsMemPartAlloc_1(enable := TRUE, ident := AsMemPartCreate_0.ident, len := 1024 * 512);
+		AsMemPartAlloc_0(enable := TRUE, ident := AsMemPartCreate_0.ident, len := 1024 * 512); // reserve 0.5 MB block
+		AsMemPartAlloc_1(enable := TRUE, ident := AsMemPartCreate_0.ident, len := 1024 * 512); // reserve 0.5 MB block
 	END_IF
-	// configure buffers
+	// configure buffers using ".externalBufferSetup"
 	IF AsMemPartAlloc_0.status = 0 AND AsMemPartAlloc_1.status = 0 THEN
 		tBufferConfig.multipartBufferSize := tBufferConfig.requestBufferSize := 1024 * 512;
 		tBufferConfig.pMultipartBuffer := AsMemPartAlloc_0.mem;

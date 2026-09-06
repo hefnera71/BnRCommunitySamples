@@ -94,11 +94,17 @@ but is also available inside this repository: [UUIDGenerator](https://github.com
 		uuidGenPhase : USINT; (*phase of the token generator -> 2 = ready*)
 	END_VAR
 
+	WebUpload_extbuffer_wbuuid_typ : 	STRUCT 
+		pRequestBuffer : UDINT;
+		pMultipartBuffer : UDINT;
+		requestBufferSize : UDINT;
+		multipartBufferSize : UDINT;
+	END_STRUCT;
 ```
 
 ### call example
 The task "TstWsRAU" contains a simple example how to setup and call the function block. Just the function block "RbacAuthUploadWebservice" out of the 
-library "RbacAuthWs" has to be configured and called
+library "RbacAuthWs" has to be configured and called.
 
 ```
 PROGRAM _INIT
@@ -134,17 +140,29 @@ With the internal buffer in the webservice, only very small files are uploadable
 If you need to upload larger files, you can configure external buffers in the needed size.
 To do so, you need to:
 * provide 2 buffer of the same size (by declaration of USINT arrays, or by allocating memory from heap using library AsMem which is the preffered way, as it's much more flexible).
+```
+	AsMemPartCreate_0(enable := TRUE, len := 1024*1024 + 16); // allocating 1MB
+	IF AsMemPartCreate_0.status = 0 THEN
+		AsMemPartAlloc_0(enable := TRUE, ident := AsMemPartCreate_0.ident, len := 1024 * 512); // reserve 0.5 MB block
+		AsMemPartAlloc_1(enable := TRUE, ident := AsMemPartCreate_0.ident, len := 1024 * 512); // reserve 0.5 MB block
+	END_IF
+```
 * declare a variable of typ "WebUpload_extbuffer_wbuuid_typ" (this typ is exported by the library "wbuplduuid")
 ```
-	WebUpload_extbuffer_wbuuid_typ : 	STRUCT 
-		pRequestBuffer : UDINT;
-		pMultipartBuffer : UDINT;
-		requestBufferSize : UDINT;
-		multipartBufferSize : UDINT;
-	END_STRUCT;
+	VAR
+		tBufferConfig : WebUpload_extbuffer_wbuuid_typ;
+	END_VAR
  ```
-* provide the addresses and sizes of the 2 buffers to this variable
+* connect the addresses and sizes of the 2 buffers to this variable
+```
+	tBufferConfig.multipartBufferSize := tBufferConfig.requestBufferSize := 1024 * 512;
+	tBufferConfig.pMultipartBuffer := AsMemPartAlloc_0.mem;
+	BufferConfig.pRequestBuffer := AsMemPartAlloc_1.mem;
+```
 * connect the variable to the function block input ".externalBufferSetup"
+```
+	RbacAuthUploadWebservice_0.externalBufferSetup := tBufferConfig;	// use external buffer (if allocation was ok)
+```
 
 The sample task contains an example for external buffers using AsMem.
 
