@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="File">tbswastro.pdf-0001-09.png</Object>
+    <Object Type="File">tbswastro.pdf-0001-11.png</Object>
+    <Object Type="File">tbswastro.pdf-0002-01.png</Object>
+    <Object Type="File">tbswastro.pdf-0002-07.png</Object>
+    <Object Type="File">tbswastro.pdf-0002-13.png</Object>
+    <Object Type="File">tbswastro.pdf-0003-01.png</Object>
+    <Object Type="File">tbswastro.pdf-0003-03.png</Object>
+    <Object Type="File">tbswastro.pdf-0003-04.png</Object>
+  </Objects>
+</Package>

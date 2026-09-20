@@ -4,6 +4,7 @@
   <Objects>
     <Object Type="Library" Language="ANSIC" Description="the library contaiining SHA256 hash algorithm">SHA256lib</Object>
     <Object Type="Program" Language="IEC" Description="demo task - how to use">UsagSHA256</Object>
-    <Object Type="File" Description="some more documentation - AI translated">Sha256lib en.pdf</Object>
+    <Object Type="Package">mdimages</Object>
+    <Object Type="File">readme.md</Object>
   </Objects>
 </Package>

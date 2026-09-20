@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio FileVersion="4.9"?>
+<Package xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="File">wslogger.pdf-0001-13.png</Object>
+    <Object Type="File">wslogger.pdf-0001-15.png</Object>
+    <Object Type="File">wslogger.pdf-0002-00.png</Object>
+    <Object Type="File">wslogger.pdf-0002-02.png</Object>
+    <Object Type="File">wslogger.pdf-0002-07.png</Object>
+    <Object Type="File">wslogger.pdf-0003-00.png</Object>
+    <Object Type="File">wslogger.pdf-0003-03.png</Object>
+    <Object Type="File">wslogger.pdf-0004-00.png</Object>
+  </Objects>
+</Package>

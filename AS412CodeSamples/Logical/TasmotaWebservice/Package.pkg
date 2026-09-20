@@ -4,6 +4,7 @@
   <Objects>
     <Object Type="Library" Language="IEC" Description="library containing the webservice client connection to a tasmota device">TasmotAPI</Object>
     <Object Type="Program" Language="IEC" Description="demo task - how to use">UsageTasmo</Object>
-    <Object Type="File">tasmotapi doc.pdf</Object>
+    <Object Type="Package">mdimages</Object>
+    <Object Type="File">readme.md</Object>
   </Objects>
 </Package>

@@ -4,6 +4,7 @@
   <Objects>
     <Object Type="Library" Language="ANSIC" Description="thle library contains the algorithm for calculation + IEC interface">TBSWAstro</Object>
     <Object Type="Program" Language="IEC" Description="demo task - how to use">UsagAstro</Object>
-    <Object Type="File" Description="some more documentation - AI translated">Library TBSWAstro en.pdf</Object>
+    <Object Type="Package">mdimages</Object>
+    <Object Type="File">readme.md</Object>
   </Objects>
 </Package>

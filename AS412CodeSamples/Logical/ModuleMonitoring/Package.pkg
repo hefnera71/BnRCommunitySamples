@@ -4,6 +4,7 @@
   <Objects>
     <Object Type="Library" Language="IEC" Description="library for asynchronous check of module changes while runtime + reporting into logger">RtModMon</Object>
     <Object Type="Program" Language="IEC" Description="demo task - how to use">UsagModMon</Object>
-    <Object Type="File" Description="some more documentation - AI translated">RtModMon.pdf</Object>
+    <Object Type="Package">mdimages</Object>
+    <Object Type="File">readme.md</Object>
   </Objects>
 </Package>

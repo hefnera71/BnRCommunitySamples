@@ -4,7 +4,8 @@
   <Objects>
     <Object Type="Program" Language="IEC" Description="webservice code using ReadEvLog and delivering data as JSON">wsLogger</Object>
     <Object Type="DataObject" Language="Simple" Description="byte-coded wsLogger webservice frontend">wsLData</Object>
-    <Object Type="File">wsLogger informations.pdf</Object>
+    <Object Type="Package">mdimages</Object>
+    <Object Type="File">readme.md</Object>
     <Object Type="File">LICENSE.txt</Object>
   </Objects>
 </Package>
