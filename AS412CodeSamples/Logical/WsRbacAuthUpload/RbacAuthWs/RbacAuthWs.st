@@ -7,7 +7,7 @@
 
 FUNCTION_BLOCK RbacAuthUploadWebservice
 
-	IF enable = TRUE THEN
+	IF enable = TRUE AND internal.TON_AuthBlock.IN = FALSE THEN
 	
 		status := 16#FFFF;
 		
@@ -159,6 +159,7 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 						internal.rbacauthws_Step := rbacauthws_STEP_SENDWSRESP;
 						// log it
 						internal.sTemp := 'auth failed: '; brsstrcat(ADR(internal.sTemp),ADR(internal.ArUserAuthenticatePassword_0.UserName));
+						internal.authFailedCount := internal.authFailedCount + 1;
 						wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_ERROR, 'RbacAuthWs', internal.sTemp);
 						IF NOT internal.bResponseIsJSON THEN
 							internal.Response := '<html><body>User Auth Error</body></html>';
@@ -185,6 +186,9 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 						// log it
 						internal.sTemp := 'role valid: '; brsstrcat(ADR(internal.sTemp),ADR(internal.ArUserAuthenticatePassword_0.UserName));
 						wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_SUCCESS, 'RbacAuthWs', internal.sTemp);
+						
+						// sucessful auth -> reset auth failed count
+						internal.authFailedCount := 0;
 
 						// generate uuid
 						internal.UUIDGenerator_0.getNextUUID := TRUE;
@@ -230,6 +234,7 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 						// log it
 						internal.sTemp := 'role invalid: '; brsstrcat(ADR(internal.sTemp),ADR(internal.ArUserAuthenticatePassword_0.UserName));
 						wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_ERROR, 'RbacAuthWs', internal.sTemp);
+						internal.authFailedCount := internal.authFailedCount + 1;
 						IF NOT internal.bResponseIsJSON THEN
 							internal.Response := '<html><body>User Role Error</body></html>';
 						ELSE
@@ -284,7 +289,11 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 		
 	ELSE
 
-		status := 16#FFFE;
+		IF internal.TON_AuthBlock.IN = TRUE THEN
+			status := 16#FFFD;
+		ELSE
+			status := 16#FFFE;
+		END_IF
 		internal.rbacauthws_Step := rbacauthws_STEP_WAIT;
 
 		(* Unregister Webservice *)
@@ -304,7 +313,24 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 	wsUploadLastFileName := internal.WebUploadWithUuidAuth_0.targetFileName;
 	uuidGenPhase := internal.UUIDGenerator_0.phase;
 	wsUploadTimerET := internal.TON_UploadSwitchoff.ET;
+	failedAuthCount := internal.authFailedCount;
+	failedAuthBlockedET := internal.TON_AuthBlock.ET;
+
+	// check if failed auth reached maximum -> brute force suppression
+	IF internal.authFailedCount >= rbacauthws_CONST_MAXFAILEDAUTH THEN
+		internal.TON_AuthBlock.IN := TRUE;
+		internal.authFailedCount := 0;
+		wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_ERROR, 'RbacAuthWs', 'too much failed auth requests, service blocked!');
+	END_IF
 	
+	// block new requests for some time -> brute force suppression
+	internal.TON_AuthBlock.PT := T#5m;
+	internal.TON_AuthBlock();
+	IF internal.TON_AuthBlock.Q = TRUE THEN
+		internal.TON_AuthBlock.IN := FALSE;
+		internal.TON_AuthBlock();
+		wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_INFO, 'RbacAuthWs', 'auth failed block time succeded');
+	END_IF
 	
 	
 END_FUNCTION_BLOCK

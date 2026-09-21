@@ -25,5 +25,6 @@
     <Object Type="Library" Language="binary" Description="The DataObj library can be used to dynamically create, dynamically delete and copy data objects, etc. ">DataObj</Object>
     <Object Type="Library" Language="binary" Description="This library contains FBs for the handling of certificates.">ArCert</Object>
     <Object Type="Library" Language="binary" Description="User Role System">ArUser</Object>
+    <Object Type="Library" Language="binary" Description="The AsIO library makes it possible to determine the states and values of a data point and carry out forcing operations.">AsIO</Object>
   </Objects>
 </Package>

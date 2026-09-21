@@ -14,6 +14,7 @@
 #include <AsTime.h>
 #include <standard.h>
 #include <AsETH.h>
+#include <AsIO.h>
 #include "UUIDgen.h"
 
 #ifdef __cplusplus
@@ -151,6 +152,11 @@ uint32_t generate_seed(uint32_t number, uint32_t mix, uint32_t salt)
 //uint8_t step = 0;
 //uint16_t internal_status = 0;
 //uint16_t internal_error = 0;
+#define stepIDLE 0
+#define stepWAITNEXT 1
+#define stepSERIAL 2
+#define stepENTROPY 3
+#define stepGENERATE 4
 
 #define RUN_COUNT 10
 uint32_t primes1[10] = {99929,96661,90007,85453,80051,75521,60083,51199,40013,22277};
@@ -169,7 +175,8 @@ void UUIDGenerator(UUIDGenerator_typ* inst)
 		inst->internal.internal_status = 65535;
 		inst->internal.internal_error = 0;
 		inst->internal.run_count = 0;
-		inst->internal.step = 1;
+		//inst->internal.step = stepWAITNEXT;
+		inst->internal.step = stepSERIAL;
 		inst->phase = uuidgenPHASE_INITIALIZING;
 	}
 	inst->internal.enable_last = inst->enable;
@@ -181,34 +188,49 @@ void UUIDGenerator(UUIDGenerator_typ* inst)
 	
 	switch (inst->internal.step)
 	{
-		case 0:
+		case stepIDLE:
 			
 			if (inst->internal.getnext_last == 0 && inst->getNextUUID == 1)
 			{
 				// p edge
 				if (inst->enable == 1 && inst->phase == uuidgenPHASE_READY)
 				{
-					inst->internal.step = 3;
+					inst->internal.step = stepGENERATE;
 				}
 			}
 			inst->internal.getnext_last = inst->getNextUUID;
 			break;
 		
+		// read device serial number
+		case stepSERIAL:
+			inst->internal.asiodpstatus_0.pDatapoint = (UDINT)"%IX.SerialNumber";
+			inst->internal.asiodpstatus_0.enable = 1;
+			AsIODPStatus(&inst->internal.asiodpstatus_0);
+			if (inst->internal.asiodpstatus_0.status != 65535)
+			{
+				if (inst->internal.asiodpstatus_0.status == 0)
+					inst->internal.serial = inst->internal.asiodpstatus_0.value;
+				else
+					inst->internal.serial = 0;
+				inst->internal.step = stepWAITNEXT;			
+			}
+			break;
+		
 		// wait 0.1 second, then go on with next step
-		case 1:
+		case stepWAITNEXT:
 			inst->internal.ton_0.PT = 100;
 			inst->internal.ton_0.IN = 1;
 			TON(&inst->internal.ton_0);
 			if (inst->internal.ton_0.Q == 1)
 			{
-				inst->internal.step++;
+				inst->internal.step = stepENTROPY;
 				inst->internal.ton_0.IN = 0;
 				TON(&inst->internal.ton_0);
 			}
 			break;
 
 		// get eth stats & rtc time, build some more, real external random values out of those values
-		case 2:
+		case stepENTROPY:
 			inst->internal.ethstat_0.enable = 1;
 			inst->internal.ethstat_0.pDevice = (UDINT)&inst->ethIfName;
 			inst->internal.ethstat_0.pStat = (UDINT)&inst->internal.stat;
@@ -219,23 +241,25 @@ void UUIDGenerator(UUIDGenerator_typ* inst)
 				{
 					// use bytes received as external entropy value
 					inst->internal.start_val = generate_seed(inst->internal.stat.bytesrecv, primes1[inst->internal.run_count], primes2[inst->internal.run_count]);
+					inst->fallbackModeActive = 0;
 				}
 				else
 				{
 					// JUST AS FALLBACK: use clock instead of network bytes, but be aware that the clock value does not change within the 10 rounds 
 					inst->internal.start_val = generate_seed(GetDTSecs(), primes1[inst->internal.run_count], primes2[inst->internal.run_count]);
 					inst->internal.internal_error = 1; // just as a "marker" to know that reading eth stat failed for whatever reason
+					inst->fallbackModeActive = 1; // signal that entropy is not as good as possilbe!
 				}
 				// use that value as initialisation vector for the generator
 				inject_entropy(inst->internal.start_val);
 				// repeat initialisation 10 times, once a second to get different random eth stat data
 				if (inst->internal.run_count >= RUN_COUNT - 1)
 				{
-					inst->internal.step++;
+					inst->internal.step = stepGENERATE;
 				}
 				else
 				{
-					inst->internal.step--;
+					inst->internal.step = stepWAITNEXT;
 					inst->internal.run_count++;
 				}
 			}
@@ -244,7 +268,7 @@ void UUIDGenerator(UUIDGenerator_typ* inst)
 
 		// uuid generation
 		// Important: after first initialisation (steps 1 + 2), it's not needed to init again to get new uuids -> just execute this step 3 again to get a new uuid!!
-		case 3:
+		case stepGENERATE:
 			inst->phase = uuidgenPHASE_READY; // preparation finished!
 			inst->internal.internal_status = 0;
 			
@@ -258,11 +282,11 @@ void UUIDGenerator(UUIDGenerator_typ* inst)
 			strcpy(inst->UUIDhyphened, (char*)uuid_hyphened);
 			
 			// done
-			inst->internal.step = 0;
+			inst->internal.step = stepIDLE;
 			break;
 		
 		default:
-			inst->internal.step = 0;
+			inst->internal.step = stepIDLE;
 			break;
 	}
 

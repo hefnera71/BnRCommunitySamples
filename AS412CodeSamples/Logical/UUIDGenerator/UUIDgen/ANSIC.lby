@@ -12,5 +12,6 @@
     <Dependency ObjectName="AsETH" />
     <Dependency ObjectName="standard" />
     <Dependency ObjectName="astime" />
+    <Dependency ObjectName="AsIO" />
   </Dependencies>
 </Library>

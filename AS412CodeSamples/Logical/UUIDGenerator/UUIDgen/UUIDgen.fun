@@ -9,6 +9,7 @@
 		phase : {REDUND_UNREPLICABLE} USINT; (*initialization phase, please see constants uuidgenPHASE_xxx for details*)
 		UUID : {REDUND_UNREPLICABLE} STRING[32]; (*the (new) UUID*)
 		UUIDhyphened : {REDUND_UNREPLICABLE} STRING[36]; (*the (new) UUID with hyphens as defined in RFC*)
+		fallbackModeActive : {REDUND_UNREPLICABLE} BOOL; (*true if entropy cannot be set by ETH interface data*)
 	END_VAR
 	VAR
 		internal : {REDUND_UNREPLICABLE} uuidgenInternal_typ;

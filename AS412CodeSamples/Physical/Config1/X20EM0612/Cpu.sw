@@ -91,10 +91,11 @@
     <LibraryObject Name="TOTPlib" Source="TOTPLibrary.TOTPlib.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
     <LibraryObject Name="WsQRlib" Source="QRCodeWebservice.WsQRlib.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
     <LibraryObject Name="ArCert" Source="Libraries.ArCert.lby" Memory="UserROM" Language="binary" Debugging="true" />
+    <LibraryObject Name="ArUser" Source="Libraries.ArUser.lby" Memory="UserROM" Language="binary" Debugging="true" />
+    <LibraryObject Name="AsIO" Source="Libraries.AsIO.lby" Memory="UserROM" Language="binary" Debugging="true" />
     <LibraryObject Name="UUIDgen" Source="UUIDGenerator.UUIDgen.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
-    <LibraryObject Name="asieccon" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
     <LibraryObject Name="wbuplduuid" Source="WsRbacAuthUpload.WServiceUploadWithUUID.wbuplduuid.lby" Memory="UserROM" Language="IEC" Debugging="true" />
     <LibraryObject Name="RbacAuthWs" Source="WsRbacAuthUpload.RbacAuthWs.lby" Memory="UserROM" Language="IEC" Debugging="true" />
-    <LibraryObject Name="ArUser" Source="Libraries.ArUser.lby" Memory="UserROM" Language="binary" Debugging="true" />
+    <LibraryObject Name="asieccon" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
   </Libraries>
 </SwConfiguration>

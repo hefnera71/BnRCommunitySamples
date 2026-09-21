@@ -22,6 +22,8 @@
 		wsUploadLastFileSize : {REDUND_UNREPLICABLE} UDINT; (*size in byte of the last file uploaded*)
 		wsUploadTimerET : {REDUND_UNREPLICABLE} TIME; (*elapsed time since upload service was enabled*)
 		uuidGenPhase : {REDUND_UNREPLICABLE} USINT; (*phase of the token generator -> 2 = ready*)
+		failedAuthCount : {REDUND_UNREPLICABLE} USINT; (*number of consecutive failed authentications*)
+		failedAuthBlockedET : {REDUND_UNREPLICABLE} TIME; (*elapsed time of the failed authentication block timer*)
 	END_VAR
 	VAR
 		internal : {REDUND_UNREPLICABLE} RbacAuthWs_Internal_typ; (*internal!!*)
