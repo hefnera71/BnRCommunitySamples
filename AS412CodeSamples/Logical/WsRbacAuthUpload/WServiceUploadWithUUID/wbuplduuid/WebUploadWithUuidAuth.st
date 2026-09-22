@@ -4,6 +4,9 @@
 // Licensed under the MIT License - see LICENSE.txt file for details
 *)
 
+// changes
+// V1.00.2 added html mode suspression
+// V1.00.1 initial version
 
 (* Function block to handle files that are sent to service, write them to given device and file *)
 FUNCTION_BLOCK WebUploadWithUuidAuth
@@ -120,7 +123,7 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 						IF internal.param4 = 'true' THEN
 							// user signal -> finished
 							userFinished := TRUE;
-							IF NOT internal.bModeIsJson THEN
+							IF NOT internal.bModeIsJson AND enableHtmlMode = TRUE THEN
 								brsstrcpy(ADR(internal.Response), ADR('<html><head></head><body><h2>Ended!</h2></body></html>'));
 							ELSE
 								brsstrcpy(ADR(internal.Response), ADR('{status:"ok", info:"ended"}'));
@@ -134,7 +137,7 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 							IF internal.param2 <> 'true' THEN
 								// send html code
 								
-								IF NOT internal.bModeIsJson THEN
+								IF NOT internal.bModeIsJson AND enableHtmlMode = TRUE THEN
 									brsstrcpy(ADR(internal.Response), ADR('<html><head><style> body { width: 100%; height: 100%; } .hidden { display: none; } .buttonStyle { position: relative; width: 90px; height: 35px; margin: 5px; cursor: pointer; } #fileName { margin: 5px; font-family: Arial, sans-serif; } </style></head><body width="100%" height="100%"><h2>Select file to upload</h2><form id="ulform" action="'));
 									brsstrcat(ADR(internal.Response), ADR(serviceName));
 									brsstrcat(ADR(internal.Response), ADR('?do_upload=true&mode=html&uuid='));
@@ -166,7 +169,7 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 						// declined
 						// we have to send a negative response
 						wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_ERROR, 'wbuplduuid', 'upload webservice unauthorized or uuid missing');
-						IF NOT internal.bModeIsJson THEN
+						IF NOT internal.bModeIsJson AND enableHtmlMode = TRUE THEN
 							brsstrcpy(ADR(internal.Response), ADR('<html><body>Uploading unauthorized or uuid missing</body></html>'));
 						ELSE
 							brsstrcpy(ADR(internal.Response), ADR('{status:"error", info:"uploading unauthorized or uuid missing"}'));
@@ -331,7 +334,7 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 					wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_SUCCESS, 'wbuplduuid', internal.sTemp);
 					
 					// and send response
-					IF NOT internal.bModeIsJson THEN
+					IF NOT internal.bModeIsJson AND enableHtmlMode = TRUE THEN
 						brsstrcpy(ADR(internal.Response), ADR('<html><head><style> body { width: 100%; height: 100%; } .textStyle { margin-left: 10px; font-family: Arial, sans-serif; }</style></head><body><h2>Done!</h2><span style="textStyle"><a href="./'));
 						brsstrcat(ADR(internal.Response), ADR(serviceName));
 						brsstrcat(ADR(internal.Response), ADR('?uuid='));
@@ -364,7 +367,7 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 				internal.sTemp := 'upload webservice internal function error: ';
 				brsitoa(Status, ADR(internal.sTemp) + brsstrlen(ADR(internal.sTemp)));
 				wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_ERROR, 'wbuplduuid', internal.sTemp);
-				IF NOT internal.bModeIsJson THEN
+				IF NOT internal.bModeIsJson AND enableHtmlMode = TRUE THEN
 					brsstrcpy(ADR(internal.Response), ADR('<html><body>Error!<br>'));
 					brsstrcat(ADR(internal.Response), ADR(internal.sTemp));
 					brsstrcat(ADR(internal.Response), ADR('</body></html>'));

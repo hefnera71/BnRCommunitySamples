@@ -9,6 +9,7 @@
 		uuid : {REDUND_UNREPLICABLE} STRING[32]; (*token that is allowed for upload*)
 		loggerName : {REDUND_UNREPLICABLE} STRING[32]; (*logger where the messages are logged to*)
 		externalBufferSetup : {REDUND_UNREPLICABLE} WebUpload_extbuffer_wbuuid_typ; (*external memory buffer configuration if needed (upload file > 10kByte*)
+		enableHtmlMode : {REDUND_UNREPLICABLE} BOOL; (*enable the usage of ?mode = html*)
 	END_VAR
 	VAR_OUTPUT
 		targetFileName : {REDUND_UNREPLICABLE} STRING[100]; (*name of the last file uploaded*)

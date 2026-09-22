@@ -9,8 +9,8 @@ The functionality is intended to used via scripts, so no GUI / UI interfaces are
 
 **This is NOT some high-end security implementation!**
 
-But at least I tried to implement basic security by using a separation of concerns approach, a short-lifetime session token mechanism,
-a webservice implementation where the service just has exactly that restricted functionality that I need, and some logging is done inside the PLC logger (and for sure, only https is allowed).
+But at least I tried to implement basic security by using a separation of concerns approach, a (short-lifetime if configured right) session token mechanism,
+a webservice implementation where the service just has exactly that restricted functionality that I need, brute-force protection (5 consecutive authentication failures lead to 15 minutes blocked webservice), and some logging is done inside the PLC logger (and for sure, only https is allowed).
 And yes, for the script call the password is plain readable - that means that the system where the script is executed for sure has to be a secure and controlled environment!
 
 ## Concept
@@ -81,6 +81,7 @@ but is also available inside this repository: [UUIDGenerator](https://github.com
 		ethIfName : STRING[80]; (*name of the active ethernet interface (needed for token generator)*)
 		uploadServiceTimer : TIME; (*time how long the upload webservice is enabled until auto closing*)
 		externalBufferSetup : WebUpload_extbuffer_wbuuid_typ; (*external memory buffer configuration*)
+		enableHtmlMode : BOOL; (*enable the usage of ?mode=html (for test purposes only)*)
 	END_VAR
 	VAR_OUTPUT
 		wsAuthEnabled : BOOL; (*main webservice is enabled*)
@@ -92,7 +93,9 @@ but is also available inside this repository: [UUIDGenerator](https://github.com
 		wsUploadLastFileSize : UDINT; (*size in byte of the last file uploaded*)
 		wsUploadTimerET : TIME; (*elapsed time since upload service was enabled*)
 		uuidGenPhase : USINT; (*phase of the token generator -> 2 = ready*)
-	END_VAR
+		failedAuthCount : USINT; (*number of consecutive failed authentications*)
+		failedAuthBlockedET : TIME; (*elapsed time of the failed authentication block timer*)
+END_VAR
 
 	WebUpload_extbuffer_wbuuid_typ : 	STRUCT 
 		pRequestBuffer : UDINT;
@@ -117,7 +120,8 @@ PROGRAM _INIT
 	RbacAuthUploadWebservice_0.targetDeviceName := 'USER';				// file device where uploads are stored
 	RbacAuthUploadWebservice_0.targetDirectoryName := 'web';			// directory where uploads are stored
 	RbacAuthUploadWebservice_0.ethIfName := 'IF2';						// active ethernet interface name - needed for token generation
-	RbacAuthUploadWebservice_0.uploadServiceTimer := T#2m;				// time how long the uplad servce should be active
+	RbacAuthUploadWebservice_0.uploadServiceTimer := T#30s;				// time how long the upload servce should be active -> keep it as short as possible open!!
+	RbacAuthUploadWebservice_0.enableHtmlMode := FALSE;					// enables the usage of html mode -> use it only if you need it
 	RbacAuthUploadWebservice_0.externalBufferSetup := 0;				// don't use external buffer
 	
 	// enable the function block
@@ -264,7 +268,8 @@ bash:
 ### Using HTML interface for testing
 
 As described above, a simple user interface for manual upload tests is integrated.
-To start it, the main webservice is called with an additional parameter "mode=html" in the browser.
+To start it, the main webservice is called with an additional parameter "mode=html" in the browser 
+(please note, that this function has to be enabled at the function block call by setting .enableHtmlMode := TRUE).
 
 For example:
 ```

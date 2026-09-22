@@ -30,6 +30,7 @@ PROGRAM _INIT
 	RbacAuthUploadWebservice_0.targetDirectoryName := 'web';			// directory where uploads are stored
 	RbacAuthUploadWebservice_0.ethIfName := 'IF2';						// active ethernet interface name - needed for token generation
 	RbacAuthUploadWebservice_0.uploadServiceTimer := T#30s;				// time how long the upload servce should be active -> keep it as short as possible open!!
+	RbacAuthUploadWebservice_0.enableHtmlMode := FALSE;					// enables the usage of html mode -> use it only if you need it
 	RbacAuthUploadWebservice_0.externalBufferSetup := tBufferConfig;	// use external buffer (if allocation was ok)
 	
 	// enable the function block

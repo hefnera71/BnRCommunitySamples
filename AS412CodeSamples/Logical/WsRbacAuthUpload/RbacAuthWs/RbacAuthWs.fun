@@ -11,6 +11,7 @@
 		ethIfName : {REDUND_UNREPLICABLE} STRING[80]; (*name of the active ethernet interface (needed for token generator)*)
 		uploadServiceTimer : {REDUND_UNREPLICABLE} TIME; (*time how long the upload webservice is enabled until auto closing*)
 		externalBufferSetup : {REDUND_UNREPLICABLE} WebUpload_extbuffer_wbuuid_typ; (*external memory buffer configuration*)
+		enableHtmlMode : {REDUND_UNREPLICABLE} BOOL; (*enable the usage of ?mode=html (for test purposes only)*)
 	END_VAR
 	VAR_OUTPUT
 		wsAuthEnabled : {REDUND_UNREPLICABLE} BOOL; (*main webservice is enabled*)
@@ -31,5 +32,7 @@
 		zzEdge00001 : {REDUND_UNREPLICABLE} BOOL; (*internal!!*)
 		zzEdge00002 : {REDUND_UNREPLICABLE} BOOL; (*internal!!*)
 		zzEdge00003 : {REDUND_UNREPLICABLE} BOOL; (*internal!!*)
+		zzEdge00004 : {REDUND_UNREPLICABLE} BOOL; (*internal!!*)
+		zzEdge00005 : {REDUND_UNREPLICABLE} BOOL; (*internal!!*)
 	END_VAR
 END_FUNCTION_BLOCK

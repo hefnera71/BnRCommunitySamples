@@ -5,8 +5,9 @@
 *)
 
 // changes
-// 0.00.2 added blocking webservice FOR 5 minutes after too much failed authentication tries; adding logger entry if uuid generator is in fallback mode
-// 0.00.1 initial version
+// V0.00.3 added html mode suspression
+// V0.00.2 added blocking webservice FOR 5 minutes after too much failed authentication tries; adding logger entry if uuid generator is in fallback mode
+// V0.00.1 initial version
 
 FUNCTION_BLOCK RbacAuthUploadWebservice
 
@@ -21,6 +22,7 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 		internal.TON_UploadSwitchoff.PT := uploadServiceTimer; // input
 
 		internal.WebUploadWithUuidAuth_0.loggerName := loggerName;		// input
+		internal.WebUploadWithUuidAuth_0.enableHtmlMode := enableHtmlMode;
 		internal.ArEventLogGetIdent_0(Execute := TRUE, Name := loggerName);	//input
 
 		internal.UUIDGenerator_0(ethIfName := ethIfName); // input
@@ -53,7 +55,7 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 			internal.Webservice.send := FALSE; (* Reset *)
 		ELSIF internal.Webservice.status = ERR_OK AND internal.Webservice.send = FALSE AND internal. Webservice.phase = httpPHASE_RECEIVED AND internal.bProcessing = FALSE THEN 
 			(* Create Response *)	
-		
+						
 			wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_INFO, 'RbacAuthWs', 'auth webservice was called');
 		
 			internal.FormParam1 := '';
@@ -111,7 +113,7 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 			END_IF
 			internal.FormParam3Old := internal.FormParam3;
 			
-			IF internal.FormParam4 <> 'html' THEN
+			IF internal.FormParam4 <> 'html' OR enableHtmlMode = FALSE THEN
 				internal.ResponseHeader.contentType 	:= 'application/json';
 				internal.bResponseIsJSON := TRUE;
 			ELSE
@@ -145,7 +147,7 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 
 			IF internal.bSendInitialForm = TRUE THEN
 				internal.bSendInitialForm := FALSE;
-				IF NOT internal.bResponseIsJSON THEN
+				IF NOT internal.bResponseIsJSON AND enableHtmlMode = TRUE THEN
 					internal.ResponseHeader.contentType 	:= 'text/html'; (* Response is HTML data and this is the correct MIME type *)
 					internal.Response := '<html><head><script>function getTs(){document.getElementById("_ts").value = Date.now();}</script>';
 					brsstrcat(ADR(internal.Response),ADR(rbacauthws_CONST_CSSSTYLE));
@@ -184,7 +186,7 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 						internal.sTemp := 'auth failed: '; brsstrcat(ADR(internal.sTemp),ADR(internal.ArUserAuthenticatePassword_0.UserName));
 						internal.authFailedCount := internal.authFailedCount + 1;
 						wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_ERROR, 'RbacAuthWs', internal.sTemp);
-						IF NOT internal.bResponseIsJSON THEN
+						IF NOT internal.bResponseIsJSON AND enableHtmlMode = TRUE THEN
 							internal.Response := '<html><body>User Auth Error</body></html>';
 						ELSE
 							internal.Response := '{status:"error", info:"user auth error"}';
@@ -222,7 +224,7 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 						brsmemcpy(ADR(internal.WebUploadWithUuidAuth_0.externalBufferSetup),ADR(externalBufferSetup), SIZEOF(externalBufferSetup));
 						// enable upload service and use uuid
 						internal.WebUploadWithUuidAuth_0.enable := TRUE;
-						internal.WebUploadWithUuidAuth_0.uuid := internal.UUIDGenerator_0.UUID;
+						brsmemcpy(ADR(internal.WebUploadWithUuidAuth_0.uuid),ADR(internal.UUIDGenerator_0.UUID), SIZEOF(internal.WebUploadWithUuidAuth_0.uuid));
 						// activate timer
 						internal.TON_UploadSwitchoff.IN := TRUE;
 						// response
@@ -236,7 +238,7 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 						internal.sTemp := TIME_TO_STRING(internal.TON_UploadSwitchoff.PT);
 						brsstrcat(ADR(internal.sInfoMessage), ADR(internal.sTemp));
 					
-						IF NOT internal.bResponseIsJSON THEN
+						IF NOT internal.bResponseIsJSON AND enableHtmlMode = TRUE THEN
 							internal.Response := '<html><head><meta http-equiv="refresh" content="2; ';
 							brsstrcat(ADR(internal.Response), ADR(internal.sUploadLink));
 							brsstrcat(ADR(internal.Response), ADR('&mode=html">'));
@@ -258,7 +260,7 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 						internal.sTemp := 'role invalid: '; brsstrcat(ADR(internal.sTemp),ADR(internal.ArUserAuthenticatePassword_0.UserName));
 						wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_ERROR, 'RbacAuthWs', internal.sTemp);
 						internal.authFailedCount := internal.authFailedCount + 1;
-						IF NOT internal.bResponseIsJSON THEN
+						IF NOT internal.bResponseIsJSON AND enableHtmlMode = TRUE THEN
 							internal.Response := '<html><body>User Role Error</body></html>';
 						ELSE
 							internal.Response := '{status:"error", info:"user role error"}';
@@ -308,6 +310,14 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 		END_IF
 		IF EDGENEG(internal.WebUploadWithUuidAuth_0.enable) = TRUE THEN
 			wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_INFO, 'RbacAuthWs', 'upload webservice was disabled');
+		END_IF
+		
+		// log html mode
+		IF EDGEPOS(enableHtmlMode) = TRUE THEN
+			wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_WARNING, 'RbacAuthWs', 'auth webservice html mode enabled');
+		END_IF
+		IF EDGENEG(enableHtmlMode) = TRUE THEN
+			wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_INFO, 'RbacAuthWs', 'auth webservice html mode disabled');
 		END_IF
 		
 	ELSE

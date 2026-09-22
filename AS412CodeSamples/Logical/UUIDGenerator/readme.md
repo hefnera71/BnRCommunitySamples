@@ -15,10 +15,15 @@ So if there's no hardware to generate "real random" values, some external entrop
 This implementation assumes, that the device is connected to the ethernet network (at least in my use-case, where I developed the function for, makes no sense without having a network connection).
 
 And as in networks normally always some non-predictible traffic is present (e.g. broadcasts & multicasts every device receives), I use the number of bytes received on the network interface as external entropy.
+Additionally, the number of bytes received are XORd with a hardware unique information (it's not the MAC address).
 
-Doing some initalization rounds with waiting a bit in between and additionally mixing + salting the byte numbers with some prime numbers should deliver some "random enough" init values for the generator.
+Doing some initalization rounds with waiting a bit in between and additionally mixing + salting the "byte-numbers-hardware-id-combination" with some prime numbers should deliver some "random enough" init values for the generator.
 
-Additional information: if reading the network bytes once fails, I use the rtc time instead together with prime numbers -> but that's very less random and just relies then on the prime numbers, so it's not intended to use it in that way!
+### Additional information / WARNING:
+
+if reading the network bytes once fails, I use the rtc time + the unique hardware id instead together with the prime numbers -> that's VERY LESS RANDOM then the normal operation, so it's not intended to use it in that way!
+
+Therefore, if this fallback mode is used, it's signaled by a function block output ".fallbackModeActive = TRUE".
 
 ## what to do if you want to use it
 1.) change the prime numbers inside the source code to your own ones! ==> search for the arrays "uint32_t primes1" and "uint32_t primes2" and change the values
@@ -39,6 +44,7 @@ He're the function block UUIDGenerator inputs and outputs with some short usage 
 		phase : USINT; (*initialization phase, please see constants uuidgenPHASE_xxx for details*)
 		UUID : STRING[32]; (*the (new) UUID*)
 		UUIDhyphened : STRING[36]; (*the (new) UUID with hyphens as defined in RFC*)
+		fallbackModeActive : BOOL; (*true if entropy cannot be set by ETH interface data*)
 	END_VAR
 ```
 
