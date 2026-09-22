@@ -2,6 +2,10 @@
 // 
 // Licensed under the MIT License - see LICENSE.txt file for details
 
+// changes
+// V1.01.1 added the product serial and type to get some more uniqueness to seed values; added output to signal fallback mode
+// V1.01.0 initial version
+
 #include <bur/plctypes.h>
 
 #ifdef __cplusplus
@@ -155,8 +159,9 @@ uint32_t generate_seed(uint32_t number, uint32_t mix, uint32_t salt)
 #define stepIDLE 0
 #define stepWAITNEXT 1
 #define stepSERIAL 2
-#define stepENTROPY 3
-#define stepGENERATE 4
+#define stepTYPE 3
+#define stepENTROPY 4
+#define stepGENERATE 5
 
 #define RUN_COUNT 10
 uint32_t primes1[10] = {99929,96661,90007,85453,80051,75521,60083,51199,40013,22277};
@@ -203,22 +208,46 @@ void UUIDGenerator(UUIDGenerator_typ* inst)
 		
 		// read device serial number
 		case stepSERIAL:
-			inst->internal.asiodpstatus_0.pDatapoint = (UDINT)"%IX.SerialNumber";
+			inst->internal.asiodpstatus_0.pDatapoint = (UDINT)"%ID.SerialNumber";
 			inst->internal.asiodpstatus_0.enable = 1;
 			AsIODPStatus(&inst->internal.asiodpstatus_0);
 			if (inst->internal.asiodpstatus_0.status != 65535)
 			{
 				if (inst->internal.asiodpstatus_0.status == 0)
+				{
 					inst->internal.serial = inst->internal.asiodpstatus_0.value;
+				}
 				else
-					inst->internal.serial = 0;
-				inst->internal.step = stepWAITNEXT;			
+				{	
+					// use status message as "serial"
+					inst->internal.serial = inst->internal.asiodpstatus_0.status;
+				}
+				inst->internal.step = stepTYPE;			
 			}
 			break;
 		
-		// wait 0.1 second, then go on with next step
+		// read device type
+		case stepTYPE:
+			inst->internal.asiodpstatus_0.pDatapoint = (UDINT)"%IW.ModuleID";
+			inst->internal.asiodpstatus_0.enable = 1;
+			AsIODPStatus(&inst->internal.asiodpstatus_0);
+			if (inst->internal.asiodpstatus_0.status != 65535)
+			{
+				if (inst->internal.asiodpstatus_0.status == 0)
+				{
+					inst->internal.serial = (inst->internal.serial << 16) | inst->internal.asiodpstatus_0.value;
+				}
+				else
+				{
+					inst->internal.serial = (inst->internal.serial << 16) | inst->internal.asiodpstatus_0.status;
+				}
+				inst->internal.step = stepWAITNEXT;			
+			}
+			break;
+
+		// wait some time, then go on with next step
 		case stepWAITNEXT:
-			inst->internal.ton_0.PT = 100;
+			inst->internal.ton_0.PT = 195;
 			inst->internal.ton_0.IN = 1;
 			TON(&inst->internal.ton_0);
 			if (inst->internal.ton_0.Q == 1)
@@ -239,14 +268,16 @@ void UUIDGenerator(UUIDGenerator_typ* inst)
 			{
 				if (inst->internal.ethstat_0.status == 0 && inst->internal.stat.bytesrecv > 0)
 				{
+					inst->internal.s_val = inst->internal.stat.bytesrecv ^ inst->internal.serial;
 					// use bytes received as external entropy value
-					inst->internal.start_val = generate_seed(inst->internal.stat.bytesrecv, primes1[inst->internal.run_count], primes2[inst->internal.run_count]);
+					inst->internal.start_val = generate_seed(inst->internal.s_val, primes1[inst->internal.run_count], primes2[inst->internal.run_count]);
 					inst->fallbackModeActive = 0;
 				}
 				else
 				{
 					// JUST AS FALLBACK: use clock instead of network bytes, but be aware that the clock value does not change within the 10 rounds 
-					inst->internal.start_val = generate_seed(GetDTSecs(), primes1[inst->internal.run_count], primes2[inst->internal.run_count]);
+					inst->internal.s_val = GetDTSecs() ^ inst->internal.serial;
+					inst->internal.start_val = generate_seed(inst->internal.s_val, primes1[inst->internal.run_count], primes2[inst->internal.run_count]);
 					inst->internal.internal_error = 1; // just as a "marker" to know that reading eth stat failed for whatever reason
 					inst->fallbackModeActive = 1; // signal that entropy is not as good as possilbe!
 				}
