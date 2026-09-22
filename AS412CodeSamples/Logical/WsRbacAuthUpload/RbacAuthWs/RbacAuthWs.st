@@ -4,10 +4,13 @@
 // Licensed under the MIT License - see LICENSE.txt file for details
 *)
 
+// changes
+// 0.00.2 added blocking webservice FOR 5 minutes after too much failed authentication tries; adding logger entry if uuid generator is in fallback mode
+// 0.00.1 initial version
 
 FUNCTION_BLOCK RbacAuthUploadWebservice
 
-	IF enable = TRUE AND internal.TON_AuthBlock.IN = FALSE THEN
+	IF enable = TRUE THEN
 	
 		status := 16#FFFF;
 		
@@ -38,7 +41,13 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 		internal.UUIDGenerator_0.enable := TRUE;
 		IF internal.UUIDGenerator_0.phase = uuidgenPHASE_READY THEN
 			internal.Webservice.enable := TRUE;
+			IF internal.lastUuidPhase <> internal.UUIDGenerator_0.enable THEN
+				IF internal.UUIDGenerator_0.fallbackModeActive = TRUE THEN
+					wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_WARNING, 'RbacAuthWs', 'uuid generator is in fallback mode!');
+				END_IF
+			END_IF	
 		END_IF
+		internal.lastUuidPhase := internal.UUIDGenerator_0.phase;
 
 		IF  internal.Webservice.send = TRUE  THEN 
 			internal.Webservice.send := FALSE; (* Reset *)
@@ -121,25 +130,39 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 			END_IF
 		
 		END_IF
-	
-		IF internal.bSendInitialForm = TRUE THEN
-			internal.bSendInitialForm := FALSE;
-			IF NOT internal.bResponseIsJSON THEN
-				internal.ResponseHeader.contentType 	:= 'text/html'; (* Response is HTML data and this is the correct MIME type *)
-				internal.Response := '<html><head><script>function getTs(){document.getElementById("_ts").value = Date.now();}</script>';
-				brsstrcat(ADR(internal.Response),ADR(rbacauthws_CONST_CSSSTYLE));
-				brsstrcat(ADR(internal.Response),ADR('</head><body><h2>Authenticate</h2><form method="POST" action="/'));;
-				brsstrcat(ADR(internal.Response),ADR(internal.authServiceName));
-				brsstrcat(ADR(internal.Response),ADR('?mode=html"><table><tr><td><label for="user" class="textStyle">Username:</label></td><td><input type="text" id="user" name="user" class="textStyle" size="32" /></td></tr><tr><td><label for="password" class="textStyle">Password:</label></td><td><input type="password" id="password" name="password" class="textStyle" size="32" /></td></tr><tr><td><input type="submit" name="bt1" class="buttonStyle" value="Submit" onclick="getTs();"><input type="hidden" name="_ts" id="_ts" value=""/></td><td</td></tr></table></form></body></html>'));
-			ELSE
-				internal.ResponseHeader.contentType 	:= 'application/json';
-				internal.Response := '{status:"error", info:"parameters missing?"}';
-			END_IF
 		
+			// ...AuthBlock 
+		IF internal.TON_AuthBlock.IN = TRUE THEN
+
+			internal.ResponseHeader.contentType 	:= 'application/json';
+			internal.Response := '{status:"error", info:"service blocked because of too much failed authentication requests."}';
 			internal.Webservice.responseDataLen := brsstrlen(ADR(internal.Response));
 			internal.Webservice.send := TRUE; (* Send on positive edge*)
-		END_IF		
-	
+			internal.ArEventLogGetIdent_0.Execute := FALSE;
+			status := 16#FFFD;
+
+		ELSE
+
+			IF internal.bSendInitialForm = TRUE THEN
+				internal.bSendInitialForm := FALSE;
+				IF NOT internal.bResponseIsJSON THEN
+					internal.ResponseHeader.contentType 	:= 'text/html'; (* Response is HTML data and this is the correct MIME type *)
+					internal.Response := '<html><head><script>function getTs(){document.getElementById("_ts").value = Date.now();}</script>';
+					brsstrcat(ADR(internal.Response),ADR(rbacauthws_CONST_CSSSTYLE));
+					brsstrcat(ADR(internal.Response),ADR('</head><body><h2>Authenticate</h2><form method="POST" action="/'));;
+					brsstrcat(ADR(internal.Response),ADR(internal.authServiceName));
+					brsstrcat(ADR(internal.Response),ADR('?mode=html"><table><tr><td><label for="user" class="textStyle">Username:</label></td><td><input type="text" id="user" name="user" class="textStyle" size="32" /></td></tr><tr><td><label for="password" class="textStyle">Password:</label></td><td><input type="password" id="password" name="password" class="textStyle" size="32" /></td></tr><tr><td><input type="submit" name="bt1" class="buttonStyle" value="Submit" onclick="getTs();"><input type="hidden" name="_ts" id="_ts" value=""/></td><td</td></tr></table></form></body></html>'));
+				ELSE
+					internal.ResponseHeader.contentType 	:= 'application/json';
+					internal.Response := '{status:"error", info:"parameters missing?"}';
+				END_IF
+			
+				internal.Webservice.responseDataLen := brsstrlen(ADR(internal.Response));
+				internal.Webservice.send := TRUE; (* Send on positive edge*)
+			END_IF		
+
+		END_IF
+		
 		CASE internal.rbacauthws_Step OF
 	
 			rbacauthws_STEP_CHECKCRED:
@@ -289,11 +312,7 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 		
 	ELSE
 
-		IF internal.TON_AuthBlock.IN = TRUE THEN
-			status := 16#FFFD;
-		ELSE
-			status := 16#FFFE;
-		END_IF
+		status := 16#FFFE;
 		internal.rbacauthws_Step := rbacauthws_STEP_WAIT;
 
 		(* Unregister Webservice *)
@@ -304,6 +323,29 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 		internal.UUIDGenerator_0(enable := 0);
 		
 	END_IF
+
+	// check if failed auth reached maximum -> brute force suppression
+	IF internal.authFailedCount >= rbacauthws_CONST_MAXFAILEDAUTH THEN
+		internal.TON_AuthBlock.IN := TRUE;
+		internal.authFailedCount := 0;
+		wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_ERROR, 'RbacAuthWs', 'too much failed auth requests, service blocked!');
+	END_IF
+	
+	// block new requests for some time -> brute force suppression
+	internal.TON_AuthBlock.PT := rbacauthws_CONST_FAILEDBLOCKTIME;
+	internal.TON_AuthBlock();
+	IF internal.TON_AuthBlock.Q = TRUE THEN
+		internal.TON_AuthBlock.IN := FALSE;
+		internal.TON_AuthBlock();
+		wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_INFO, 'RbacAuthWs', 'auth failed block time succeded');
+		// restart services
+		internal.Webservice(enable := 0);
+		internal.WebUploadWithUuidAuth_0(enable := 0);
+		internal.ArUserAuthenticatePassword_0(Execute := 0);
+		internal.ArUserHasRole_0(Execute := 0);
+		internal.UUIDGenerator_0(enable := 0);
+	END_IF
+	
 	
 	wsUploadEnabled := internal.WebUploadWithUuidAuth_0.enable;
 	statusWsUpload := internal.WebUploadWithUuidAuth_0.Status;
@@ -316,21 +358,5 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 	failedAuthCount := internal.authFailedCount;
 	failedAuthBlockedET := internal.TON_AuthBlock.ET;
 
-	// check if failed auth reached maximum -> brute force suppression
-	IF internal.authFailedCount >= rbacauthws_CONST_MAXFAILEDAUTH THEN
-		internal.TON_AuthBlock.IN := TRUE;
-		internal.authFailedCount := 0;
-		wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_ERROR, 'RbacAuthWs', 'too much failed auth requests, service blocked!');
-	END_IF
-	
-	// block new requests for some time -> brute force suppression
-	internal.TON_AuthBlock.PT := T#5m;
-	internal.TON_AuthBlock();
-	IF internal.TON_AuthBlock.Q = TRUE THEN
-		internal.TON_AuthBlock.IN := FALSE;
-		internal.TON_AuthBlock();
-		wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_INFO, 'RbacAuthWs', 'auth failed block time succeded');
-	END_IF
-	
 	
 END_FUNCTION_BLOCK

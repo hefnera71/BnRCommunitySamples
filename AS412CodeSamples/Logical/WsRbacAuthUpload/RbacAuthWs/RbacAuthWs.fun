@@ -14,7 +14,7 @@
 	END_VAR
 	VAR_OUTPUT
 		wsAuthEnabled : {REDUND_UNREPLICABLE} BOOL; (*main webservice is enabled*)
-		status : {REDUND_UNREPLICABLE} UINT; (*status of the main webservice *)
+		status : {REDUND_UNREPLICABLE} UINT; (*status of the main webservice: 0xffff = busy / running, 0xfffe = disabled, 0xfffd = blocked because of too much auth failures*)
 		wsUploadEnabled : {REDUND_UNREPLICABLE} BOOL; (*upload webservice is enabled*)
 		statusWsUpload : {REDUND_UNREPLICABLE} UINT; (*status of the upload webservice*)
 		wsUploadCounter : {REDUND_UNREPLICABLE} USINT; (*number of uploads since reboot*)

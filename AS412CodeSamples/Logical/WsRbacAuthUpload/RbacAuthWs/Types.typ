@@ -30,6 +30,7 @@ TYPE
 		sUploadLink : {REDUND_UNREPLICABLE} STRING[255];
 		sInfoMessage : {REDUND_UNREPLICABLE} STRING[255];
 		authFailedCount : {REDUND_UNREPLICABLE} USINT;
+		lastUuidPhase : {REDUND_UNREPLICABLE} USINT;
 		TON_AuthBlock : {REDUND_UNREPLICABLE} TON;
 		Webservice : {REDUND_UNREPLICABLE} httpsService := (0);
 		UrlParam : {REDUND_UNREPLICABLE} httpGetParamUrl := (0);
