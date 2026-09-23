@@ -5,6 +5,7 @@
 *)
 
 // changes
+// V1.00.3 fixed string sizes
 // V1.00.2 added html mode suspression
 // V1.00.1 initial version
 

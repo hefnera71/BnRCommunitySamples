@@ -9,7 +9,7 @@ TYPE
 		strPosFilenameEnd : UDINT;
 		messageHeader : STRING[300];
 		multipartBoundary : STRING[100];
-		fileName : STRING[100];
+		fileName : STRING[201];
 		closeFile : BOOL;
 		fileOffset : UDINT;
 		RequestUri : STRING[500];
@@ -18,7 +18,7 @@ TYPE
 		param3 : STRING[80];
 		param4 : STRING[80];
 		bModeIsJson : BOOL;
-		sTemp : STRING[255];
+		sTemp : STRING[512];
 		RequestBuffer : ARRAY[0..WBUUIDUPLOAD_MAX_REQUEST_SIZE]OF USINT;
 		multipartMessage : ARRAY[0..WBUUIDUPLOAD_MAX_REQUEST_SIZE]OF USINT;
 		bufferSetup : WebUpload_extbuffer_wbuuid_typ;
