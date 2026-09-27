@@ -1,5 +1,10 @@
 
-(* TODO: Add your comment here *)
+(*
+	Writes one text event to the Automation Runtime event log. The function
+	block is executed for the current call and Execute is cleared immediately
+	afterward. The return value is TRUE when the event-log function block does
+	not report an error.
+*)
 FUNCTION wbuuid_FcWriteArLog
 	// call ArEventLog FBs
 	ArEventLogWrite_0.Execute := TRUE;

@@ -5,11 +5,28 @@
 *)
 
 // changes
+// V1.00.4 added filename check, changed way of reading filename out of message, some bug fixing + debug infos
 // V1.00.3 fixed string sizes
 // V1.00.2 added html mode suspression
 // V1.00.1 initial version
 
-(* Function block to handle files that are sent to service, write them to given device and file *)
+(*
+	UUID-authenticated HTTP upload service.
+	The client first requests the upload form, then posts multipart file data in
+	chunks. The UUID in the request URI must match uuid before file operations
+	are allowed. Responses can be JSON or optional HTML, selected by the mode
+	request parameter.
+
+	State flow: initialize service -> handle request -> parse multipart data ->
+	delete/create/open file -> write chunks -> close file and respond. Errors
+	are reported through Status and the response, with errorReset returning to
+	the waiting state.
+
+	externalBufferSetup is optional. When all of its pointer and size fields
+	are valid, the caller-provided buffers are used; otherwise internal buffers
+	are used. targetDirectoryName and targetDeviceName determine the upload
+	destination, and the received filename is validated before being appended.
+*)
 FUNCTION_BLOCK WebUploadWithUuidAuth
 	
 	internal.ArEventLogGetIdent_0(Execute := enable, Name := loggerName);
@@ -23,9 +40,12 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 		sourceFileSize 	:= 0;
 		userFinished	:= 0;
 		internal.step 	:= WBUPUUID_STEP_WAIT;
+		uploadCounter	:= 0;
+		targetFileName	:= '';
 	ELSE
 		CASE internal.step OF
 			WBUPUUID_STEP_WAIT:
+				// Reset subordinate function blocks and configure the HTTP service.
 				internal.FileCreate_0.enable := FALSE;
 				internal.FileCreate_0();
 				
@@ -41,11 +61,11 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 				internal.FileDelete_0.enable := FALSE;
 				internal.FileDelete_0();
 				
-				internal.DirCreate_0.enable := FALSE;
-				internal.DirCreate_0();
-				
 				internal.GetBoundary_0.enable := FALSE;
 				internal.GetBoundary_0();
+				
+				internal.GetMultipartMessage_0.enable := FALSE;
+				internal.GetMultipartMessage_0();
 				
 				IF externalBufferSetup.pRequestBuffer > 0 AND externalBufferSetup.pMultipartBuffer > 0 AND externalBufferSetup.requestBufferSize > 0 AND externalBufferSetup.multipartBufferSize > 0 THEN 
 					brsmemcpy(ADR(internal.bufferSetup),ADR(externalBufferSetup), SIZEOF(externalBufferSetup));
@@ -66,6 +86,7 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 				internal.WebService.pRequestHeader 	:= ADR(internal.RequestHeader);
 				internal.WebService.pUri			:= ADR(internal.RequestUri);
 				internal.WebService.uriSize			:= SIZEOF(internal.RequestUri);
+				internal.WebService.pStatistics		:= ADR(internal.tStatistics);
 				
 				Done 	:= TRUE;
 				Error 	:= FALSE;
@@ -75,9 +96,9 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 				internal.closeFile 		:= FALSE;
 				
 				internal.step := WBUPUUID_STEP_HANDLE_REQUESTS;
-			
+				
 			WBUPUUID_STEP_HANDLE_REQUESTS:
-				// File completely received
+				// Parse request parameters and authorize the upload with the UUID.
 				Done 	:= TRUE;
 				Error 	:= FALSE;
 				Busy 	:= FALSE;
@@ -123,7 +144,7 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 	
 						IF internal.param4 = 'true' THEN
 							// user signal -> finished
-							userFinished := TRUE;
+							internal.bUserFinished := TRUE;
 							IF NOT internal.bModeIsJson AND enableHtmlMode = TRUE THEN
 								brsstrcpy(ADR(internal.Response), ADR('<html><head></head><body><h2>Ended!</h2></body></html>'));
 							ELSE
@@ -156,10 +177,7 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 								
 								wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_INFO, 'wbuplduuid', 'upload webservice file upload started');
 								// send file
-								internal.GetBoundary_0.enable := TRUE;
-								internal.GetBoundary_0.boundarySize := SIZEOF(internal.multipartBoundary);
-								internal.GetBoundary_0.pBoundary := ADR(internal.multipartBoundary);
-								internal.GetBoundary_0.pStruct := ADR(internal.RequestHeader);
+								internal.bFirstWrite 	:= TRUE;
 								internal.step := WBUPUUID_STEP_PARSE_BOUNDARY;
 								
 							END_IF
@@ -185,33 +203,24 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 				END_IF	
 			
 			WBUPUUID_STEP_PARSE_BOUNDARY:
+				// Extract the multipart boundary from the HTTP request header.
 				Done 	:= FALSE;
 				Error 	:= FALSE;
 				Busy 	:= TRUE;
 
-				// parse Boundary-String
-
-				// POST-Form Dateiname herausfiltern
-				internal.strPosFilenameStart := wbuuid_strFindFromPos(internal.bufferSetup.pRequestBuffer, ADR('filename='), 0);
-				internal.strPosFilenameEnd := wbuuid_strFindFromPos(internal.bufferSetup.pRequestBuffer, ADR('$R'), internal.strPosFilenameStart) - 2;
-								
-				IF internal.strPosFilenameStart = 0 OR internal.strPosFilenameEnd = 0 OR internal.strPosFilenameEnd < internal.strPosFilenameStart THEN
+				// get boundary
+				internal.GetBoundary_0.enable := TRUE;
+				internal.GetBoundary_0.boundarySize := SIZEOF(internal.multipartBoundary);
+				internal.GetBoundary_0.pBoundary := ADR(internal.multipartBoundary);
+				internal.GetBoundary_0.pStruct := ADR(internal.RequestHeader);
+				
+				internal.GetBoundary_0();
+						
+				IF internal.GetBoundary_0.status = ERR_OK THEN
+					internal.step := WBUPUUID_STEP_PARSE_MULTIPARTS;		
+				ELSIF internal.GetBoundary_0.status < ERR_FUB_ENABLE_FALSE THEN
+					Status := internal.GetBoundary_0.status;
 					internal.step := WBUPUUID_STEP_SEND_ERROR;
-				ELSE
-					brsmemset(ADR(targetFileName), 0, SIZEOF(targetFileName));
-					brsmemcpy(ADR(targetFileName), internal.bufferSetup.pRequestBuffer + internal.strPosFilenameStart + brsstrlen( ADR('filename=')), internal.strPosFilenameEnd - (internal.strPosFilenameStart + brsstrlen( ADR('filename='))));
-				
-					internal.GetBoundary_0();
-				
-					IF internal.GetBoundary_0.status = ERR_OK THEN
-						brsstrcpy(ADR(internal.fileName), ADR(targetDirectoryName));
-						brsstrcat(ADR(internal.fileName), ADR('/'));
-						brsstrcat(ADR(internal.fileName), ADR(targetFileName));
-						internal.step := WBUPUUID_STEP_DELETE_FILE;		
-					ELSIF internal.GetBoundary_0.status < ERR_FUB_ENABLE_FALSE THEN
-						Status := internal.GetBoundary_0.status;
-						internal.step := WBUPUUID_STEP_SEND_ERROR;
-					END_IF	
 				END_IF	
 					
 			WBUPUUID_STEP_DELETE_FILE:
@@ -222,27 +231,13 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 				internal.FileDelete_0();
 					
 				IF internal.FileDelete_0.status = ERR_OK OR internal.FileDelete_0.status = fiERR_FILE_NOT_FOUND THEN
-					internal.step := WBUPUUID_STEP_CREATE_DIRECTORY;	
+					internal.step := WBUPUUID_STEP_CREATE_FILE;	
 				ELSIF internal.FileDelete_0.status < ERR_FUB_ENABLE_FALSE THEN
 					Status := internal.FileDelete_0.status;
 					internal.closeFile := TRUE;
 					internal.step := WBUPUUID_STEP_SEND_ERROR;	
 				END_IF	
 			
-			WBUPUUID_STEP_CREATE_DIRECTORY:
-				// Delete previous file
-				internal.DirCreate_0.enable 	:= TRUE;
-				internal.DirCreate_0.pDevice 	:= ADR(targetDeviceName);
-				internal.DirCreate_0.pName 		:= ADR(targetDirectoryName);
-				internal.DirCreate_0();
-					
-				IF internal.DirCreate_0.status = ERR_OK OR internal.DirCreate_0.status = fiERR_DIR_ALREADY_EXIST THEN
-					internal.step := WBUPUUID_STEP_CREATE_FILE;	
-				ELSIF internal.DirCreate_0.status < ERR_FUB_ENABLE_FALSE THEN
-					Status := internal.DirCreate_0.status;
-					internal.step := WBUPUUID_STEP_SEND_ERROR;	
-				END_IF	
-						
 			WBUPUUID_STEP_CREATE_FILE:
 				// Create file for upload
 				internal.FileCreate_0.enable 	:= TRUE;
@@ -268,7 +263,8 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 			
 				IF internal.FileOpen_0.status = ERR_OK THEN
 					internal.fileOffset := 0;
-					internal.step := WBUPUUID_STEP_PARSE_MULTIPARTS;
+					//internal.step := WBUPUUID_STEP_PARSE_MULTIPARTS;
+					internal.step := WBUPUUID_STEP_WRITE_FILE;
 				ELSIF internal.FileOpen_0.status < ERR_FUB_ENABLE_FALSE THEN	
 					Status := internal.FileOpen_0.status;
 					internal.closeFile := TRUE;
@@ -276,7 +272,7 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 				END_IF
 						
 			WBUPUUID_STEP_PARSE_MULTIPARTS:
-				// get message from buffer
+				// Extract one multipart chunk; the first chunk also supplies the filename.
 				internal.GetMultipartMessage_0.enable 				:= TRUE;
 				internal.GetMultipartMessage_0.pSrc 				:= internal.bufferSetup.pRequestBuffer;
 				internal.GetMultipartMessage_0.pBoundary 			:= ADR(internal.multipartBoundary);
@@ -290,18 +286,50 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 					IF internal.GetMultipartMessage_0.messageDataLen = 0 THEN
 						internal.step := WBUPUUID_STEP_SEND_RESPONSE;
 					ELSE
-						internal.step := WBUPUUID_STEP_WRITE_FILE;
+						IF	internal.bFirstWrite = TRUE THEN
+							internal.bFirstWrite := FALSE;
+	
+							internal.sTemp := 'filename="';						
+							internal.fnFirstPos := wbuuid_strFindFromPos(ADR(internal.messageHeader), ADR(internal.sTemp), 0) + brsstrlen(ADR(internal.sTemp));
+							internal.fnLastPos := wbuuid_strFindFromPos(ADR(internal.messageHeader), ADR('"'), internal.fnFirstPos);
+							IF internal.fnFirstPos > 0 AND internal.fnLastPos > internal.fnFirstPos AND (internal.fnLastPos - internal.fnFirstPos) < SIZEOF(targetFileName) THEN
+								brsmemset(ADR(targetFileName), 0, SIZEOF(targetFileName));
+								brsmemcpy(ADR(targetFileName), ADR(internal.messageHeader) + internal.fnFirstPos - 1, internal.fnLastPos - internal.fnFirstPos);
+								// check file name
+								IF wbuuid_ValidateFileName(ADR(targetFileName), SIZEOF(targetFileName)) = FALSE THEN
+									Status := wbuplduuid_ERR_CHARFN;
+									wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_ERROR, 'wbuplduuid', 'upload webservice error illegal chars in filename');
+									internal.step := WBUPUUID_STEP_SEND_ERROR;
+								ELSE
+									// build complete filename + path
+									brsstrcpy(ADR(internal.fileName), ADR(targetDirectoryName));
+									brsstrcat(ADR(internal.fileName), ADR('/'));
+									brsstrcat(ADR(internal.fileName), ADR(targetFileName));
+									// go on with delete + create + oprn
+									internal.step := WBUPUUID_STEP_DELETE_FILE;
+								END_IF
+
+							ELSE
+								// had problems parsing the filename out of the header
+								Status := wbuplduuid_ERR_PARSEFN;
+								wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_ERROR, 'wbuplduuid', 'upload webservice error parsing filename from message');
+								internal.step := WBUPUUID_STEP_SEND_ERROR;
+							END_IF
+						ELSE
+							internal.step := WBUPUUID_STEP_WRITE_FILE;
+						END_IF
 					END_IF	
 				ELSIF internal.GetMultipartMessage_0.status = httpERR_NO_DATA THEN
 					internal.step := WBUPUUID_STEP_SEND_RESPONSE;
 				ELSIF internal.GetMultipartMessage_0.status = ERR_FUB_BUSY THEN	
 					// WAIT
 				ELSE
+					Status := internal.GetMultipartMessage_0.status;
 					internal.step := WBUPUUID_STEP_SEND_ERROR;
 				END_IF	
 			
 			WBUPUUID_STEP_WRITE_FILE:
-				// write parsed buffer to file
+				// Append the current multipart data chunk at the tracked file offset.
 				internal.FileWrite_0.enable 	:= TRUE;
 				internal.FileWrite_0.ident 		:= internal.FileOpen_0.ident;
 				internal.FileWrite_0.len 		:= internal.GetMultipartMessage_0.messageDataLen;
@@ -313,13 +341,13 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 					internal.fileOffset := internal.fileOffset + internal.GetMultipartMessage_0.messageDataLen;
 					internal.step := WBUPUUID_STEP_PARSE_MULTIPARTS;
 				ELSIF internal.FileWrite_0.status < ERR_FUB_ENABLE_FALSE THEN
-					Status := internal.FileOpen_0.status;
+					Status := internal.FileWrite_0.status;
 					internal.closeFile := TRUE;
 					internal.step := WBUPUUID_STEP_SEND_ERROR;
 				END_IF							  
 			
 			WBUPUUID_STEP_SEND_RESPONSE:
-				// close file
+				// Close the completed file and return the success response.
 				internal.FileClose_0.enable 	:= TRUE;
 				internal.FileClose_0.ident 		:= internal.FileOpen_0.ident;
 				internal.FileClose_0();
@@ -359,11 +387,12 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 					internal.step := WBUPUUID_STEP_HANDLE_REQUESTS;		
 				ELSIF internal.FileClose_0.status < ERR_FUB_ENABLE_FALSE THEN
 					internal.closeFile := TRUE;
+					Status := internal.FileClose_0.status;
 					internal.step 	:= WBUPUUID_STEP_SEND_ERROR;
 				END_IF
 			
 			WBUPUUID_STEP_SEND_ERROR:
-				// and send response
+				// Return the internal error and prepare cleanup in the error state.
 				brsmemset(ADR(internal.sTemp), 0, SIZEOF(internal.sTemp));
 				internal.sTemp := 'upload webservice internal function error: ';
 				brsitoa(Status, ADR(internal.sTemp) + brsstrlen(ADR(internal.sTemp)));
@@ -393,7 +422,7 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 				END_IF
 			
 			WBUPUUID_STEP_ERROR:
-				// error step
+				// Disable the service, finish the current request, and close open files.
 				internal.WebService.enable := FALSE;
 				
 				Done 	:= TRUE;
@@ -403,7 +432,7 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 				IF internal.closeFile THEN
 					// close file if necessary
 					internal.FileClose_0.enable 	:= TRUE;
-					internal.FileClose_0.ident 		:= internal.FileCreate_0.ident;
+					internal.FileClose_0.ident 		:= internal.FileOpen_0.ident;
 					internal.FileClose_0();
 					
 					IF internal.FileClose_0.status = ERR_OK THEN
@@ -420,5 +449,13 @@ FUNCTION_BLOCK WebUploadWithUuidAuth
 	END_IF
 	
 	internal.WebService();
+	
+	// reset user signal if existing to ensure last response was sent
+	IF internal.bUserFinished = TRUE AND internal.WebService.status <> 16#FFFF THEN 
+		userFinished := TRUE;
+		internal.bUserFinished := FALSE;
+	END_IF
+			
+	
 	
 END_FUNCTION_BLOCK

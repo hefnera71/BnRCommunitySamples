@@ -12,6 +12,7 @@
 		uploadServiceTimer : {REDUND_UNREPLICABLE} TIME; (*time how long the upload webservice is enabled until auto closing*)
 		externalBufferSetup : {REDUND_UNREPLICABLE} WebUpload_extbuffer_wbuuid_typ; (*external memory buffer configuration*)
 		enableHtmlMode : {REDUND_UNREPLICABLE} BOOL; (*enable the usage of ?mode=html (for test purposes only)*)
+		wsUploadErrorReset : {REDUND_UNREPLICABLE} BOOL; (*reset upload webservice error (if statusWsUpload < 0xfffe)*)
 	END_VAR
 	VAR_OUTPUT
 		wsAuthEnabled : {REDUND_UNREPLICABLE} BOOL; (*main webservice is enabled*)
@@ -23,6 +24,7 @@
 		wsUploadLastFileSize : {REDUND_UNREPLICABLE} UDINT; (*size in byte of the last file uploaded*)
 		wsUploadTimerET : {REDUND_UNREPLICABLE} TIME; (*elapsed time since upload service was enabled*)
 		uuidGenPhase : {REDUND_UNREPLICABLE} USINT; (*phase of the token generator -> 2 = ready*)
+		uuidInFallbackMode : {REDUND_UNREPLICABLE} BOOL; (*is true if the uuid generator works in fallback mode -> should be avoided, so check why this happens!*)
 		failedAuthCount : {REDUND_UNREPLICABLE} USINT; (*number of consecutive failed authentications*)
 		failedAuthBlockedET : {REDUND_UNREPLICABLE} TIME; (*elapsed time of the failed authentication block timer*)
 	END_VAR

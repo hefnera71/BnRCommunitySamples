@@ -4,4 +4,6 @@ VAR CONSTANT
 	frcwritearlog_WARNING : DINT := -1609629696;
 	frcwritearlog_SUCCESS : DINT := 537853952;
 	frcwritearlog_INFO : DINT := 1611595776;
+	wbuplduuid_ERR_PARSEFN : UINT := 55001; (*error while parsing upload filename*)
+	wbuplduuid_ERR_CHARFN : UINT := 55002; (*error while checking upload filename - illegal character(s)*)
 END_VAR

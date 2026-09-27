@@ -4,9 +4,8 @@ TYPE
 		step : WebUploadStep_wbuuid_enum;
 		ResponseHeader : httpResponseHeader_t;
 		RequestHeader : httpRequestHeader_t;
+		tStatistics : httpStatistics_t;
 		Response : STRING[1500];
-		strPosFilenameStart : UDINT;
-		strPosFilenameEnd : UDINT;
 		messageHeader : STRING[300];
 		multipartBoundary : STRING[100];
 		fileName : STRING[201];
@@ -18,7 +17,11 @@ TYPE
 		param3 : STRING[80];
 		param4 : STRING[80];
 		bModeIsJson : BOOL;
+		bFirstWrite : BOOL;
+		bUserFinished : BOOL;
 		sTemp : STRING[512];
+		fnFirstPos : UDINT;
+		fnLastPos : UDINT;
 		RequestBuffer : ARRAY[0..WBUUIDUPLOAD_MAX_REQUEST_SIZE]OF USINT;
 		multipartMessage : ARRAY[0..WBUUIDUPLOAD_MAX_REQUEST_SIZE]OF USINT;
 		bufferSetup : WebUpload_extbuffer_wbuuid_typ;
@@ -32,7 +35,6 @@ TYPE
 		FileWrite_0 : FileWriteEx;
 		FileClose_0 : FileClose;
 		FileDelete_0 : FileDelete;
-		DirCreate_0 : DirCreate;
 	END_STRUCT;
 	WebUploadStep_wbuuid_enum : 
 		(
@@ -41,7 +43,6 @@ TYPE
 		WBUPUUID_STEP_PARSE_BOUNDARY,
 		WBUPUUID_STEP_PARSE_MULTIPARTS,
 		WBUPUUID_STEP_DELETE_FILE,
-		WBUPUUID_STEP_CREATE_DIRECTORY,
 		WBUPUUID_STEP_CREATE_FILE,
 		WBUPUUID_STEP_OPEN_FILE,
 		WBUPUUID_STEP_WRITE_FILE,

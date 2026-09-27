@@ -11,6 +11,7 @@ TYPE
 		Request : {REDUND_UNREPLICABLE} STRING[400];
 		RequestHeader : {REDUND_UNREPLICABLE} httpRequestHeader_t := (0);
 		ResponseHeader : {REDUND_UNREPLICABLE} httpResponseHeader_t := (0);
+		tStatistics : {REDUND_UNREPLICABLE} httpStatistics_t;
 		sRawHeader : {REDUND_UNREPLICABLE} ARRAY[0..19]OF STRING[80];
 		sUri : {REDUND_UNREPLICABLE} STRING[255];
 		Response : {REDUND_UNREPLICABLE} STRING[1500];

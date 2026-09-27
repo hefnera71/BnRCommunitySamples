@@ -1,4 +1,9 @@
-(* Finds position of string2 in string1. *)
+(*
+	Finds the first occurrence of string2 in string1, beginning at zero-based
+	position pos. The returned position is one-based so it can be used with
+	the surrounding filename parsing logic; zero means that no match exists.
+	Matching is literal and case-sensitive.
+*)
 FUNCTION wbuuid_strFindFromPos
 	i_max := brsstrlen(string1);
 	j_max := brsstrlen(string2);

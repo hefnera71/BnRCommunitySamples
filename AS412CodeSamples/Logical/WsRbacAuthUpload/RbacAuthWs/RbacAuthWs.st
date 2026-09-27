@@ -5,8 +5,9 @@
 *)
 
 // changes
+// V0.00.4 added errorReset for web upload service, added maximum session uploads + mamximum allowed session time as constants, some bugfixing + debug infos
 // V0.00.3 added html mode suspression
-// V0.00.2 added blocking webservice FOR 5 minutes after too much failed authentication tries; adding logger entry if uuid generator is in fallback mode
+// V0.00.2 added blocking webservice FOR "rbacauthws_CONST_FAILEDBLOCKTIME" time after too much failed authentication tries (defined at "rbacauthws_CONST_MAXFAILEDAUTH"); adding logger entry if uuid generator is in fallback mode
 // V0.00.1 initial version
 
 FUNCTION_BLOCK RbacAuthUploadWebservice
@@ -15,11 +16,20 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 	
 		status := 16#FFFF;
 		
+		wsUploadErrorReset := internal.WebUploadWithUuidAuth_0.errorReset; // reset upload webservice error
+		
 		internal.authServiceName := authServiceName; // input
 		internal.WebUploadWithUuidAuth_0.targetDeviceName := targetDeviceName;		//input
 		internal.WebUploadWithUuidAuth_0.targetDirectoryName := targetDirectoryName;		// input
 		internal.WebUploadWithUuidAuth_0.serviceName := uploadServiceName;	// input
-		internal.TON_UploadSwitchoff.PT := uploadServiceTimer; // input
+		
+		// because of security: do not allow too high session times
+		IF uploadServiceTimer < rbacauthws_CONST_MAXCFGSSNTIME THEN
+			internal.TON_UploadSwitchoff.PT := uploadServiceTimer; // input
+		ELSE
+			internal.TON_UploadSwitchoff.PT := rbacauthws_CONST_MAXCFGSSNTIME;
+		END_IF
+		
 
 		internal.WebUploadWithUuidAuth_0.loggerName := loggerName;		// input
 		internal.WebUploadWithUuidAuth_0.enableHtmlMode := enableHtmlMode;
@@ -36,6 +46,7 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 		internal.Webservice.pRequestData  	:= ADR(internal.Request);
 		internal.Webservice.requestDataSize := SIZEOF(internal.Request);
 		internal.Webservice.pResponseData 	:= ADR(internal.Response);
+		internal.Webservice.pStatistics		:= ADR(internal.tStatistics);
 
 		internal.RequestHeader.rawHeader.pData := ADR(internal.sRawHeader);
 		internal.RequestHeader.rawHeader.dataSize := SIZEOF(internal.sRawHeader);
@@ -272,7 +283,7 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 					brsmemset(ADR(internal.ArUserAuthenticatePassword_0.UserName), 0, SIZEOF(internal.ArUserAuthenticatePassword_0.UserName));
 				END_IF
 		
-			3:
+			rbacauthws_STEP_SENDWSRESP:
 				internal.Webservice.responseDataLen := brsstrlen(ADR(internal.Response));
 				internal.Webservice.send := TRUE; (* Send on positive edge*)
 				internal.rbacauthws_Step := rbacauthws_STEP_WAIT;
@@ -288,7 +299,20 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 			internal.TON_UploadSwitchoff.IN := FALSE;
 			internal.TON_UploadSwitchoff();
 			internal.WebUploadWithUuidAuth_0.enable := FALSE;
+			IF internal.WebUploadWithUuidAuth_0.userFinished = FALSE THEN
+				wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_INFO, 'RbacAuthWs', 'upload webservice disabling by session timer');
+			ELSE
+				wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_INFO, 'RbacAuthWs', 'upload webservice disabling by user signal');
+			END_IF
 		END_IF
+		
+		
+		// check maximum allowed uploads per session
+		IF internal.WebUploadWithUuidAuth_0.uploadCounter >= rbacauthws_CONST_MAXUPLDPERSSN THEN
+			// session limit reached, switch off!
+			internal.WebUploadWithUuidAuth_0.enable := FALSE;
+			wbuuid_FcWriteArLog(internal.ArEventLogGetIdent_0.Ident, frcwritearlog_INFO, 'RbacAuthWs', 'upload webservice disabling by session upload limit');
+		END_IF			
 	
 		// call RBAC fbs
 		internal.ArUserAuthenticatePassword_0();
@@ -359,11 +383,16 @@ FUNCTION_BLOCK RbacAuthUploadWebservice
 	
 	wsUploadEnabled := internal.WebUploadWithUuidAuth_0.enable;
 	statusWsUpload := internal.WebUploadWithUuidAuth_0.Status;
-	wsAuthEnabled := internal.Webservice.enable;
 	wsUploadCounter := internal.WebUploadWithUuidAuth_0.uploadCounter;
-	wsUploadLastFileSize := internal.WebUploadWithUuidAuth_0.sourceFileSize;
-	wsUploadLastFileName := internal.WebUploadWithUuidAuth_0.targetFileName;
+	IF wsUploadEnabled = TRUE THEN	// refresh information only if upload webservice is running -> keep the last information after disabling upload webservice
+		wsUploadLastFileSize := internal.WebUploadWithUuidAuth_0.sourceFileSize;
+		wsUploadLastFileName := internal.WebUploadWithUuidAuth_0.targetFileName;
+	END_IF
+
 	uuidGenPhase := internal.UUIDGenerator_0.phase;
+	uuidInFallbackMode := internal.UUIDGenerator_0.fallbackModeActive;
+	
+	wsAuthEnabled := internal.Webservice.enable;
 	wsUploadTimerET := internal.TON_UploadSwitchoff.ET;
 	failedAuthCount := internal.authFailedCount;
 	failedAuthBlockedET := internal.TON_AuthBlock.ET;

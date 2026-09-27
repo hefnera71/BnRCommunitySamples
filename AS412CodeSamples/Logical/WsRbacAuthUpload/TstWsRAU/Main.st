@@ -2,7 +2,7 @@
 PROGRAM _INIT
 	
 	
-	// internally, the RbacAuthUploadWebservice is configured for jus very small files <= 10kByte
+	// internally, the RbacAuthUploadWebservice is configured for just very small files <= 10kByte
 	// if you need to upload bigger files, you have to provide external memory by using the .externalBufferSetup structure
 	// if 10kByte are enough per file, you can set the externalBufferSetup to 0 -> thenb the internal buffer is used
 	
@@ -22,15 +22,15 @@ PROGRAM _INIT
 	END_IF
 	
 	// configure the function block   		
-	RbacAuthUploadWebservice_0.authServiceName := 'authenticate.cgi';	// the name of authentication webservice
-	RbacAuthUploadWebservice_0.uploadServiceName := 'uploader.cgi';		// name of the upload webservice
-	RbacAuthUploadWebservice_0.rbacRoleName := 'WEB_Uploader';			//RBAC role the user has to have
-	RbacAuthUploadWebservice_0.loggerName := '$$arlogusr';				// logger module where webserive actions should logged to
 	RbacAuthUploadWebservice_0.targetDeviceName := 'USER';				// file device where uploads are stored
-	RbacAuthUploadWebservice_0.targetDirectoryName := 'web';			// directory where uploads are stored
-	RbacAuthUploadWebservice_0.ethIfName := 'IF2';						// active ethernet interface name - needed for token generation
-	RbacAuthUploadWebservice_0.uploadServiceTimer := T#30s;				// time how long the upload servce should be active -> keep it as short as possible open!!
-	RbacAuthUploadWebservice_0.enableHtmlMode := FALSE;					// enables the usage of html mode -> use it only if you need it
+	RbacAuthUploadWebservice_0.targetDirectoryName := 'upload';			// directory where uploads are stored -> security info: don't use a directory that is reachable for the webserver!!
+	RbacAuthUploadWebservice_0.authServiceName := 'authenticate.cgi';	// the name of authentication webservice  -> security info: define and use an own one!!
+	RbacAuthUploadWebservice_0.uploadServiceName := 'uploader.cgi';		// name of the upload webservice -> security info: define and use an own one!!
+	RbacAuthUploadWebservice_0.rbacRoleName := 'WEB_Uploader';			// RBAC role the user has to have -> security info: define and use an own one!!
+	RbacAuthUploadWebservice_0.loggerName := '$$arlogusr';				// logger module where webserive actions should logged to -> security info: ensure that logging works, it's crucial to what happens on the webservice!!
+	RbacAuthUploadWebservice_0.ethIfName := 'IF2';						// active ethernet interface name - needed for token generation -> 
+	RbacAuthUploadWebservice_0.uploadServiceTimer := T#30s;				// time how long the upload servce should be active -> security info: keep it as short as possible open!!
+	RbacAuthUploadWebservice_0.enableHtmlMode := FALSE;					// enables the usage of html mode -> security info: activate it only if you really need it!!
 	RbacAuthUploadWebservice_0.externalBufferSetup := tBufferConfig;	// use external buffer (if allocation was ok)
 	
 	// enable the function block

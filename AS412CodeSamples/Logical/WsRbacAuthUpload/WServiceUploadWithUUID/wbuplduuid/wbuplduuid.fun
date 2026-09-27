@@ -54,3 +54,17 @@ END_FUNCTION
 		ArEventLogWrite_0 : ArEventLogWrite;
 	END_VAR
 END_FUNCTION
+
+{REDUND_ERROR} FUNCTION wbuuid_ValidateFileName : BOOL (*validates filename for allowed characters (a-zA-Z0-9._)*) (*$GROUP=User,$CAT=User,$GROUPICON=User.png,$CATICON=User.png*)
+	VAR_INPUT
+		pFileName : UDINT; (*pointer to filename string*)
+		maxSizeFileName : UDINT; (* sizeof filename string *)
+	END_VAR
+	VAR
+		i : UDINT;
+		lenS : UDINT;
+		char : SINT;
+		pChar : REFERENCE TO SINT;
+	END_VAR
+END_FUNCTION
+

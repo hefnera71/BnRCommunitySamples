@@ -13,6 +13,16 @@ But at least I tried to implement basic security by using a separation of concer
 a webservice implementation where the service just has exactly that restricted functionality that I need, brute-force protection (5 consecutive authentication failures lead to 15 minutes blocked webservice), and some logging is done inside the PLC logger (and for sure, only https is allowed).
 And yes, for the script call the password is plain readable - that means that the system where the script is executed for sure has to be a secure and controlled environment!
 
+Since first release to "today" (V0.00.4, 27.09.2026) the following additional hardening measures were added:
+* maximum configurable session runtime for upload service = 2 minutes (see declaration of "rbacauthws_CONST_MAXCFGSSNTIME")
+* maximum uploads per session = 20 files (see declaration of "rbacauthws_CONST_MAXUPLDPERSSN")
+* brute-force protection: after 5 consecutive failed logins, the upload webservices are blocked for 15 minutes (see declarations "rbacauthws_CONST_MAXFAILEDAUTH" and "rbacauthws_CONST_FAILEDBLOCKTIME")
+* checking of upload file names: onnly "a-z", "A-Z", "0-9", ".", "_", " "(space) is allowed
+* some more logger entries logging additional failures and states of webservices
+* enabling of html mode (just running if user enables it at the function block interface)
+* signal (FB output) if uuid generator runs in fallback mode (implemented in uuid generator since V1.01.1)
+* added some short security infos to sample task
+
 ## Concept
 Here's the concept / architecture picture explaining a bit more the separation of concerns model used.
 
@@ -82,6 +92,7 @@ but is also available inside this repository: [UUIDGenerator](https://github.com
 		uploadServiceTimer : TIME; (*time how long the upload webservice is enabled until auto closing*)
 		externalBufferSetup : WebUpload_extbuffer_wbuuid_typ; (*external memory buffer configuration*)
 		enableHtmlMode : BOOL; (*enable the usage of ?mode=html (for test purposes only)*)
+		wsUploadErrorReset : BOOL; (*reset upload webservice error (if statusWsUpload < 0xfffe)*)
 	END_VAR
 	VAR_OUTPUT
 		wsAuthEnabled : BOOL; (*main webservice is enabled*)
@@ -93,6 +104,7 @@ but is also available inside this repository: [UUIDGenerator](https://github.com
 		wsUploadLastFileSize : UDINT; (*size in byte of the last file uploaded*)
 		wsUploadTimerET : TIME; (*elapsed time since upload service was enabled*)
 		uuidGenPhase : USINT; (*phase of the token generator -> 2 = ready*)
+		uuidInFallbackMode : BOOL; (*is true if the uuid generator works in fallback mode -> should be avoided, so check why this happens!*)
 		failedAuthCount : USINT; (*number of consecutive failed authentications*)
 		failedAuthBlockedET : TIME; (*elapsed time of the failed authentication block timer*)
 END_VAR
@@ -112,17 +124,16 @@ library "RbacAuthWs" has to be configured and called.
 ```
 PROGRAM _INIT
 
-	// configure the function block   		
-	RbacAuthUploadWebservice_0.authServiceName := 'authenticate.cgi';	// the name of authentication webservice
-	RbacAuthUploadWebservice_0.uploadServiceName := 'uploader.cgi';		// name of the upload webservice
-	RbacAuthUploadWebservice_0.rbacRoleName := 'WEB_Uploader';			//RBAC role the user has to have
-	RbacAuthUploadWebservice_0.loggerName := '$$arlogusr';				// logger module where webserive actions should logged to
 	RbacAuthUploadWebservice_0.targetDeviceName := 'USER';				// file device where uploads are stored
-	RbacAuthUploadWebservice_0.targetDirectoryName := 'web';			// directory where uploads are stored
-	RbacAuthUploadWebservice_0.ethIfName := 'IF2';						// active ethernet interface name - needed for token generation
-	RbacAuthUploadWebservice_0.uploadServiceTimer := T#30s;				// time how long the upload servce should be active -> keep it as short as possible open!!
-	RbacAuthUploadWebservice_0.enableHtmlMode := FALSE;					// enables the usage of html mode -> use it only if you need it
-	RbacAuthUploadWebservice_0.externalBufferSetup := 0;				// don't use external buffer
+	RbacAuthUploadWebservice_0.targetDirectoryName := 'upload';			// directory where uploads are stored -> security info: don't use a directory that is reachable for the webserver!!
+	RbacAuthUploadWebservice_0.authServiceName := 'authenticate.cgi';	// the name of authentication webservice  -> security info: define and use an own one!!
+	RbacAuthUploadWebservice_0.uploadServiceName := 'uploader.cgi';		// name of the upload webservice -> security info: define and use an own one!!
+	RbacAuthUploadWebservice_0.rbacRoleName := 'WEB_Uploader';			// RBAC role the user has to have -> security info: define and use an own one!!
+	RbacAuthUploadWebservice_0.loggerName := '$$arlogusr';				// logger module where webserive actions should logged to -> security info: ensure that logging works, it's crucial to what happens on the webservice!!
+	RbacAuthUploadWebservice_0.ethIfName := 'IF2';						// active ethernet interface name - needed for token generation -> 
+	RbacAuthUploadWebservice_0.uploadServiceTimer := T#30s;				// time how long the upload servce should be active -> security info: keep it as short as possible open!!
+	RbacAuthUploadWebservice_0.enableHtmlMode := FALSE;					// enables the usage of html mode -> security info: activate it only if you really need it!!
+	RbacAuthUploadWebservice_0.externalBufferSetup := tBufferConfig;	// use external buffer (if allocation was ok)
 	
 	// enable the function block
 	RbacAuthUploadWebservice_0.enable := TRUE;
@@ -136,6 +147,14 @@ PROGRAM _CYCLIC
 	 
 END_PROGRAM
 
+PROGRAM _EXIT
+	
+	// disable the function block
+	RbacAuthUploadWebservice_0(enable := FALSE);
+	// free allocated memory
+	AsMemPartDestroy_0(enable := TRUE, ident := AsMemPartCreate_0.ident);
+
+END_PROGRAM
 ```
 
 ### File size 
