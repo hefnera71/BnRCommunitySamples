@@ -1,39 +1,61 @@
-# Library UUIDgen
+# UUIDgen (V2.00.0)
 
-## About
-This libary implements a random UUID (Universally Unique Identifier) generator. 
+Rework of  UUID generator libary (Cryptographically improved, supported by AI).
 
-Such a UUID is a 128-bit number written as hex string.
-The're several use-cases where and how UUIDs are used: I personally implemented it in the way it's available here because I needed "some sort of random unique session tokens with almost no chance to get identical ones". 
+## Purpose
 
-## Random vs. Pseudo-random
-As we all know, common hardware without some special functions / co-processors can just produce "pseudo-random" values.
-That means, if the random number generator is initialized with the same values or vectors, they produce always the same series of random values.
-So if there's no hardware to generate "real random" values, some external entropy is needed for initialization of the random generator.
+Drop-in replacement for previous versions of `UUIDgen` that addresses weak entropy and
+non-cryptographic PRNG (PseudoRandom Number Generator) issues.
+
+## Key improvements over the original UUIDgen
+
+| Aspect | Original UUIDgen | UUIDgen V2|
+|---|---|---|
+| PRNG | Xoshiro256\*\* (non-CSPRNG) | Hash_DRBG (Deterministic Random Bit Generator) |
+| Entropy mixing | XOR (linear, cannot amplify) | SHA-256 (non-linear extractor) |
+| Re-seeding | Never | Every 16 UUIDs |
 
 ## How it works
-This implementation assumes, that the device is connected to the ethernet network (at least in my use-case, where I developed the function for, makes no sense without having a network connection).
 
-And as in networks normally always some non-predictible traffic is present (e.g. broadcasts & multicasts every device receives), I use the number of bytes received on the network interface as external entropy.
-Additionally, the number of bytes received are XORd with a hardware unique information (it's not the MAC address).
+1. **Initialization** (on positive edge of `enable`):
+   - Reads device serial number and module ID
+   - Collects entropy from RTC and ethernet statistics
+   - Runs 10 rounds of entropy collection (spaced minimum ~200 ms apart)
+   - Each round: collects entropy, hashes it with SHA-256, feeds into DRBG
 
-Doing some initalization rounds with waiting a bit in between and additionally mixing + salting the "byte-numbers-hardware-id-combination" with some prime numbers should deliver some "random enough" init values for the generator.
+2. **UUID generation** (on positive edge of `getNextUUID`):
+   - Every 16th UUID: re-seeds the DRBG with fresh entropy
+   - Generates 16 random bytes from the Hash_DRBG
+   - Sets version (4) and variant (1) bits per RFC 4122
+   - Formats as hex string (32 chars) and hyphenated string (36 chars)
 
-### Additional information / WARNING:
+3. **Hash_DRBG**:
+   - State: 32-byte secret key K + 32-byte counter V
+   - `generate`: increments V, outputs SHA-256(K || V), updates state
+   - `update`: SHA-256(V || provided_data) -> new K, then SHA-256(K) -> new V
+   - Provides both forward and backward secrecy
 
-if reading the network bytes once fails, I use the rtc time + the unique hardware id instead together with the prime numbers -> that's VERY LESS RANDOM then the normal operation, so it's not intended to use it in that way!
+## Entropy sources
 
-Therefore, if this fallback mode is used, it's signaled by a function block output ".fallbackModeActive = TRUE".
+| Source | Entropy | Notes |
+|---|---|---|
+| `%ID.SerialNumber` + `%IW.ModuleID` | 0 bits (constant) | Provides device-uniqueness |
+| RTC (`DTGetTime`) | ~5-10 bits | Boot-time variation |
+| `ethSTATISTICS` | ~10-15 bits (active network) | Real entropy when traffic exists |
 
-## what to do if you want to use it
-1.) change the prime numbers inside the source code to your own ones! ==> search for the arrays "uint32_t primes1" and "uint32_t primes2" and change the values
+**Fallback mode**: when ethernet statistics are unavailable, `fallbackModeActive`
+is set to TRUE. The DRBG still works but with reduced entropy.
 
-2.) don't start the function block initialization (.enable = TRUE) immediately while booting, wait some time before ==> you have then a better chance that really already something happened at the ethernet interface
+## Dependencies
 
-3.) in networks with very low traffic, increase the wait time between two initialization rounds (search for the function block instance "ton_0" and rise the preset time (.PT value) ==> sure, initialization will then take some seconds longer, but entropy is (much) better.
+- **AsETH** - Ethernet interface access
+- **AsIO** - I/O datapoint access (for serial/module ID)
+- **astime** - Date/time access
+- **standard** - Standard AR functions
+- **AsIOTime** - only for debug (code runtime measurement)
 
-## function block interface
-He're the function block UUIDGenerator inputs and outputs with some short usage comments.
+## Function block interface
+
 ```
 	VAR_INPUT
 		enable : BOOL; (*enable the function block -> with positive edge, the generator is initialized*)
@@ -41,15 +63,29 @@ He're the function block UUIDGenerator inputs and outputs with some short usage 
 		ethIfName : STRING[32]; (*name of the ethernet interface, e.g. 'IF2'*)
 	END_VAR
 	VAR_OUTPUT
-		phase : USINT; (*initialization phase, please see constants uuidgenPHASE_xxx for details*)
+		phase : USINT; (*initialization phase, please see constants uuidgensha256PHASE_xxx for details*)
 		UUID : STRING[32]; (*the (new) UUID*)
 		UUIDhyphened : STRING[36]; (*the (new) UUID with hyphens as defined in RFC*)
 		fallbackModeActive : BOOL; (*true if entropy cannot be set by ETH interface data*)
+		genTsDiff : DINT; (*microseconds of code runtime when generating new uuid (stepGENERATE)*)
+		initTsDiff : DINT; (*microseconds of code runtime of drgb_init call*)
+		reseedTsDiff : DINT; (*microseconds of code runtime of drgb_reseed call*)
 	END_VAR
 ```
 
-### Usage example
-The task "TestUUID" contains a simple example how to call the function block.
+## Usage
+
+Same interface as the original `UUIDgen`. The task "TestUUID" contains a simple example how to call the function block.
+Initialization takes ~2 seconds (10 rounds × ~200 ms)
+
+## Security notes
+
+- This implementation is **not** a substitute for a hardware RNG.
+- If all entropy sources are predictable (no network, frozen RTC), the output
+  is only as strong as the weakest source.
+- For production systems subject to CRA, consider adding a hardware RNG
+  source.
+- The `fallbackModeActive` output should be monitored and logged.
 
 ### External references
 Some of the content of this package was generated by AI.

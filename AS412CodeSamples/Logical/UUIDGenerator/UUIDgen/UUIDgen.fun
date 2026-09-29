@@ -6,12 +6,15 @@
 		ethIfName : {REDUND_UNREPLICABLE} STRING[32]; (*name of the ethernet interface, e.g. 'IF2'*)
 	END_VAR
 	VAR_OUTPUT
-		phase : {REDUND_UNREPLICABLE} USINT; (*initialization phase, please see constants uuidgenPHASE_xxx for details*)
+		phase : {REDUND_UNREPLICABLE} USINT; (*initialization phase, please see constants uuidgensha256PHASE_xxx for details*)
 		UUID : {REDUND_UNREPLICABLE} STRING[32]; (*the (new) UUID*)
 		UUIDhyphened : {REDUND_UNREPLICABLE} STRING[36]; (*the (new) UUID with hyphens as defined in RFC*)
 		fallbackModeActive : {REDUND_UNREPLICABLE} BOOL; (*true if entropy cannot be set by ETH interface data*)
+		genTsDiff : {REDUND_UNREPLICABLE} DINT; (*microseconds of code runtime when generating new uuid (stepGENERATE)*)
+		initTsDiff : {REDUND_UNREPLICABLE} DINT; (*microseconds of code runtime of drgb_init call*)
+		reseedTsDiff : {REDUND_UNREPLICABLE} DINT; (*microseconds of code runtime of drgb_reseed call*)
 	END_VAR
 	VAR
-		internal : {REDUND_UNREPLICABLE} uuidgenInternal_typ;
+		internal : {REDUND_UNREPLICABLE} uuidgensha256Internal_typ; (*internal*)
 	END_VAR
 END_FUNCTION_BLOCK
