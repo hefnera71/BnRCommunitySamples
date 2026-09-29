@@ -13,7 +13,7 @@ extern "C" {
 #define ASCII_OFFSET_09	0x30
 #define ASCII_OFFSET_AF	0x61
 
-uint32_t getSha1Hmac(uint8_t* hmacKey, uint8_t keyLength, uint8_t* hmacMessage, uint8_t messageLength, uint8_t* hashResult, uint8_t resultSize);
+uint32_t getSha1Hmac(void *context, uint8_t* hmacKey, uint8_t keyLength, uint8_t* hmacMessage, uint8_t messageLength, uint8_t* hashResult, uint8_t resultSize);
 signed long sha1HmacToHexString(unsigned char* pIn, unsigned char* pHex);
 
 #ifdef __cplusplus

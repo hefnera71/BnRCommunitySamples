@@ -10,9 +10,7 @@ The reason behind: the ArSim RTC is a "simulated one" that is not synchronized t
 So the timestamp generated in the simulated PLC could have a (to) high deviation to the real time, which will lead to non synchronized codes.
 This is not a bug! For reliable testing, please use a hardware-based PLC.
 
-**WARNING: this function block is NOT multi-instance capable**
-
-The function block (by now -> V1.00.1) is not multi-instance capable, that means: you **must not use more then one instance of this function block** in the project!
+Since version V1.01.0, the function block is multi-instance capable.
 
 ## How it works
 ### the algorithm

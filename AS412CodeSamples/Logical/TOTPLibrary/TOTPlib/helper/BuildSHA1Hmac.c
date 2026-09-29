@@ -2,13 +2,13 @@
 #include "BuildSHA1Hmac.h"
 
 // generate a sha1 hmac out of 2 strings 
-uint32_t getSha1Hmac(uint8_t* hmacKey, uint8_t keyLength, uint8_t* hmacMessage, uint8_t messageLength, uint8_t* hashResult, uint8_t resultSize)
+uint32_t getSha1Hmac(void *context, uint8_t* hmacKey, uint8_t keyLength, uint8_t* hmacMessage, uint8_t messageLength, uint8_t* hashResult, uint8_t resultSize)
 {
 	if (resultSize == SHA1_BLOCK_SIZE)
 	{
-		initHmac(hmacKey, keyLength);
-		writeArray(hmacMessage, messageLength);
-		uint8_t* _hash = resultHmac(); 
+		initHmac(context, hmacKey, keyLength);
+		writeArray(context, hmacMessage, messageLength);
+		uint8_t* _hash = resultHmac(context);
 		memcpy(hashResult, _hash, 20);
 		return 0;
 	}

@@ -21,7 +21,6 @@
 		pOtpauthLink : {REDUND_UNREPLICABLE} UDINT; (*pointer to string[256] holding the otpauth link - string has to have size 255!!*)
 	END_VAR
 	VAR
-		step : {REDUND_UNREPLICABLE} UINT; (*internal*)
-		last : {REDUND_UNREPLICABLE} BOOL; (*internal*)
+		internal : {REDUND_UNREPLICABLE} totplib_Internal_typ; (*internal*)
 	END_VAR
 END_FUNCTION_BLOCK

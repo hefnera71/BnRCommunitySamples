@@ -1,25 +1,13 @@
 #include "TOTP.h"
 
-uint8_t* _hmacKey;
-uint8_t _keyLength;
-uint8_t _timeZoneOffset;
-uint32_t _timeStep;
-
-// Init the library with the private key, its length and the timeStep duration
-void TOTP(uint8_t* hmacKey, uint8_t keyLength, uint32_t timeStep) {
-    _hmacKey = hmacKey;
-    _keyLength = keyLength;
-    _timeStep = timeStep;
-}
-
 // Generate a code, using the timestamp provided
-uint32_t getCodeFromTimestamp(uint32_t timeStamp) {
-    uint32_t steps = timeStamp / _timeStep;
-    return getCodeFromSteps(steps);
+uint32_t getCodeFromTimestamp(void *context, uint8_t* hmacKey, uint8_t keyLength, uint32_t timeStep, uint32_t timeStamp) {
+    uint32_t steps = timeStamp / timeStep;
+    return getCodeFromSteps(context, hmacKey, keyLength, steps);
 }
 
 // Generate a code, using the number of steps provided
-uint32_t getCodeFromSteps(uint32_t steps) {
+uint32_t getCodeFromSteps(void *context, uint8_t* hmacKey, uint8_t keyLength, uint32_t steps) {
     // STEP 0, map the number of steps in a 8-bytes array (counter value)
     uint8_t _byteArray[8];
     _byteArray[0] = 0x00;
@@ -32,9 +20,9 @@ uint32_t getCodeFromSteps(uint32_t steps) {
     _byteArray[7] = (uint8_t)((steps & 0XFF));
 
     // STEP 1, get the HMAC-SHA1 hash from counter and key
-    initHmac(_hmacKey, _keyLength);
-    writeArray(_byteArray, 8);
-    uint8_t* _hash = resultHmac();
+    initHmac(context, hmacKey, keyLength);
+    writeArray(context, _byteArray, 8);
+    uint8_t* _hash = resultHmac(context);
 
     // STEP 2, apply dynamic truncation to obtain a 4-bytes string
     uint32_t _truncatedHash = 0;
