@@ -1,5 +1,5 @@
 
-{REDUND_ERROR} {REDUND_UNREPLICABLE} FUNCTION_BLOCK VerifyTOTPCode (* implementation of TOTP algorithm as described in RFC 6238*)
+{REDUND_ERROR} FUNCTION_BLOCK VerifyTOTPCode (* implementation of TOTP algorithm as described in RFC 6238*)
 	VAR_INPUT
 		enable : {REDUND_UNREPLICABLE} BOOL; (*enable the function block*)
 		code : {REDUND_UNREPLICABLE} UDINT; (*the external code from authenticator app*)

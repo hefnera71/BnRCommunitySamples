@@ -1,3 +1,5 @@
 VAR CONSTANT
-
+	totplib_errREADRTC : UINT := 55557;
+	totplib_errREADCERT : UINT := 55556;
+	totplib_errEMPTYPARAM : UINT := 55555;
 END_VAR

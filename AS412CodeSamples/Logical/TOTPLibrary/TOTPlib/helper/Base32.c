@@ -11,8 +11,9 @@ void base32_encode(const char *input, unsigned int input_len, char *output) {
 	int buffer = 0;
 	int next_shift = 0;
 	int out_idx = 0;
+	int i = 0;
 
-	for (int i = 0; i < input_len; i++) {
+	for (i = 0; i < input_len; i++) {
 		buffer = (buffer << 8) | (input[i] & 0xFF);
 		next_shift += 8;
 
