@@ -51,7 +51,7 @@ void VerifyTOTPCode(struct VerifyTOTPCode* inst)
 	totplib_intinst_typ* allocInst = 0;
 	if (inst->internal.pInternal > 0)
 	{
-		allocInst = (totplib_Internal_typ*)inst->internal.pInternal;
+		allocInst = (totplib_intinst_typ*)inst->internal.pInternal;
 	}
 
 	// edge pos
@@ -72,7 +72,7 @@ void VerifyTOTPCode(struct VerifyTOTPCode* inst)
 		}
 		else
 		{
-			allocInst = (totplib_Internal_typ*)inst->internal.pInternal;
+			allocInst = (totplib_intinst_typ*)inst->internal.pInternal;
 
 			// inititalize some internal memory
 			memset(allocInst->id1Buffer, 0, sizeof(allocInst->id1Buffer));
@@ -128,7 +128,7 @@ void VerifyTOTPCode(struct VerifyTOTPCode* inst)
 		// JUST AS TEST RIGHT NOW! NOT FUNCTIONAL!!
 		if (inst->internal.pInternal > 0)
 		{
-			tmpState = TMP_free(sizeof(totplib_intinst_typ), inst->internal.pInternal);
+			tmpState = TMP_free(sizeof(totplib_intinst_typ), &inst->internal.pInternal);
 			if (tmpState != 0)
 			{
 				// error deallocating memory -> mem leak!

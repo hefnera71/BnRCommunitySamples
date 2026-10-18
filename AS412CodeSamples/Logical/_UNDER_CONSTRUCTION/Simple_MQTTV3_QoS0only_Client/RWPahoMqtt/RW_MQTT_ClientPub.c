@@ -49,6 +49,11 @@ MQTTPacket/epl-v10.txt
 
 #include <RWPahoMqtt.h>
 #include <AsBrStr.h>
+
+/* Forward declarations to avoid implicit-declaration warnings */
+int callPingTimer(struct TON_10ms* t);
+void restartPingTimer(struct TON_10ms* t);
+
 USINT buffer[rwmqtt_INTERNAL_BUFFER_SIZE];
 
 /* TODO: Add your comment here */
@@ -59,10 +64,10 @@ void RW_MQTT_ClientPub(struct RW_MQTT_ClientPub* inst)
 
 	switch(inst->uiState) 
 	{
-		case 0: 
+		case 0:
 			if (inst->I_xEnable == 1){
 				inst->uiState = 10;
-				brsmemset(&buffer, 0, sizeof(buffer));
+				brsmemset((unsigned long)buffer, 0, sizeof(buffer));
 			}
 			inst->I_xPublish = 0;
 			break;
@@ -87,7 +92,7 @@ void RW_MQTT_ClientPub(struct RW_MQTT_ClientPub* inst)
 		case 20:
 			inst->TcpClient_0.enable = 1;
 			inst->TcpClient_0.ident = inst->TcpOpen_0.ident;
-			inst->TcpClient_0.pServer = inst->I_typParameter.sServerUri;
+			inst->TcpClient_0.pServer = (unsigned long)inst->I_typParameter.sServerUri;
 			inst->TcpClient_0.portserv = inst->I_typParameter.uiPort;
 			TcpClient(&inst->TcpClient_0);
 			if (inst->TcpClient_0.status == ERR_OK) {
@@ -109,7 +114,7 @@ void RW_MQTT_ClientPub(struct RW_MQTT_ClientPub* inst)
 			MQTTPacket_connectData_.password.cstring = (char*)inst->I_typParameter.sPassword;
 			MQTTPacket_connectData_.cleansession = 1;		
 
-			inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_connect(&buffer, sizeof(buffer), &MQTTPacket_connectData_);
+			inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_connect(buffer, sizeof(buffer), &MQTTPacket_connectData_);
 
 			inst->uiState++;
 			break; 
@@ -117,10 +122,10 @@ void RW_MQTT_ClientPub(struct RW_MQTT_ClientPub* inst)
 		case 31:
 			inst->TcpSend_0.enable = 1;
 			inst->TcpSend_0.ident = inst->TcpClient_0.ident;
-			inst->TcpSend_0.pData = &buffer;
+			inst->TcpSend_0.pData = (unsigned long)buffer;
 
 			inst->TcpSend_0.flags = 0;
-			TcpSend(&inst->TcpSend_0);	 
+			TcpSend(&inst->TcpSend_0);
 
 			if (inst->TcpSend_0.status == ERR_OK) {
 				inst->uiState++;
@@ -130,22 +135,22 @@ void RW_MQTT_ClientPub(struct RW_MQTT_ClientPub* inst)
 				inst->Internal.errornumber = inst->TcpSend_0.status;
 				inst->uiState = 1000;
 			}
-		
+
 			break;
 
 		case 32:
 			inst->TcpRecv_0.enable = 1;
 			inst->TcpRecv_0.ident =  inst->TcpClient_0.ident;
-			inst->TcpRecv_0.pData = &buffer;
+			inst->TcpRecv_0.pData = (unsigned long)buffer;
 			inst->TcpRecv_0.datamax = sizeof(buffer);
 			inst->TcpRecv_0.flags = 0;
 			TcpRecv(&inst->TcpRecv_0);
 			if (inst->TcpRecv_0.status == ERR_OK) {
 				if (inst->TcpRecv_0.recvlen>0) {
 					inst->Q_xConnected = inst->Q_iPahoFcCallResult = MQTTDeserialize_connack(
-						&inst->Internal.sessionPresent, 
-						&inst->Internal.connack_rc, 
-						&buffer, 
+						&inst->Internal.sessionPresent,
+						&inst->Internal.connack_rc,
+						buffer,
 						inst->TcpRecv_0.recvlen
 						);
 					inst->uiState = 40;
@@ -190,18 +195,20 @@ void RW_MQTT_ClientPub(struct RW_MQTT_ClientPub* inst)
 					// reset timer
 					restartPingTimer(&inst->TON_10ms_0);					
 
-					MQTTString topicName = MQTTString_initializer;
+					MQTTString topicName;
 					topicName.cstring = inst->I_typPublish.Topic;
+					topicName.lenstring.len = 0;
+					topicName.lenstring.data = NULL;
 		
 					inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_publish(
-						buffer, 
-						sizeof(buffer), 
-						0, 
-						0, 
-						0, 
+						buffer,
+						sizeof(buffer),
+						0,
+						0,
+						0,
 						4711,
-						topicName, 
-						inst->I_typPublish.Buffer, 
+						topicName,
+						(unsigned char*)inst->I_typPublish.Buffer,
 						inst->I_typPublish.BufferLength
 						);
 					inst->uiState++;					
@@ -218,13 +225,13 @@ void RW_MQTT_ClientPub(struct RW_MQTT_ClientPub* inst)
 			break;
 
 
-		case 41:	
+		case 41:
 			inst->TcpSend_0.enable = 1;
 			inst->TcpSend_0.ident = inst->TcpClient_0.ident;
-			inst->TcpSend_0.pData = &buffer;
+			inst->TcpSend_0.pData = (unsigned long)buffer;
 
 			inst->TcpSend_0.flags = 0;
-			TcpSend(&inst->TcpSend_0);	 
+			TcpSend(&inst->TcpSend_0);
 
 			if (inst->TcpSend_0.status == ERR_OK) {
 				// we do not get reply from test.mosquitto.org - why? not sure by now ...
@@ -236,26 +243,26 @@ void RW_MQTT_ClientPub(struct RW_MQTT_ClientPub* inst)
 				inst->Internal.errorstate = inst->uiState;
 				inst->Internal.errornumber = inst->TcpSend_0.status;
 				inst->uiState = 1000;
-			}			
-		
+			}
+
 			break;
 
 		//  ping
 		case 90:
-			inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_pingreq(		
-				&buffer, 
+			inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_pingreq(
+				buffer,
 				sizeof(buffer)
 				);
 			inst->uiState++;
-			break; 
+			break;
 
 		case 91:
 			inst->TcpSend_0.enable = 1;
 			inst->TcpSend_0.ident = inst->TcpClient_0.ident;
-			inst->TcpSend_0.pData = &buffer;
+			inst->TcpSend_0.pData = (unsigned long)buffer;
 
 			inst->TcpSend_0.flags = 0;
-			TcpSend(&inst->TcpSend_0);	 
+			TcpSend(&inst->TcpSend_0);
 
 			if (inst->TcpSend_0.status == ERR_OK) {
 				inst->uiState++;
@@ -264,14 +271,14 @@ void RW_MQTT_ClientPub(struct RW_MQTT_ClientPub* inst)
 				inst->Internal.errorstate = inst->uiState;
 				inst->Internal.errornumber = inst->TcpSend_0.status;
 				inst->uiState = 1000;
-			}			
-		
-			break;	
-		
+			}
+
+			break;
+
 		case 92:
 			inst->TcpRecv_0.enable = 1;
 			inst->TcpRecv_0.ident =  inst->TcpClient_0.ident;
-			inst->TcpRecv_0.pData = &buffer;
+			inst->TcpRecv_0.pData = (unsigned long)buffer;
 			inst->TcpRecv_0.datamax = sizeof(buffer);
 			inst->TcpRecv_0.flags = 0;
 			TcpRecv(&inst->TcpRecv_0);
@@ -281,14 +288,14 @@ void RW_MQTT_ClientPub(struct RW_MQTT_ClientPub* inst)
 					unsigned char packettype;
 					unsigned char dup;
 					unsigned short packetId;
-			
-					int result = inst->Q_iPahoFcCallResult = MQTTDeserialize_ack(
+
+					inst->Q_iPahoFcCallResult = MQTTDeserialize_ack(
 						&packettype,
 						&dup,
 						&packetId,
-						&buffer, 
+						buffer,
 						inst->TcpRecv_0.recvlen
-						);			
+						);
 					// back to recv
 					inst->uiState = 40;
 
@@ -321,20 +328,20 @@ void RW_MQTT_ClientPub(struct RW_MQTT_ClientPub* inst)
 
 		case 100:
 			inst->TcpSend_0.datalen = MQTTSerialize_disconnect(
-				&buffer, 
+				buffer,
 				sizeof(buffer)
 				);
 			inst->Q_xConnected = 0;
 			inst->uiState++;
-			break; 
+			break;
 
 		case 101:
 			inst->TcpSend_0.enable = 1;
 			inst->TcpSend_0.ident = inst->TcpClient_0.ident;
-			inst->TcpSend_0.pData = &buffer;
+			inst->TcpSend_0.pData = (unsigned long)buffer;
 
 			inst->TcpSend_0.flags = 0;
-			TcpSend(&inst->TcpSend_0);	 
+			TcpSend(&inst->TcpSend_0);
 
 			if (inst->TcpSend_0.status == ERR_OK) {
 				inst->uiState++;
@@ -342,9 +349,9 @@ void RW_MQTT_ClientPub(struct RW_MQTT_ClientPub* inst)
 			else if (inst->TcpSend_0.status < ERR_FUB_BUSY) {
 				inst->Internal.errorstate = inst->uiState;
 				inst->uiState = 1000;
-			}			
-		
-			break;	
+			}
+
+			break;
 
 		case 102:
 			inst->TcpClose_0.enable = 1;

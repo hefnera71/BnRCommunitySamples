@@ -138,7 +138,10 @@ char* MQTTFormat_toClientString(char* strbuf, int strbuflen, unsigned char* buf,
 		unsigned char dup, retained, *payload;
 		unsigned short packetid;
 		int qos, payloadlen;
-		MQTTString topicName = MQTTString_initializer;
+		MQTTString topicName;
+						topicName.cstring = NULL;
+						topicName.lenstring.len = 0;
+						topicName.lenstring.data = NULL;
 		if (MQTTDeserialize_publish(&dup, &qos, &retained, &packetid, &topicName,
 				&payload, &payloadlen, buf, buflen) == 1)
 			strindex = MQTTStringFormat_publish(strbuf, strbuflen, dup, qos, retained, packetid,
@@ -178,6 +181,7 @@ char* MQTTFormat_toClientString(char* strbuf, int strbuflen, unsigned char* buf,
 		strindex = snprintf(strbuf, strbuflen, "%s", MQTTPacket_names[header.bits.type]);
 		break;
 	}
+	(void)strindex; /* suppress set-but-not-used warning */
 	return strbuf;
 }
 
@@ -207,7 +211,10 @@ char* MQTTFormat_toServerString(char* strbuf, int strbuflen, unsigned char* buf,
 		unsigned char dup, retained, *payload;
 		unsigned short packetid;
 		int qos, payloadlen;
-		MQTTString topicName = MQTTString_initializer;
+		MQTTString topicName;
+						topicName.cstring = NULL;
+						topicName.lenstring.len = 0;
+						topicName.lenstring.data = NULL;
 		if (MQTTDeserialize_publish(&dup, &qos, &retained, &packetid, &topicName,
 				&payload, &payloadlen, buf, buflen) == 1)
 			strindex = MQTTStringFormat_publish(strbuf, strbuflen, dup, qos, retained, packetid,
@@ -253,6 +260,7 @@ char* MQTTFormat_toServerString(char* strbuf, int strbuflen, unsigned char* buf,
 		strindex = snprintf(strbuf, strbuflen, "%s", MQTTPacket_names[header.bits.type]);
 		break;
 	}
+	(void)strindex; /* suppress set-but-not-used warning */
 	strbuf[strbuflen] = '\0';
 	return strbuf;
 }

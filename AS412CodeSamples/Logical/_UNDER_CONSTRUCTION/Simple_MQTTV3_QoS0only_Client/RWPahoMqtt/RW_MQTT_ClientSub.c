@@ -49,6 +49,12 @@ MQTTPacket/epl-v10.txt
 
 #include <RWPahoMqtt.h>
 #include <AsBrStr.h>
+#include <string.h>
+
+/* Forward declarations to avoid implicit-declaration warnings */
+int callPingTimer(struct TON_10ms* t);
+void restartPingTimer(struct TON_10ms* t);
+
 USINT tcpBuffer[rwmqtt_INTERNAL_BUFFER_SIZE];
 
 /* TODO: Add your comment here */
@@ -59,10 +65,10 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 	
 	switch(inst->uiState) 
 	{
-		case 0: 
+		case 0:
 			if (inst->I_xEnable == 1){
 				inst->uiState = 10;
-				brsmemset(&tcpBuffer, 0, sizeof(tcpBuffer));
+				brsmemset((unsigned long)tcpBuffer, 0, sizeof(tcpBuffer));
 			}
 			//inst->I_xSubscribe = 0;
 			break;
@@ -87,7 +93,7 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 		case 20:
 			inst->TcpClient_0.enable = 1;
 			inst->TcpClient_0.ident = inst->TcpOpen_0.ident;
-			inst->TcpClient_0.pServer = inst->I_typParameter.sServerUri;
+			inst->TcpClient_0.pServer = (unsigned long)inst->I_typParameter.sServerUri;
 			inst->TcpClient_0.portserv = inst->I_typParameter.uiPort;
 			TcpClient(&inst->TcpClient_0);
 			if (inst->TcpClient_0.status == ERR_OK) {
@@ -112,7 +118,7 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 			MQTTPacket_connectData_.password.cstring = (char*)inst->I_typParameter.sPassword;
 			MQTTPacket_connectData_.cleansession = 1;		
 
-			inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_connect(&tcpBuffer, sizeof(tcpBuffer), &MQTTPacket_connectData_);
+			inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_connect(tcpBuffer, sizeof(tcpBuffer), &MQTTPacket_connectData_);
 
 			inst->uiState++;
 			break; 
@@ -120,10 +126,10 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 		case 31:
 			inst->TcpSend_0.enable = 1;
 			inst->TcpSend_0.ident = inst->TcpClient_0.ident;
-			inst->TcpSend_0.pData = &tcpBuffer;
+			inst->TcpSend_0.pData = (unsigned long)tcpBuffer;
 
 			inst->TcpSend_0.flags = 0;
-			TcpSend(&inst->TcpSend_0);	 
+			TcpSend(&inst->TcpSend_0);
 
 			if (inst->TcpSend_0.status == ERR_OK) {
 				inst->uiState++;
@@ -133,22 +139,22 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 				inst->Internal.errornumber = inst->TcpSend_0.status;
 				inst->uiState = 1000;
 			}
-		
+
 			break;
 
 		case 32:
 			inst->TcpRecv_0.enable = 1;
 			inst->TcpRecv_0.ident =  inst->TcpClient_0.ident;
-			inst->TcpRecv_0.pData = &tcpBuffer;
+			inst->TcpRecv_0.pData = (unsigned long)tcpBuffer;
 			inst->TcpRecv_0.datamax = sizeof(tcpBuffer);
 			inst->TcpRecv_0.flags = 0;
 			TcpRecv(&inst->TcpRecv_0);
 			if (inst->TcpRecv_0.status == ERR_OK) {
 				if (inst->TcpRecv_0.recvlen>0) {
 					inst->Q_xConnected = inst->Q_iPahoFcCallResult = MQTTDeserialize_connack(
-						&inst->Internal.sessionPresent, 
-						&inst->Internal.connack_rc, 
-						&tcpBuffer, 
+						&inst->Internal.sessionPresent,
+						&inst->Internal.connack_rc,
+						tcpBuffer,
 						inst->TcpRecv_0.recvlen
 						);
 					inst->uiState = 40;
@@ -199,8 +205,10 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 					// do not reset, use for unsubscribe later
 					//inst->I_xSubscribe = 0;
 					
-					MQTTString topicName[rwmqtt_MAXINDEX_SUBSTOPIC+1] = MQTTString_initializer;
+					MQTTString topicName[rwmqtt_MAXINDEX_SUBSTOPIC+1];
 					int qos[rwmqtt_MAXINDEX_SUBSTOPIC+1];
+					memset(topicName, 0, sizeof(topicName));
+					memset(qos, 0, sizeof(qos));
 					
 					int topicCount = inst->I_typSubscribe.TopicArrayCount;
 					if (topicCount > rwmqtt_MAXINDEX_SUBSTOPIC+1) topicCount = rwmqtt_MAXINDEX_SUBSTOPIC+1;
@@ -212,10 +220,10 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 					}
 		
 					inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_subscribe(
-						&tcpBuffer, 
-						sizeof(tcpBuffer), 
-						0, 
-						4712, 
+						tcpBuffer,
+						sizeof(tcpBuffer),
+						0,
+						4712,
 						topicCount,
 						topicName,
 						qos
@@ -236,13 +244,13 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 			break;
 
 		// send subscribe request
-		case 41:	
+		case 41:
 			inst->TcpSend_0.enable = 1;
 			inst->TcpSend_0.ident = inst->TcpClient_0.ident;
-			inst->TcpSend_0.pData = &tcpBuffer;
+			inst->TcpSend_0.pData = (unsigned long)tcpBuffer;
 
 			inst->TcpSend_0.flags = 0;
-			TcpSend(&inst->TcpSend_0);	 
+			TcpSend(&inst->TcpSend_0);
 
 			if (inst->TcpSend_0.status == ERR_OK) {
 				inst->uiState++;
@@ -251,12 +259,12 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 				inst->Internal.errorstate = inst->uiState;
 				inst->Internal.errornumber = inst->TcpSend_0.status;
 				inst->uiState = 1000;
-			}			
-		
+			}
+
 			break;
 
 
-		// get subscribe ack 
+		// get subscribe ack
 		case 42:
 			if (inst->I_xEnable == 0){
 				inst->uiState = 100;
@@ -264,26 +272,25 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 			else {
 				inst->TcpRecv_0.enable = 1;
 				inst->TcpRecv_0.ident =  inst->TcpClient_0.ident;
-				inst->TcpRecv_0.pData = &tcpBuffer;
+				inst->TcpRecv_0.pData = (unsigned long)tcpBuffer;
 				inst->TcpRecv_0.datamax = sizeof(tcpBuffer);
 				inst->TcpRecv_0.flags = 0;
 				TcpRecv(&inst->TcpRecv_0);
-			
+
 				if (inst->TcpRecv_0.status == ERR_OK) {
 					if (inst->TcpRecv_0.recvlen>0) {
-						unsigned char count;
-						unsigned char dup; 
+						int count;
 						unsigned short packetid;
 						int grantedQoS[1];
-	
+
 						inst->Q_iPahoFcCallResult = MQTTDeserialize_suback(
 							&packetid,
 							1,
 							&count,
 							grantedQoS,
-							&tcpBuffer, 
+							tcpBuffer,
 							inst->TcpRecv_0.recvlen
-							);						
+							);
 						inst->uiState = 50;
 					}
 					else
@@ -323,22 +330,24 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 				{
 					inst->TcpRecv_0.enable = 1;
 					inst->TcpRecv_0.ident =  inst->TcpClient_0.ident;
-					inst->TcpRecv_0.pData = &tcpBuffer;
+					inst->TcpRecv_0.pData = (unsigned long)tcpBuffer;
 					inst->TcpRecv_0.datamax = sizeof(tcpBuffer);
 					inst->TcpRecv_0.flags = 0;
 					TcpRecv(&inst->TcpRecv_0);
-	
+
 					if (inst->TcpRecv_0.status == ERR_OK) {
 						if (inst->TcpRecv_0.recvlen>0) {
 
-							unsigned char count;
-							unsigned char dup; 
-							unsigned char retained; 
+							unsigned char dup;
+							unsigned char retained;
 							unsigned short packetid;
-							unsigned int qos;
-							unsigned int payloadLen;
-							char* pPayload;
-							MQTTString topicName = MQTTString_initializer;
+							int qos;
+							int payloadLen;
+							unsigned char* pPayload;
+							MQTTString topicName;
+							topicName.cstring = NULL;
+							topicName.lenstring.len = 0;
+							topicName.lenstring.data = NULL;
 
 							int result = inst->Q_iPahoFcCallResult = MQTTDeserialize_publish(
 								&dup,
@@ -348,15 +357,15 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 								&topicName,
 								&pPayload,
 								&payloadLen,
-								(char*)tcpBuffer,
+								tcpBuffer,
 								inst->TcpRecv_0.recvlen
 								);
-					
+
 							if (result >= 0)
 							{
 								inst->I_typSubscribe.ReceiveCount++;
 								inst->I_typSubscribe.ReceiveState = 0;
-							
+
 								// copy topic
 								if (topicName.lenstring.len > 0 && topicName.lenstring.len < sizeof(inst->I_typSubscribe.ReceivedTopic))
 								{
@@ -368,12 +377,12 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 									// todo: error handling if buffer too small
 									inst->I_typSubscribe.ReceiveState = -1;
 								}
-							
+
 								// copy payload
 								if (payloadLen < inst->I_typSubscribe.ContentBufferSize)
 								{
-									memcpy(inst->I_typSubscribe.ContentBuffer, pPayload, payloadLen);
-									memset(inst->I_typSubscribe.ContentBuffer + payloadLen, 0, 1);
+									memcpy((void*)inst->I_typSubscribe.ContentBuffer, pPayload, payloadLen);
+									memset((void*)(inst->I_typSubscribe.ContentBuffer + payloadLen), 0, 1);
 								}
 								else
 								{
@@ -430,24 +439,23 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 		case 60:
 			; // !!! this is needed to avoid compile error with GCC 6.3 --> don't think about, just leave it as it is ;-)
 
-			MQTTString topicName[rwmqtt_MAXINDEX_SUBSTOPIC+1] = MQTTString_initializer;
-			int qos[rwmqtt_MAXINDEX_SUBSTOPIC+1];
-					
+			MQTTString topicName[rwmqtt_MAXINDEX_SUBSTOPIC+1];
+			memset(topicName, 0, sizeof(topicName));
+
 			int topicCount = inst->I_typSubscribe.TopicArrayCount;
 			if (topicCount > rwmqtt_MAXINDEX_SUBSTOPIC+1) topicCount = rwmqtt_MAXINDEX_SUBSTOPIC+1;
-					
+
 			for (i = 0; i < topicCount; i++)
 			{
 				topicName[i].cstring = (char*)inst->I_typSubscribe.TopicArray[i];
-				qos[i] = 0;
 			}
 			
 			inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_unsubscribe(
-				&tcpBuffer, 
-				sizeof(tcpBuffer), 
-				0, 
-				4713, 
-				topicCount, 
+				tcpBuffer,
+				sizeof(tcpBuffer),
+				0,
+				4713,
+				topicCount,
 				topicName
 				);
 			inst->uiState++;					
@@ -457,10 +465,10 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 		case 61:
 			inst->TcpSend_0.enable = 1;
 			inst->TcpSend_0.ident = inst->TcpClient_0.ident;
-			inst->TcpSend_0.pData = &tcpBuffer;
+			inst->TcpSend_0.pData = (unsigned long)tcpBuffer;
 
 			inst->TcpSend_0.flags = 0;
-			TcpSend(&inst->TcpSend_0);	 
+			TcpSend(&inst->TcpSend_0);
 
 			if (inst->TcpSend_0.status == ERR_OK) {
 				inst->uiState++;
@@ -469,15 +477,15 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 				inst->Internal.errorstate = inst->uiState;
 				inst->Internal.errornumber = inst->TcpSend_0.status;
 				inst->uiState = 1000;
-			}			
-		
+			}
+
 			break;
-		
+
 		// wait for unsubscribe response
 		case 62:
 			inst->TcpRecv_0.enable = 1;
 			inst->TcpRecv_0.ident =  inst->TcpClient_0.ident;
-			inst->TcpRecv_0.pData = &tcpBuffer;
+			inst->TcpRecv_0.pData = (unsigned long)tcpBuffer;
 			inst->TcpRecv_0.datamax = sizeof(tcpBuffer);
 			inst->TcpRecv_0.flags = 0;
 			TcpRecv(&inst->TcpRecv_0);
@@ -485,11 +493,11 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 				if (inst->TcpRecv_0.recvlen>0)
 				{
 					unsigned short packetid;
-					int result = inst->Q_iPahoFcCallResult = MQTTDeserialize_unsuback(
+					inst->Q_iPahoFcCallResult = MQTTDeserialize_unsuback(
 						&packetid,
-						&tcpBuffer, 
+						tcpBuffer,
 						inst->TcpRecv_0.recvlen
-						);						
+						);
 					// back to start subcribe
 					inst->uiState = 40;
 				}
@@ -519,20 +527,20 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 
 		//  ping
 		case 90:
-			inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_pingreq(		
-				&tcpBuffer, 
+			inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_pingreq(
+				tcpBuffer,
 				sizeof(tcpBuffer)
 				);
 			inst->uiState++;
-			break; 
+			break;
 
 		case 91:
 			inst->TcpSend_0.enable = 1;
 			inst->TcpSend_0.ident = inst->TcpClient_0.ident;
-			inst->TcpSend_0.pData = &tcpBuffer;
+			inst->TcpSend_0.pData = (unsigned long)tcpBuffer;
 
 			inst->TcpSend_0.flags = 0;
-			TcpSend(&inst->TcpSend_0);	 
+			TcpSend(&inst->TcpSend_0);
 
 			if (inst->TcpSend_0.status == ERR_OK) {
 				inst->uiState++;
@@ -541,14 +549,14 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 				inst->Internal.errorstate = inst->uiState;
 				inst->Internal.errornumber = inst->TcpSend_0.status;
 				inst->uiState = 1000;
-			}			
-		
-			break;	
-		
+			}
+
+			break;
+
 		case 92:
 			inst->TcpRecv_0.enable = 1;
 			inst->TcpRecv_0.ident =  inst->TcpClient_0.ident;
-			inst->TcpRecv_0.pData = &tcpBuffer;
+			inst->TcpRecv_0.pData = (unsigned long)tcpBuffer;
 			inst->TcpRecv_0.datamax = sizeof(tcpBuffer);
 			inst->TcpRecv_0.flags = 0;
 			TcpRecv(&inst->TcpRecv_0);
@@ -558,14 +566,14 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 					unsigned char packettype;
 					unsigned char dup;
 					unsigned short packetId;
-			
-					int result = inst->Q_iPahoFcCallResult = MQTTDeserialize_ack(
+
+					inst->Q_iPahoFcCallResult = MQTTDeserialize_ack(
 						&packettype,
 						&dup,
 						&packetId,
-						&tcpBuffer, 
+						tcpBuffer,
 						inst->TcpRecv_0.recvlen
-						);			
+						);
 					// back to recv
 					inst->uiState = inst->uiStateNext;
 
@@ -595,23 +603,23 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 			break;
 
 		// end of ping
-	
+
 		case 100:
 			inst->TcpSend_0.datalen = inst->Q_iPahoFcCallResult = MQTTSerialize_disconnect(
-				&tcpBuffer, 
+				tcpBuffer,
 				sizeof(tcpBuffer)
 				);
 			inst->Q_xConnected = 0;
 			inst->uiState++;
-			break; 
+			break;
 
 		case 101:
 			inst->TcpSend_0.enable = 1;
 			inst->TcpSend_0.ident = inst->TcpClient_0.ident;
-			inst->TcpSend_0.pData = &tcpBuffer;
+			inst->TcpSend_0.pData = (unsigned long)tcpBuffer;
 
 			inst->TcpSend_0.flags = 0;
-			TcpSend(&inst->TcpSend_0);	 
+			TcpSend(&inst->TcpSend_0);
 
 			if (inst->TcpSend_0.status == ERR_OK) {
 				inst->uiState++;
@@ -620,9 +628,9 @@ void RW_MQTT_ClientSub(struct RW_MQTT_ClientSub* inst)
 				inst->Internal.errorstate = inst->uiState;
 				inst->Internal.errornumber = inst->TcpSend_0.status;
 				inst->uiState = 1000;
-			}			
-		
-			break;	
+			}
+
+			break;
 
 		case 102:
 			inst->TcpClose_0.enable = 1;
