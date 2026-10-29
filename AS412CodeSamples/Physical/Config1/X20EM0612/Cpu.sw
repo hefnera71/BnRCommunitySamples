@@ -33,6 +33,7 @@
     <Task Name="wsLogger" Source="LoggerDataReading.WebserviceUsingReadEvLog.wsLogger.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="HshManyStr" Source="HashTable.HshManyStr.prg" Memory="UserROM" Language="IEC" Debugging="true" />
     <Task Name="TestUUID" Source="UUIDGenerator.TestUUID.prg" Memory="UserROM" Language="IEC" Debugging="true" />
+    <Task Name="Tst25519" Source="ED25519Pack.Tst25519.prg" Memory="UserROM" Language="IEC" Debugging="true" />
   </TaskClass>
   <DataObjects>
     <DataObject Name="wsLData" Source="LoggerDataReading.WebserviceUsingReadEvLog.wsLData.dob" Memory="UserROM" Language="Simple" />
@@ -96,6 +97,7 @@
     <LibraryObject Name="UUIDgen" Source="UUIDGenerator.UUIDgen.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
     <LibraryObject Name="wbuplduuid" Source="WsRbacAuthUpload.WServiceUploadWithUUID.wbuplduuid.lby" Memory="UserROM" Language="IEC" Debugging="true" />
     <LibraryObject Name="RbacAuthWs" Source="WsRbacAuthUpload.RbacAuthWs.lby" Memory="UserROM" Language="IEC" Debugging="true" />
+    <LibraryObject Name="ED25519" Source="ED25519Pack.ED25519.lby" Memory="UserROM" Language="ANSIC" Debugging="true" />
     <LibraryObject Name="asieccon" Source="" Memory="UserROM" Language="Binary" Debugging="true" />
   </Libraries>
 </SwConfiguration>
