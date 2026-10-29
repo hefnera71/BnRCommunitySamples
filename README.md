@@ -91,3 +91,4 @@ and Eclipse Distribution License v1.0 which accompany this distribution.
 * "TBSWAstro" uses SUNRISET.C released to the public domain by Paul Schlyter, December 1992
 * ["TinyJsonLb" uses Rafa García - TinyJson](https://github.com/rafagafe/tiny-json)
 * ["TOTPGen" uses Netthaw - TOTP-MCU](https://github.com/Netthaw/TOTP-MCU)
+* ["ED25519" uses TweetNaCl](https://tweetnacl.cr.yp.to/)
