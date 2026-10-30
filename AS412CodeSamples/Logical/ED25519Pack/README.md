@@ -21,7 +21,20 @@ Add the `ED25519` library to the application. Its declared library dependencies 
 
 The signing and verification function blocks do their work when called; gate their calls with application logic so they are not repeatedly run every cycle for the same request. `EDFileIOHelper`, in contrast, is an asynchronous state machine and must be called cyclically while its operation is active.
 
-Signing and verification are synchronous operations: the calling PLC task remains occupied until the operation completes. They can extend the task cycle and disturb real-time execution, especially for large payloads. Use them only in a task class configured for idle-time/background processing, and test execution time and CPU load on the actual PLC with representative worst-case data before deployment. Confirm sufficient cycle-time margin under the machine's full runtime load.
+**Signing and verification are synchronous operations!**
+the calling PLC task remains occupied until the operation completes.
+They can extend the task cycle and disturb real-time execution, especially for large payloads.
+
+**Use them only in a low-priority task class configured for idle-time/background processing**, and test execution time and CPU load on the actual PLC with representative worst-case data before deployment. Confirm sufficient cycle-time margin under the machine's full runtime load.
+
+In a runtime test with just one single task on a X20CP1684 in TC#8 with 10ms, the following execution times were measured for `SignMemoryData` and `VerifyMemoryData`:
+
+| content size | SignMemoryData | VerifyMemoryData |
+|--------------|----------------|------------------|
+| 70 Byte		| ~ 150ms		| ~300ms		   |
+| 10 kByte		| ~ 170ms		| ~310ms		   |
+| 20 kByte		| ~ 195ms		| ~320ms		   |
+
 
 ## Signing and verification interfaces
 
